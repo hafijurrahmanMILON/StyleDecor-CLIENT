@@ -1,11 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
+
 @import "tailwindcss";
 @plugin "daisyui" {
   themes: light --default;
 }
 
-/* @plugin "daisyui/theme" {
-  name: "light";
+@plugin "daisyui/theme" {
+  name: "styledecorLight";
   default: true;
-  --color-primary: ;
-  --color-secondary: ;
-} */
+
+  --color-primary: #1B7261;
+  --color-secondary: #14494c;
+  --color-accent: #ddbea9;
+  --color-base-100: #fff;
+}
+
+* {
+  font-family: "DM Sans", sans-serif;
+}
+
+/* #237464 */
+/* #6B705C */

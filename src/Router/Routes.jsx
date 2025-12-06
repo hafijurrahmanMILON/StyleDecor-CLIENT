@@ -7,6 +7,8 @@ import MyProfile from "../Pages/MyProfile";
 import Login from "../Pages/Login";
 import Register from "../Pages/Register";
 import PrivateRoute from "../Components/PrivateRoute";
+import About from "../Pages/About";
+import Contact from "../Pages/Contact";
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +23,14 @@ export const router = createBrowserRouter([
       {
         path: "/services",
         Component: Services,
+      },
+      {
+        path: "/about",
+        Component: About,
+      },
+      {
+        path: "/contact",
+        Component: Contact,
       },
       {
         path: "/myProfile",
