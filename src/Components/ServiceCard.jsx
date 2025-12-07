@@ -2,8 +2,15 @@ import React from "react";
 import { Link } from "react-router";
 
 const ServiceCard = ({ service }) => {
-  const {_id, service_name, cost, unit, service_category, description, image } =
-    service;
+  const {
+    _id,
+    service_name,
+    cost,
+    unit,
+    service_category,
+    description,
+    image,
+  } = service;
 
   return (
     <div className="group bg-base-100 rounded-xl overflow-hidden border border-gray-100 transition-all duration-300 hover:-translate-y-2 hover:shadow-xl">
@@ -57,7 +64,10 @@ const ServiceCard = ({ service }) => {
             <span className="text-gray-500 text-sm ml-1">{unit}</span>
           </div>
 
-          <Link to={_id} className="px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg hover:bg-secondary transition-all duration-300 hover:scale-105 active:scale-95">
+          <Link
+            to={`/service-details/${_id}`}
+            className="px-4 py-2 bg-primary text-white text-sm font-medium rounded-lg hover:bg-secondary transition-all duration-300 hover:scale-105 active:scale-95"
+          >
             View Details
           </Link>
         </div>

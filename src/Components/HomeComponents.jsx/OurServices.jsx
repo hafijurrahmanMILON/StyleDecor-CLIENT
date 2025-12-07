@@ -1,15 +1,15 @@
 import React from "react";
-import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import ServiceCard from "../ServiceCard";
+import useAxiosInstance from "../../Hooks/useAxiosInstance";
 
 const OurServices = () => {
-  const axiosSecure = useAxiosSecure();
+  const axiosInstance = useAxiosInstance();
 
   const { data: featuredServices = [] } = useQuery({
     queryKey: ["featuredServices"],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/featured-services`);
+      const res = await axiosInstance.get(`/featured-services`);
       console.log(res.data);
       return res.data;
     },
