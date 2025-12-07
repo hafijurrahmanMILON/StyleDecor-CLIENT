@@ -19,9 +19,9 @@ const OurServices = () => {
     <div>
       <div className="text-center space-y-2">
         <p className="text-primary text-lg font-semibold">Our Services</p>
-        <h1 className="text-5xl font-bold"> We're Providing Best Services</h1>
-        <p>{featuredServices.length}</p>
-        <div className="container mx-auto px-4">
+        <h1 className="text-5xl text-secondary font-bold"> We're Providing Best Services</h1>
+        
+        <div className="container mx-auto py-6">
           <div className="w-full mx-auto">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {featuredServices.map((service, index) => (
