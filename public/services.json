@@ -1,0 +1,122 @@
+[
+  {
+    "service_name": "Home Birthday Decoration",
+    "cost": 80,
+    "unit": "per event",
+    "service_category": "home",
+    "description": "Colorful birthday decoration including balloons, banner, and themed table setup for home celebrations.",
+    "image": "https://ibb.co.com/fzqc733n",
+    "createdByEmail": "john.doe@styledecor.com",
+    "createdAt": "2025-01-10T10:15:00Z"
+  },
+  {
+    "service_name": "Office Event Decoration",
+    "cost": 50,
+    "unit": "per hour",
+    "service_category": "office",
+    "description": "Professional office decoration service with lighting, signage, stage arrangement, and corporate theme elements.",
+    "image": "https://ibb.co.com/DHXLfSNT",
+    "createdByEmail": "sarah.lee@styledecor.com",
+    "createdAt": "2025-01-10T10:30:00Z"
+  },
+  {
+    "service_name": "Wedding Stage Decoration",
+    "cost": 150,
+    "unit": "per hour",
+    "service_category": "wedding",
+    "description": "Elegant wedding stage setup including premium floral arrangements, backdrop, and lighting.",
+    "image": "https://ibb.co.com/39QPW0nk",
+    "createdByEmail": "michael.chen@styledecor.com",
+    "createdAt": "2025-01-10T10:00:00Z"
+  },
+  {
+    "service_name": "Anniversary Home Decor",
+    "cost": 150,
+    "unit": "per event",
+    "service_category": "home",
+    "description": "Romantic anniversary decoration with candles, flowers, and personalized theme for memorable celebrations.",
+    "image": "https://ibb.co.com/qF38hZQz",
+    "createdByEmail": "emma.wilson@styledecor.com",
+    "createdAt": "2025-01-11T09:20:00Z"
+  },
+  {
+    "service_name": "Corporate Office Setup",
+    "cost": 600,
+    "unit": "per day",
+    "service_category": "office",
+    "description": "Complete corporate office decoration for special events including branding and formal arrangements.",
+    "image": "https://ibb.co.com/rGxgX6qs",
+    "createdByEmail": "david.smith@styledecor.com",
+    "createdAt": "2025-01-11T11:45:00Z"
+  },
+  {
+    "service_name": "Wedding Reception Decor",
+    "cost": 800,
+    "unit": "per day",
+    "service_category": "wedding",
+    "description": "Luxurious wedding reception decoration with premium lighting, floral arches, and table arrangements.",
+    "image": "https://ibb.co.com/VP19fFC",
+    "createdByEmail": "sophia.martinez@styledecor.com",
+    "createdAt": "2025-01-12T08:30:00Z"
+  },
+  {
+    "service_name": "Baby Shower Decor",
+    "cost": 120,
+    "unit": "per event",
+    "service_category": "home",
+    "description": "Adorable baby shower decoration with theme-based balloons, banners, and cute centerpieces.",
+    "image": "https://ibb.co.com/7x81s4Fb",
+    "createdByEmail": "james.brown@styledecor.com",
+    "createdAt": "2025-01-12T14:15:00Z"
+  },
+  {
+    "service_name": "Conference Room Decor",
+    "cost": 40,
+    "unit": "per hour",
+    "service_category": "office",
+    "description": "Professional conference room setup with branded materials, seating arrangements, and presentation area decor.",
+    "image": "https://ibb.co.com/nM7pPgnM",
+    "createdByEmail": "olivia.taylor@styledecor.com",
+    "createdAt": "2025-01-13T10:10:00Z"
+  },
+  {
+    "service_name": "Naming Ceremony Decor",
+    "cost": 180,
+    "unit": "per event",
+    "service_category": "ceremony",
+    "description": "Beautiful naming ceremony decoration with baby-themed elements, cultural symbols, and family seating arrangements.",
+    "image": "https://ibb.co.com/cX17PpHG",
+    "createdByEmail": "robert.williams@styledecor.com",
+    "createdAt": "2025-01-16T10:20:00Z"
+  },
+  {
+    "service_name": "Engagement Ceremony Decor",
+    "cost": 55,
+    "unit": "per hour",
+    "service_category": "ceremony",
+    "description": "Elegant engagement ceremony decoration with floral arrangements, ring exchange setup, and romantic lighting.",
+    "image": "https://ibb.co.com/N2DrGmTq",
+    "createdByEmail": "lisa.garcia@styledecor.com",
+    "createdAt": "2025-01-14T09:40:00Z"
+  },
+  {
+    "service_name": "Product Launch Decor",
+    "cost": 700,
+    "unit": "per day",
+    "service_category": "office",
+    "description": "Innovative decoration for product launches including display setups, branded elements, and interactive zones.",
+    "image": "https://ibb.co.com/8QMNYgZ",
+    "createdByEmail": "thomas.johnson@styledecor.com",
+    "createdAt": "2025-01-15T11:05:00Z"
+  },
+  {
+    "service_name": "Graduation Party Decor",
+    "cost": 25,
+    "unit": "per hour",
+    "service_category": "home",
+    "description": "Celebratory graduation party decoration with academic themes, diploma displays, and achievement-focused decor.",
+    "image": "https://ibb.co.com/0yXp6LWB",
+    "createdByEmail": "natalie.miller@styledecor.com",
+    "createdAt": "2025-01-17T12:00:00Z"
+  }
+]

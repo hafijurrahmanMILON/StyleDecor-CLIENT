@@ -1,6 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
-import heroIMG from "../assets/hero2.jpg";
+import heroIMG from "../../assets/hero2.jpg";
 
 const Hero = () => {
   const headingText = "Transform Your Space with StyleDecor";
@@ -8,16 +8,16 @@ const Hero = () => {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center px-4 md:px-8 lg:px-16"
+      className="min-h-[80vh] flex items-center justify-center px-4 md:px-8 lg:px-16"
       style={{ background: "linear-gradient(180deg, #FFF 0%, #DDBEA9 100%)" }}
     >
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-20 items-center justify-between">
         {/* Left side  */}
         <motion.div
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-left"
+          className="text-left flex-1"
         >
           <div className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary mb-6 ">
             {headingChars.map((char, index) => (
@@ -96,7 +96,7 @@ const Hero = () => {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="relative"
+          className="relative flex-1"
         >
           <motion.div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl">
             <div className="w-full h-[500px] rounded-2xl overflow-hidden">
