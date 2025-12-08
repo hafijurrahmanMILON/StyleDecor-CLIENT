@@ -6,10 +6,10 @@ import { Outlet } from "react-router";
 const MainLayout = () => {
   return (
     <div className="min-h-screen flex flex-col">
-      <header>
+      <header className="sticky top-0 z-50">
         <Navbar></Navbar>
       </header>
-      <main className="flex-1">
+      <main className="flex-1 min-h-screen">
         <Outlet></Outlet>
       </main>
       <footer>

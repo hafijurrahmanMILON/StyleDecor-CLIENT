@@ -10,7 +10,7 @@ const ServiceCoverage = () => {
   const [isMapLoaded, setIsMapLoaded] = useState(false);
 
   const center = [23.685, 90.3563];
-  const zoomLevel = 8.2; 
+  const zoomLevel = 8; 
 
   useEffect(() => {
     fetch("/warehouses.json")

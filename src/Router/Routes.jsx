@@ -10,6 +10,7 @@ import PrivateRoute from "../Components/PrivateRoute";
 import About from "../Pages/About";
 import Contact from "../Pages/Contact";
 import ServiceDetails from "../Components/ServiceDetails";
+import Coverage from "../Pages/Coverage";
 
 export const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ export const router = createBrowserRouter([
       {
         path: "/contact",
         Component: Contact,
+      },
+      {
+        path: "/coverage",
+        Component: Coverage,
       },
       {
         path: "/myProfile",
