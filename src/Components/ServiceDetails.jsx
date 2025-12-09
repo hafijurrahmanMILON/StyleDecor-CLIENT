@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, useNavigate, useParams } from "react-router";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosInstance from "../Hooks/useAxiosInstance";
 import Loading from "./Loading";
 import { useRef } from "react";
 import useAuth from "../Hooks/useAuth";
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
+import { toast } from "react-hot-toast";
 import {
   FaCalendarAlt,
   FaClock,
@@ -24,16 +24,14 @@ const ServiceDetails = () => {
   const axiosInstance = useAxiosInstance();
   const bookServiceModalRef = useRef();
 
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [selectedTime, setSelectedTime] = useState(null);
-
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
   } = useForm();
-  const watchServiceType = watch("serviceType");
+
+  const serviceType = watch("serviceType");
 
   const { data: service, isLoading } = useQuery({
     queryKey: ["service-details", id],
@@ -43,6 +41,22 @@ const ServiceDetails = () => {
     },
   });
 
+  const totalUnit = parseInt(watch("unitCount")) || 1;
+  const totalCost = totalUnit * (service?.cost || 0);
+
+  const { data: availableDecorators = [] } = useQuery({
+    queryKey: ["available", service?.service_category],
+    queryFn: async () => {
+      const res = await axiosInstance(
+        `/available-decorators?speciality=${service?.service_category}`
+      );
+      console.log(res.data);
+      return res.data;
+    },
+    enabled: !!service?.service_category,
+  });
+
+  const today = new Date().toISOString().split("T")[0];
   const handleBookServiceModal = () => {
     if (!user) {
       navigate("/login");
@@ -52,26 +66,71 @@ const ServiceDetails = () => {
   };
 
   const handleBookSubmit = (formData) => {
+    const [hours, minutes] = formData.selectedTime.split(":");
+    const hour = parseInt(hours);
+    const formattedTime =
+      hour >= 12
+        ? `${hour === 12 ? 12 : hour - 12}:${minutes} PM`
+        : `${hour === 0 ? 12 : hour}:${minutes} AM`;
+
     const bookingData = {
-      ...formData,
       serviceId: service._id,
       serviceName: service.service_name,
-      serviceCost: service.cost,
-      serviceUnit: service.unit,
-      bookingDateTime: selectedDate
-        ? new Date(
-            selectedDate.setHours(
-              selectedTime?.getHours() || 0,
-              selectedTime?.getMinutes() || 0
-            )
-          )
-        : null,
+      serviceMode: formData.serviceType,
+      totalUnit,
+      totalCost,
+      customerId: user.uid || user._id,
+      customerName: formData.customerName,
+      customerEmail: formData.customerEmail,
+      date: formData.selectedDate,
+      time: formattedTime,
+      location: formData.serviceType === "on-site" ? formData.location : null,
+      notes: formData.notes || null,
+      paymentStatus: "unpaid",
+      transactionId: null,
+      decoratorId: null,
+      status: "pending",
     };
     console.log("Booking Data:", bookingData);
-
-    
-
     bookServiceModalRef.current.close();
+    Swal.fire({
+      title: "Are you confirm?",
+      text: `Your cost would be ${totalCost} taka!`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Confirm!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosInstance
+          .post(`/bookings`, bookingData)
+          .then((res) => {
+            console.log(res.data);
+            if (res.data.insertedId) {
+              Swal.fire({
+                title: "Confirmed!",
+                text: "Service Booked Successfully! Proceed to pay!",
+                icon: "success",
+              });
+            } else if (res.data.message) {
+              Swal.fire({
+                title: "Already Booked!",
+                text: res.data.message,
+                icon: "error",
+              });
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+            Swal.fire({
+              title: "Error!",
+              text: "Failed to book service!",
+              icon: "error",
+            });
+          });
+      }
+    });
   };
 
   if (isLoading) {
@@ -94,9 +153,8 @@ const ServiceDetails = () => {
   }
 
   return (
-    <div className="min-h-screen py-12 px-4 md:px-8 lg:px-16">
+    <div className="min-h-screen py-8 px-4 md:px-8 lg:px-16">
       <div className="max-w-7xl mx-auto">
-        {/* Breadcrumb */}
         <div className="mb-8">
           <nav className="text-sm text-gray-600">
             <Link to="/" className="hover:text-primary transition-colors">
@@ -132,10 +190,10 @@ const ServiceDetails = () => {
           </div>
 
           {/* Right side */}
-          <div className="space-y-6">
+          <div className="space-y-3">
             <div>
               <span
-                className={`inline-block px-4 py-2 rounded-full text-sm font-semibold ${
+                className={`inline-px-4 py-2 rounded-full text-sm font-semibold ${
                   service.service_category === "ceremony"
                     ? "bg-primary text-white"
                     : service.service_category === "home"
@@ -217,6 +275,70 @@ const ServiceDetails = () => {
             </div>
           </div>
         </div>
+        {/* available decorators */}
+        <div className="mt-16 pt-8 border-t border-gray-200">
+          <div className="mb-8">
+            <h3 className="text-2xl font-bold text-gray-800 mb-3">
+              Available Decorators
+            </h3>
+          </div>
+
+          {availableDecorators.length === 0 ? (
+            <div className="text-center py-8">
+              <p className="text-gray-500">
+                No decorators available at the moment
+              </p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {availableDecorators.map((decorator, index) => (
+                <div
+                  key={index}
+                  className="border border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors"
+                >
+                  {/* Decorator Image and Name */}
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
+                      <img
+                        src={decorator.photoURL}
+                        alt={decorator.name}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-gray-800">
+                        {decorator.name}
+                      </h4>
+                      <div className="flex items-center gap-2 mt-1">
+                        <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                        <span className="text-xs text-gray-500 capitalize">
+                          {decorator.workStatus}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Specialities */}
+                  <div className="space-y-2">
+                    <p className="text-sm font-medium text-gray-700">
+                      Specialities:
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {decorator.specialities.map((speciality, idx) => (
+                        <span
+                          key={idx}
+                          className="px-3 py-1 bg-gray-100 text-gray-700 text-xs rounded-full"
+                        >
+                          {speciality}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
 
         {/* Help Section */}
         <div className="mt-16 pt-8 border-t border-gray-200">
@@ -234,427 +356,266 @@ const ServiceDetails = () => {
           </div>
         </div>
 
-        {/*  modal */}
+        {/* Modal */}
         <dialog
           ref={bookServiceModalRef}
-          className="modal modal-bottom sm:modal-middle"
+          className="modal backdrop:bg-black/30"
         >
-          <div className="modal-box w-11/12 max-w-5xl max-h-[90vh] overflow-y-auto p-0 rounded-2xl">
-            <div className=" p-6 rounded-t-2xl">
-              <div className="flex justify-end">
-                <form method="dialog">
-                  <button className="btn btn-circle btn-sm border-0">✕</button>
-                </form>
+          <div className="modal-box w-11/12 max-w-5xl p-0">
+            <div className="p-5 pb-0 flex justify-between items-center">
+              <div>
+                <h3 className="text-2xl font-bold">Book Service</h3>
+                <p className="">Complete your booking details</p>
               </div>
+              <button
+                onClick={() => bookServiceModalRef.current.close()}
+                className="btn btn-ghost btn-circle"
+              >
+                ✕
+              </button>
             </div>
 
-            <div className="p-8">
-              <form
-                onSubmit={handleSubmit(handleBookSubmit)}
-                className="space-y-8"
-              >
-                <div>
-                  <h4 className="text-lg font-semibold text-gray-800 mb-4">
-                    Select Service Type
-                  </h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <label
-                      className={`relative cursor-pointer rounded-xl border-2 p-5 transition-all duration-300 ${
-                        watchServiceType === "in-studio"
-                          ? "border-primary bg-primary/5 shadow-lg"
-                          : "border-gray-200 hover:border-primary/50 hover:bg-gray-50"
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        value="in-studio"
-                        {...register("serviceType", {
-                          required: "Please select a service type",
-                        })}
-                        className="absolute opacity-0"
-                      />
-                      <div className="flex items-center gap-4">
-                        <div
-                          className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                            watchServiceType === "in-studio"
-                              ? "bg-primary text-white"
-                              : "bg-gray-100 text-gray-600"
-                          }`}
-                        >
-                          <svg
-                            className="w-5 h-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                            />
-                          </svg>
-                        </div>
-                        <div>
-                          <h5 className="font-medium text-gray-800">
-                            In-Studio Consultation
-                          </h5>
-                          <p className="text-sm text-gray-600 mt-1">
-                            Visit our studio for personalized consultation
-                          </p>
-                        </div>
-                      </div>
-                    </label>
+            <form
+              onSubmit={handleSubmit(handleBookSubmit)}
+              className="p-6 space-y-8"
+            >
+              <div>
+                <h4 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                  Service Type *
+                </h4>
+                <div className="grid md:grid-cols-2 gap-4">
+                  <label
+                    className={`border-2 p-4 rounded-xl cursor-pointer transition-all ${
+                      serviceType === "in-studio"
+                        ? "border-primary bg-primary/5"
+                        : "border-gray-200 hover:border-gray-300"
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      value="in-studio"
+                      {...register("serviceType", { required: true })}
+                      className="hidden"
+                    />
+                    <div className="font-medium text-gray-800">In-Studio</div>
+                    <div className="text-sm text-gray-600">
+                      Visit our studio for consultation
+                    </div>
+                  </label>
 
-                    <label
-                      className={`relative cursor-pointer rounded-xl border-2 p-5 transition-all duration-300 ${
-                        watchServiceType === "on-site"
-                          ? "border-primary bg-primary/5 shadow-lg"
-                          : "border-gray-200 hover:border-primary/50 hover:bg-gray-50"
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        value="on-site"
-                        {...register("serviceType", {
-                          required: "Please select a service type",
-                        })}
-                        className="absolute opacity-0"
-                      />
-                      <div className="flex items-center gap-4">
-                        <div
-                          className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                            watchServiceType === "on-site"
-                              ? "bg-primary text-white"
-                              : "bg-gray-100 text-gray-600"
-                          }`}
-                        >
-                          <FaMapMarkerAlt className="w-5 h-5" />
-                        </div>
-                        <div>
-                          <h5 className="font-medium text-gray-800">
-                            On-Site Service
-                          </h5>
-                          <p className="text-sm text-gray-600 mt-1">
-                            Our team will come to your venue for decoration
-                          </p>
-                        </div>
-                      </div>
-                    </label>
-                  </div>
-                  {errors.serviceType && (
-                    <p className="text-red-600 text-sm mt-3 flex items-center gap-2">
-                      <svg
-                        className="w-4 h-4"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                      {errors.serviceType.message}
+                  <label
+                    className={`border-2 p-4 rounded-xl cursor-pointer transition-all ${
+                      serviceType === "on-site"
+                        ? "border-primary bg-primary/5"
+                        : "border-gray-200 hover:border-gray-300"
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      value="on-site"
+                      {...register("serviceType", { required: true })}
+                      className="hidden"
+                    />
+                    <div className="font-medium text-gray-800">On-Site</div>
+                    <div className="text-sm text-gray-600">
+                      We come to your venue
+                    </div>
+                  </label>
+                </div>
+                {errors.serviceType && (
+                  <p className="text-red-600 text-sm mt-2">
+                    Please select service type
+                  </p>
+                )}
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                    <FaUser className="text-gray-400" />
+                    Name *
+                  </label>
+                  <input
+                    type="text"
+                    defaultValue={user?.displayName}
+                    {...register("customerName")}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-gray-50"
+                    readOnly
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                    <FaEnvelope className="text-gray-400" />
+                    Email *
+                  </label>
+                  <input
+                    type="email"
+                    defaultValue={user?.email}
+                    {...register("customerEmail")}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-gray-50"
+                    readOnly
+                  />
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                    <FaCalendarAlt className="text-gray-400" />
+                    Date *
+                  </label>
+                  <input
+                    type="date"
+                    min={today}
+                    {...register("selectedDate", {
+                      required: "Date is required",
+                      min: { value: today, message: "Cannot select past date" },
+                    })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  />
+                  {errors.selectedDate && (
+                    <p className="text-red-600 text-sm mt-1">
+                      {errors.selectedDate.message}
                     </p>
                   )}
                 </div>
 
-                <div className="bg-gray-50 rounded-xl p-6">
-                  <h4 className="text-lg font-semibold text-gray-800 mb-6">
-                    Your Information
-                  </h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-3 flex items-center gap-2">
-                        <FaUser className="text-gray-500" />
-                        Your Name
-                      </label>
-                      <div className="relative">
-                        <input
-                          type="text"
-                          defaultValue={user?.displayName || ""}
-                          {...register("customerName", { required: true })}
-                          className="w-full pl-12 pr-4 py-3.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white transition-all"
-                          placeholder="Enter your full name"
-                        />
-                        <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-                          <FaUser />
-                        </div>
-                      </div>
-                      {errors.customerName && (
-                        <p className="text-red-600 text-sm mt-2">
-                          {errors.customerName.message}
-                        </p>
-                      )}
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-3 flex items-center gap-2">
-                        <FaEnvelope className="text-gray-500" />
-                        Your Email
-                      </label>
-                      <div className="relative">
-                        <input
-                          type="email"
-                          defaultValue={user?.email || ""}
-                          {...register("customerEmail", {
-                            required: true,
-                          })}
-                          className="w-full pl-12 pr-4 py-3.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white transition-all"
-                          placeholder="Enter your email address"
-                        />
-                        <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-                          <FaEnvelope />
-                        </div>
-                      </div>
-                      {errors.customerEmail && (
-                        <p className="text-red-600 text-sm mt-2">
-                          {errors.customerEmail.message}
-                        </p>
-                      )}
-                    </div>
-                  </div>
+                <div>
+                  <label className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                    <FaClock className="text-gray-400" />
+                    Time *
+                  </label>
+                  <input
+                    type="time"
+                    min="09:00"
+                    max="20:00"
+                    {...register("selectedTime", {
+                      required: "Time is required",
+                      validate: (value) => {
+                        const hour = parseInt(value.split(":")[0]);
+                        if (hour < 9 || hour >= 20)
+                          return "Select time between 9 AM - 8 PM";
+                        return true;
+                      },
+                    })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  />
+                  {errors.selectedTime && (
+                    <p className="text-red-600 text-sm mt-1">
+                      {errors.selectedTime.message}
+                    </p>
+                  )}
                 </div>
+              </div>
+              <div>
+                <label>Unit</label>
+                <input
+                  type="number"
+                  min="1"
+                  defaultValue="1"
+                  {...register("unitCount", {
+                    required: "Unit count required",
+                    min: { value: 1, message: "Minimum 1 unit required" },
+                  })}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-gray-50"
+                />
+              </div>
 
-                <div className="bg-gray-50 rounded-xl p-6">
-                  <h4 className="text-lg font-semibold text-gray-800 mb-6">
-                    Schedule Appointment
-                  </h4>
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-3 flex items-center gap-2">
-                        <FaCalendarAlt className="text-gray-500" />
-                        Select Date
-                      </label>
-                      <div className="relative">
-                        <DatePicker
-                          selected={selectedDate}
-                          onChange={(date) => setSelectedDate(date)}
-                          minDate={new Date()}
-                          dateFormat="MMMM d, yyyy"
-                          className="w-full pl-12 pr-4 py-3.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white cursor-pointer"
-                          placeholderText="Choose a date"
-                          calendarClassName="!rounded-xl !border !border-gray-200 !shadow-xl"
-                          wrapperClassName="w-full"
-                          popperClassName="!z-50"
-                        />
-                        <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-                          <FaCalendarAlt />
-                        </div>
-                      </div>
-                      {selectedDate && (
-                        <p className="text-sm text-primary mt-3 font-medium">
-                          Selected:{" "}
-                          {selectedDate.toLocaleDateString("en-US", {
-                            weekday: "long",
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          })}
-                        </p>
-                      )}
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-3 flex items-center gap-2">
-                        <FaClock className="text-gray-500" />
-                        Select Time
-                      </label>
-                      <div className="relative">
-                        <DatePicker
-                          selected={selectedTime}
-                          onChange={(time) => setSelectedTime(time)}
-                          showTimeSelect
-                          showTimeSelectOnly
-                          timeIntervals={30}
-                          timeCaption="Time"
-                          timeFormat="h:mm aa"
-                          dateFormat="h:mm aa"
-                          className="w-full pl-12 pr-4 py-3.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white cursor-pointer"
-                          placeholderText="Choose a time"
-                          popperClassName="!z-50"
-                        />
-                        <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-                          <FaClock />
-                        </div>
-                      </div>
-                      {selectedTime && (
-                        <p className="text-sm text-primary mt-3 font-medium">
-                          Selected:{" "}
-                          {selectedTime.toLocaleTimeString("en-US", {
-                            hour: "numeric",
-                            minute: "2-digit",
-                            hour12: true,
-                          })}
-                        </p>
-                      )}
-                    </div>
+              <div className="bg-blue-50 border border-blue-100 rounded-lg p-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-5 h-5 text-blue-500">
+                    <svg fill="currentColor" viewBox="0 0 20 20">
+                      <path
+                        fillRule="evenodd"
+                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
                   </div>
-                  <div className="mt-6 p-4 bg-primary/5 rounded-lg">
-                    <p className="text-sm text-gray-600 flex items-center gap-2">
-                      <svg
-                        className="w-4 h-4 text-primary"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                      Our working hours: 9:00 AM - 8:00 PM (Sunday - Friday)
+                  <span className="text-blue-700 text-sm">
+                    Working hours: 9:00 AM - 8:00 PM
+                  </span>
+                </div>
+              </div>
+
+              {serviceType === "on-site" && (
+                <div>
+                  <label className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                    <FaMapMarkerAlt className="text-gray-400" />
+                    Location *
+                  </label>
+                  <textarea
+                    {...register("location", {
+                      required:
+                        serviceType === "on-site" ? "Location required" : false,
+                    })}
+                    rows={3}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                    placeholder="Enter full address..."
+                  />
+                  {errors.location && (
+                    <p className="text-red-600 text-sm mt-1">
+                      {errors.location.message}
+                    </p>
+                  )}
+                </div>
+              )}
+              <div>
+                <label className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
+                  <FaStickyNote className="text-gray-400" />
+                  Additional Notes (Optional)
+                </label>
+                <textarea
+                  {...register("notes")}
+                  rows={3}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  placeholder="Any special requirements or notes for the decorator..."
+                />
+              </div>
+
+              <div className="bg-gray-50 rounded-lg p-6">
+                <h5 className="font-semibold text-gray-800 mb-3 flex items-center gap-2">
+                  Service Summary
+                </h5>
+                <div className="flex justify-between items-center">
+                  <div>
+                    <p className="font-medium text-gray-800">
+                      {service?.service_name}
+                    </p>
+                    <p className="text-gray-600 text-sm">
+                      {service?.service_category} Service
+                    </p>
+                  </div>
+
+                  <div>
+                    <p className="text-md font-md text-secondary">
+                      ${service?.cost}
+                      <span className="text-gray-600 text-sm font-normal ml-1">
+                        /{service?.unit}
+                      </span>
+                    </p>
+
+                    <p className="text-xl font-bold text-primary">
+                      {" "}
+                      ${totalCost}
+                      <span className="text-gray-600 text-sm font-normal ml-1">
+                        /totalPrice
+                      </span>
                     </p>
                   </div>
                 </div>
+              </div>
 
-                {watchServiceType === "on-site" && (
-                  <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-100">
-                    <h4 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                      <FaMapMarkerAlt className="text-blue-600" />
-                      Service Location
-                    </h4>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-3">
-                        Where do you need our service?
-                      </label>
-                      <div className="relative">
-                        <textarea
-                          {...register("location", {
-                            required:
-                              "Location is required for on-site service",
-                          })}
-                          rows={4}
-                          placeholder="Enter full address with house number, street, area, city..."
-                          className="w-full px-4 py-4 pl-12 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white resize-none"
-                        />
-                        <div className="absolute left-4 top-4 text-gray-400">
-                          <FaMapMarkerAlt />
-                        </div>
-                      </div>
-                      {errors.location && (
-                        <p className="text-red-600 text-sm mt-3">
-                          {errors.location.message}
-                        </p>
-                      )}
-                    </div>
-                    <div className="mt-4 p-4 bg-white/80 rounded-lg border border-blue-200">
-                      <p className="text-sm text-blue-700">
-                        💡 <span className="font-medium">Tip:</span> Provide
-                        detailed address for accurate service delivery. Include
-                        landmarks if available.
-                      </p>
-                    </div>
-                  </div>
-                )}
-
-                <div className="rounded-xl p-6 border border-gray-200">
-                  <h4 className="text-lg font-semibold text-gray-800 mb-6">
-                    Service Summary
-                  </h4>
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-4 p-4 bg-white rounded-lg border">
-                        <div className="w-16 h-16 rounded-lg bg-primary/10 flex items-center justify-center">
-                          <svg
-                            className="w-6 h-6 text-primary"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                            />
-                          </svg>
-                        </div>
-                        <div>
-                          <h5 className="font-medium text-gray-800">Service</h5>
-                          <p className="text-lg font-semibold text-secondary mt-1">
-                            {service?.service_name}
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-4 p-4 bg-white rounded-lg border">
-                        <div className="w-16 h-16 rounded-lg bg-green-50 flex items-center justify-center">
-                          <svg
-                            className="w-6 h-6 text-green-600"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                            />
-                          </svg>
-                        </div>
-                        <div>
-                          <h5 className="font-medium text-gray-800">Price</h5>
-                          <p className="text-2xl font-bold text-primary mt-1">
-                            ${service?.cost}
-                            <span className="text-lg text-gray-600">
-                              /{service?.unit}
-                            </span>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-3 flex items-center gap-2">
-                        <FaStickyNote className="text-gray-500" />
-                        Additional Notes (Optional)
-                      </label>
-                      <div className="relative">
-                        <textarea
-                          {...register("notes")}
-                          rows={5}
-                          placeholder="Any specific requirements, special instructions, color preferences, theme ideas, or additional details..."
-                          className="w-full px-4 py-4 pl-12 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white resize-none"
-                        />
-                        <div className="absolute left-4 top-4 text-gray-400">
-                          <FaStickyNote />
-                        </div>
-                      </div>
-                      <p className="text-sm text-gray-500 mt-3">
-                        Let us know about your preferences. This helps us
-                        prepare better for your service.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="sticky bottom-0 bg-white pt-6 pb-2 border-t border-gray-200 -mx-8 px-8">
-                  <button
-                    type="submit"
-                    className="w-full bg-gradient-to-r from-primary to-secondary text-white font-bold py-4 px-6 rounded-xl text-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3"
-                  >
-                    <svg
-                      className="w-6 h-6"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                    Confirm & Book Service
-                  </button>
-                </div>
-              </form>
-            </div>
+              <button
+                type="submit"
+                className="w-full bg-primary hover:bg-secondary text-white font-semibold py-4 rounded-lg text-lg transition-colors duration-300 flex items-center justify-center gap-2"
+              >
+                Confirm Booking
+              </button>
+            </form>
           </div>
 
-          {/* Close on backdrop click */}
           <form method="dialog" className="modal-backdrop">
             <button>close</button>
           </form>

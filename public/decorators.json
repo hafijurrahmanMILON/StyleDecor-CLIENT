@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Alex Johnson",
+    "email": "alex.johnson@styledecor.com",
+    "photoURL": "https://i.ibb.co.com/kgRXfyMk/imageye-imgi-25-team-3-1.jpg",
+    "specialities": [
+      "Wedding decoration specialist",
+      "Home interior styling expert"
+    ],
+    "ratings": 4.8,
+    "status": "approved",
+    "applied_at": "2024-10-28T08:15:00Z",
+    "workStatus": "available"
+  },
+
+  {
+    "name": "Sarah Chen",
+    "email": "sarah.chen@styledecor.com",
+    "photoURL": "https://i.ibb.co.com/BHYt7tvz/imageye-imgi-26-client-3.jpg",
+    "specialities": [
+      "Office space design professional",
+      "Ceremony event decoration expert"
+    ],
+    "ratings": 4.9,
+    "status": "approved",
+    "applied_at": "2024-11-01T09:00:00Z",
+    "workStatus": "available"
+  },
+
+  {
+    "name": "Marcus Rodriguez",
+    "email": "marcus.rodriguez@styledecor.com",
+    "photoURL": "https://i.ibb.co.com/HZ2Bd5K/imageye-imgi-13-author-4.jpg",
+    "specialities": [
+      "Home décor and renovation expert",
+      "Office workspace design specialist"
+    ],
+    "ratings": 4.7,
+    "status": "approved",
+    "applied_at": "2024-11-05T10:30:00Z",
+    "workStatus": "available"
+  },
+  {
+    "name": "Priya Sharma",
+    "email": "priya.sharma@styledecor.com",
+    "photoURL": "https://i.ibb.co.com/RTfkm3xP/I-will-boost-your-organic-github-project…",
+    "specialities": [
+      "Wedding decoration and planning expert",
+      "Ceremony event styling specialist"
+    ],
+    "ratings": 4.9,
+    "status": "approved",
+    "applied_at": "2024-11-10T14:15:00Z",
+    "workStatus": "available"
+  },
+  {
+    "name": "David Kim",
+    "email": "david.kim@styledecor.com",
+    "photoURL": "https://i.ibb.co.com/q6WL85W/imageye-imgi-41-member-6.jpg",
+    "specialities": [
+      "Office interior design specialist",
+      "Home décor and renovation expert"
+    ],
+    "ratings": 4.6,
+    "status": "approved",
+    "applied_at": "2024-11-15T11:45:00Z",
+    "workStatus": "available"
+  },
+  {
+    "name": "Fatima Ahmed",
+    "email": "fatima.ahmed@styledecor.com",
+    "photoURL": "https://i.ibb.co.com/msX3XCT/A-woman-in-a-black-hijab-with-her-arms-cr…",
+    "specialities": [
+      "Ceremony event decoration specialist",
+      "Home interior design expert"
+    ],
+    "ratings": 4.8,
+    "status": "approved",
+    "applied_at": "2024-11-20T16:20:00Z",
+    "workStatus": "available"
+  }
+]

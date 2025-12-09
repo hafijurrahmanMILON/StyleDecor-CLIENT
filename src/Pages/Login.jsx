@@ -4,10 +4,12 @@ import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../Hooks/useAuth";
 import { toast } from "react-hot-toast";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
 
 const Login = () => {
   const { signInFunc, googleLogin } = useAuth();
   const [show, setShow] = useState(false);
+  const axiosSecure = useAxiosSecure();
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -53,8 +55,19 @@ const Login = () => {
   const handleGoogleLogin = () => {
     googleLogin()
       .then((res) => {
-        console.log(res.user);
+        const userInfo = {
+          displayName: res.user.displayName,
+          email: res.user.email,
+          photoURL: res.user.photoURL,
+        };
+        axiosSecure.post(`/users`, userInfo).then((res) => {
+          if (res.data.insertedId) {
+            console.log("user push success", res.data);
+            toast.success("sign In successful");
+          }
+        });
         toast.success("Google login successful");
+        console.log(res.user);
         navigate(from);
       })
       .catch((error) => {

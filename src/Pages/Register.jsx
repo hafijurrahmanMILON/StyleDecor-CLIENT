@@ -41,7 +41,6 @@ const Register = () => {
             console.log("after image upload", res.data.data.url);
             const photoURL = res.data.data.url;
 
-
             const updateData = {
               displayName: data.name,
               photoURL: photoURL,
@@ -55,54 +54,54 @@ const Register = () => {
 
             updateProfileFunc(updateData)
               .then(() => {
+                axiosSecure.post(`/users`, userInfo).then((res) => {
+                  if (res.data.insertedId) {
+                    console.log("user push success", res.data);
+                    toast.success("sign In successful");
+                  }
+                });
                 console.log("updated success");
                 toast.success("sign In successful");
                 navigate(from);
-                axiosSecure.post(`/users`, userInfo).then((res) => {
-                  if (res.data.insertedId) {
-                    console.log("user push success");
-                  }
-                });
               })
               .catch((error) => {
-                const errorCode = error.code;
-
-                if (errorCode === "auth/email-already-in-use") {
-                  toast.error(
-                    "This email is already registered. Try signing in instead."
-                  );
-                } else if (errorCode === "auth/invalid-email") {
-                  toast.error(
-                    "The email address is not valid. Please check and try again."
-                  );
-                } else if (errorCode === "auth/weak-password") {
-                  toast.error(
-                    "Password is too weak. Use at least 6 characters with uppercase and lowercase letters."
-                  );
-                } else if (errorCode === "auth/invalid-profile-attribute") {
-                  toast.error("photo URL is too long");
-                } else if (errorCode === "auth/operation-not-allowed") {
-                  toast.error(
-                    "Email/password signup is currently disabled. Please contact support."
-                  );
-                } else if (errorCode === "auth/network-request-failed") {
-                  toast.error(
-                    "Network error. Please check your internet connection and try again."
-                  );
-                } else if (errorCode === "auth/internal-error") {
-                  toast.error(
-                    "Something went wrong on our end. Please try again later."
-                  );
-                } else {
-                  toast.error(
-                    "Signup failed. Please try again or contact support."
-                  );
-                }
+                console.log(error);
               });
           });
       })
       .catch((error) => {
         console.log(error);
+        const errorCode = error.code;
+
+        if (errorCode === "auth/email-already-in-use") {
+          toast.error(
+            "This email is already registered. Try signing in instead."
+          );
+        } else if (errorCode === "auth/invalid-email") {
+          toast.error(
+            "The email address is not valid. Please check and try again."
+          );
+        } else if (errorCode === "auth/weak-password") {
+          toast.error(
+            "Password is too weak. Use at least 6 characters with uppercase and lowercase letters."
+          );
+        } else if (errorCode === "auth/invalid-profile-attribute") {
+          toast.error("photo URL is too long");
+        } else if (errorCode === "auth/operation-not-allowed") {
+          toast.error(
+            "Email/password signup is currently disabled. Please contact support."
+          );
+        } else if (errorCode === "auth/network-request-failed") {
+          toast.error(
+            "Network error. Please check your internet connection and try again."
+          );
+        } else if (errorCode === "auth/internal-error") {
+          toast.error(
+            "Something went wrong on our end. Please try again later."
+          );
+        } else {
+          toast.error("Signup failed. Please try again or contact support.");
+        }
       });
   };
 
@@ -114,10 +113,12 @@ const Register = () => {
           email: res.user.email,
           photoURL: res.user.photoURL,
         };
-        console.log(res.user);
-        toast.success("Google login successful");
         axiosSecure.post("/users", userInfo).then((res) => {
-          console.log("google user push success,", res.data);
+          if (res.data.insertedId) {
+            console.log("google user push success,", res.data);
+          }
+          console.log(res.data);
+          toast.success("Google login successful");
           navigate(from);
         });
       })
@@ -160,11 +161,14 @@ const Register = () => {
               </label>
               <input
                 type="text"
-                {...register("name")}
+                {...register("name", { required: true })}
                 placeholder="Enter your full name"
                 className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                 autoComplete="name"
               />
+              {errors.name?.type === "required" && (
+                <p className="text-red-600">Name is required</p>
+              )}
             </div>
 
             {/* Photo Upload Field */}
