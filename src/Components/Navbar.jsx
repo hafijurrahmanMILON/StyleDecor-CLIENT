@@ -41,6 +41,11 @@ const Navbar = () => {
       <li>
         <MyLink to="/contact">Contact</MyLink>
       </li>
+      {user && (
+        <li>
+          <MyLink to="/dashboard/my-bookings">Dashboard</MyLink>
+        </li>
+      )}
     </>
   );
 

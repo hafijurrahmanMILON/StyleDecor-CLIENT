@@ -3,14 +3,16 @@ import MainLayout from "../Layout/MainLayout";
 import Home from "../Pages/Home";
 import RouteError from "../Components/RouteError";
 import Services from "../Pages/Services";
-import MyProfile from "../Pages/MyProfile";
 import Login from "../Pages/Login";
 import Register from "../Pages/Register";
-import PrivateRoute from "../Components/PrivateRoute";
 import About from "../Pages/About";
 import Contact from "../Pages/Contact";
 import ServiceDetails from "../Components/ServiceDetails";
 import Coverage from "../Pages/Coverage";
+import DashLayout from "../Layout/DashLayout";
+import MyBookings from "../Pages/Dashboard/MyBookings";
+import MyProfile from "../Pages/Dashboard/MyProfile";
+import PrivateRoute from "../Private/PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -38,14 +40,14 @@ export const router = createBrowserRouter([
         path: "/coverage",
         Component: Coverage,
       },
-      {
-        path: "/myProfile",
-        element: (
-          <PrivateRoute>
-            <MyProfile></MyProfile>
-          </PrivateRoute>
-        ),
-      },
+      // {
+      //   path: "/myProfile",
+      //   element: (
+      //     <PrivateRoute>
+      //       <MyProfile></MyProfile>
+      //     </PrivateRoute>
+      //   ),
+      // },
       {
         path: "/login",
         Component: Login,
@@ -57,6 +59,24 @@ export const router = createBrowserRouter([
       {
         path: "/service-details/:id",
         Component: ServiceDetails,
+      },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <DashLayout></DashLayout>
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: "my-bookings",
+        Component: MyBookings,
+      },
+      {
+        path: "my-profile",
+        Component: MyProfile,
       },
     ],
   },

@@ -7,7 +7,6 @@ import { useRef } from "react";
 import useAuth from "../Hooks/useAuth";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
-import { toast } from "react-hot-toast";
 import {
   FaCalendarAlt,
   FaClock,
@@ -66,24 +65,18 @@ const ServiceDetails = () => {
   };
 
   const handleBookSubmit = (formData) => {
-    const [hours, minutes] = formData.selectedTime.split(":");
-    const hour = parseInt(hours);
-    const formattedTime =
-      hour >= 12
-        ? `${hour === 12 ? 12 : hour - 12}:${minutes} PM`
-        : `${hour === 0 ? 12 : hour}:${minutes} AM`;
-
     const bookingData = {
       serviceId: service._id,
       serviceName: service.service_name,
-      serviceMode: formData.serviceType,
+      serviceType: formData.serviceType,
+      serviceCategory: service.service_category,
       totalUnit,
       totalCost,
       customerId: user.uid || user._id,
       customerName: formData.customerName,
       customerEmail: formData.customerEmail,
-      date: formData.selectedDate,
-      time: formattedTime,
+      date: formData.date,
+      time: formData.time,
       location: formData.serviceType === "on-site" ? formData.location : null,
       notes: formData.notes || null,
       paymentStatus: "unpaid",
@@ -468,15 +461,15 @@ const ServiceDetails = () => {
                   <input
                     type="date"
                     min={today}
-                    {...register("selectedDate", {
+                    {...register("date", {
                       required: "Date is required",
                       min: { value: today, message: "Cannot select past date" },
                     })}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                   />
-                  {errors.selectedDate && (
+                  {errors.date && (
                     <p className="text-red-600 text-sm mt-1">
-                      {errors.selectedDate.message}
+                      {errors.date.message}
                     </p>
                   )}
                 </div>
@@ -490,20 +483,20 @@ const ServiceDetails = () => {
                     type="time"
                     min="09:00"
                     max="20:00"
-                    {...register("selectedTime", {
+                    {...register("time", {
                       required: "Time is required",
                       validate: (value) => {
                         const hour = parseInt(value.split(":")[0]);
                         if (hour < 9 || hour >= 20)
-                          return "Select time between 9 AM - 8 PM";
+                          return "Select time between 09:00 - 20:00";
                         return true;
                       },
                     })}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                   />
-                  {errors.selectedTime && (
+                  {errors.time && (
                     <p className="text-red-600 text-sm mt-1">
-                      {errors.selectedTime.message}
+                      {errors.time.message}
                     </p>
                   )}
                 </div>
@@ -534,7 +527,7 @@ const ServiceDetails = () => {
                     </svg>
                   </div>
                   <span className="text-blue-700 text-sm">
-                    Working hours: 9:00 AM - 8:00 PM
+                    Working hours: 09:00 - 20:00
                   </span>
                 </div>
               </div>
