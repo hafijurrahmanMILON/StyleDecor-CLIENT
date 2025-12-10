@@ -13,6 +13,8 @@ import DashLayout from "../Layout/DashLayout";
 import MyBookings from "../Pages/Dashboard/MyBookings";
 import MyProfile from "../Pages/Dashboard/MyProfile";
 import PrivateRoute from "../Private/PrivateRoute";
+import PaymentSuccess from "../Pages/Dashboard/PaymentSuccess";
+import PaymentCancel from "../Pages/Dashboard/PaymentCancel";
 
 export const router = createBrowserRouter([
   {
@@ -77,6 +79,14 @@ export const router = createBrowserRouter([
       {
         path: "my-profile",
         Component: MyProfile,
+      },
+      {
+        path: "payment-success",
+        Component: PaymentSuccess,
+      },
+      {
+        path: "payment-cancel",
+        Component: PaymentCancel,
       },
     ],
   },

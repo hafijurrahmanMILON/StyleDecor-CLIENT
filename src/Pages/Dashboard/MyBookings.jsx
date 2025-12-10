@@ -29,7 +29,7 @@ const MyBookings = () => {
     formState: { errors },
   } = useForm();
 
-  const { data: bookings = [] } = useQuery({
+  const { data: bookings = [], refetch } = useQuery({
     queryKey: ["my-bookings", user?.email],
     queryFn: async () => {
       const res = await axiosSecure.get(`/bookings?email=${user?.email}`);
@@ -91,7 +91,7 @@ const MyBookings = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axiosSecure
-          .patch(`/bookings-update/${selectedBooking._id}`, editedData)
+          .patch(`/bookings/${selectedBooking._id}`, editedData)
           .then((res) => {
             if (res.data.modifiedCount) {
               Swal.fire({
@@ -112,7 +112,7 @@ const MyBookings = () => {
       }
     });
   };
-  const handleDelete = () => {
+  const handleDelete = (id) => {
     Swal.fire({
       title: "Are you confirm?",
       text: `You won't be able to revert this!!!`,
@@ -124,10 +124,11 @@ const MyBookings = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axiosSecure
-          .delete(`/bookings-delete/${selectedBooking?._id}`)
+          .delete(`/bookings/${id}`)
           .then((res) => {
             console.log(res.data);
             if (res.data.deletedCount) {
+              refetch();
               Swal.fire({
                 title: "Deleted!",
                 text: "Booking Deleted Successfully!",
@@ -139,12 +140,24 @@ const MyBookings = () => {
             console.log(error);
             Swal.fire({
               title: "Error!",
-              text: "Failed to book service!",
+              text: "Failed to Delete!",
               icon: "error",
             });
           });
       }
     });
+  };
+
+  const handlePayment = async (booking) => {
+    const paymentInfo = {
+      bookingId: booking._id,
+      serviceName: booking.serviceName,
+      customerEmail: booking.customerEmail,
+      serviceCost: booking.totalCost,
+    };
+    const res = await axiosSecure.post(`/payment-checkout-session`,paymentInfo);
+    console.log(res.data.url);
+    window.location.href = res.data.url;
   };
 
   return (
@@ -163,8 +176,8 @@ const MyBookings = () => {
                 <th>#</th>
                 <th>Service Name</th>
                 <th>Cost</th>
-                <th>Payment Status</th>
                 <th>Service Status</th>
+                <th>Payment Status</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -174,6 +187,7 @@ const MyBookings = () => {
                   <th>{index + 1}</th>
                   <td>{booking.serviceName}</td>
                   <td>{booking.totalCost}</td>
+                  <td>{booking.status || "N/A"}</td>
                   <td
                     className={`${
                       booking.paymentStatus === "paid"
@@ -183,10 +197,10 @@ const MyBookings = () => {
                   >
                     {booking.paymentStatus}
                   </td>
-                  <td className="">{booking.status || "N/A"}</td>
                   <td>
                     {booking.paymentStatus === "unpaid" && (
                       <button
+                        onClick={() => handlePayment(booking)}
                         className="btn  text-lg  btn-xs btn-ghost tooltip"
                         data-tip="Pay Now"
                       >
@@ -202,7 +216,7 @@ const MyBookings = () => {
                     </button>
 
                     <button
-                      onClick={handleDelete}
+                      onClick={() => handleDelete(booking._id)}
                       className="btn text-lg  btn-xs btn-ghost tooltip"
                       data-tip="Cancel Booking"
                     >
