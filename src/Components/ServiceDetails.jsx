@@ -88,7 +88,7 @@ const ServiceDetails = () => {
     bookServiceModalRef.current.close();
     Swal.fire({
       title: "Are you confirm?",
-      text: `Your cost would be ${totalCost} taka!`,
+      text: `total cost would be ${totalCost} taka!`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -101,10 +101,13 @@ const ServiceDetails = () => {
           .then((res) => {
             console.log(res.data);
             if (res.data.insertedId) {
+              navigate("/dashboard/my-bookings");
               Swal.fire({
-                title: "Confirmed!",
-                text: "Service Booked Successfully! Proceed to pay!",
+                position: "center",
                 icon: "success",
+                title: "Service Booked Successfully! Proceed to Pay!",
+                showConfirmButton: false,
+                timer: 1500,
               });
             } else if (res.data.message) {
               Swal.fire({
@@ -186,7 +189,7 @@ const ServiceDetails = () => {
           <div className="space-y-3">
             <div>
               <span
-                className={`inline-px-4 py-2 rounded-full text-sm font-semibold ${
+                className={`px-4 py-2 rounded-full text-sm font-semibold ${
                   service.service_category === "ceremony"
                     ? "bg-primary text-white"
                     : service.service_category === "home"

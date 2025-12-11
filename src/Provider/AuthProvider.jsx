@@ -20,12 +20,16 @@ const AuthProvider = ({ children }) => {
 
   const createUserFunc = (email, password) => {
     setLoading(true);
-    return createUserWithEmailAndPassword(auth, email, password);
+    return createUserWithEmailAndPassword(auth, email, password).finally(() =>
+      setLoading(false)
+    );
   };
 
   const signInFunc = (email, password) => {
     setLoading(true);
-    return signInWithEmailAndPassword(auth, email, password);
+    return signInWithEmailAndPassword(auth, email, password).finally(() =>
+      setLoading(false)
+    );
   };
 
   const googleLogin = () => {
@@ -36,12 +40,14 @@ const AuthProvider = ({ children }) => {
   };
 
   const updateProfileFunc = (profileData) => {
-    return updateProfile(auth.currentUser, profileData);
+    return updateProfile(auth.currentUser, profileData).finally(() =>
+      setLoading(false)
+    );
   };
 
   const signOutFunc = () => {
     setLoading(true);
-    return signOut(auth);
+    return signOut(auth).finally(() => setLoading(false));
   };
 
   useEffect(() => {

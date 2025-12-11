@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosInstance from "../Hooks/useAxiosInstance";
 import ServiceCard from "../Components/ServiceCard";
 import useDebounce from "../Hooks/useDebounce";
+import Loading from '../Components/Loading'
 
 const Services = () => {
   const axiosInstance = useAxiosInstance();
@@ -16,7 +17,7 @@ const Services = () => {
   const maxDebounce = useDebounce(maxBudget);
   const minDebounce = useDebounce(minBudget);
   
-  const { data: allServices = [] } = useQuery({
+  const { data: allServices = [] ,isLoading} = useQuery({
     queryKey: [
       "allServices",
       searchDebounce,
@@ -36,6 +37,10 @@ const Services = () => {
     setMinBudget("");
     setMaxBudget("");
   };
+
+  if (isLoading) {
+    return <Loading/>
+  }
 
   return (
     <div className="w-10/12 mx-auto my-12">

@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
 import {
   FaCalendarAlt,
   FaClock,
@@ -94,6 +93,7 @@ const MyBookings = () => {
           .patch(`/bookings/${selectedBooking._id}`, editedData)
           .then((res) => {
             if (res.data.modifiedCount) {
+              refetch();
               Swal.fire({
                 title: "Confirmed!",
                 text: "Service Updated Successfully!",
@@ -155,7 +155,10 @@ const MyBookings = () => {
       customerEmail: booking.customerEmail,
       serviceCost: booking.totalCost,
     };
-    const res = await axiosSecure.post(`/payment-checkout-session`,paymentInfo);
+    const res = await axiosSecure.post(
+      `/payment-checkout-session`,
+      paymentInfo
+    );
     console.log(res.data.url);
     window.location.href = res.data.url;
   };
@@ -186,7 +189,7 @@ const MyBookings = () => {
                 <tr key={index}>
                   <th>{index + 1}</th>
                   <td>{booking.serviceName}</td>
-                  <td>{booking.totalCost}</td>
+                  <td>${booking.totalCost}</td>
                   <td>{booking.status || "N/A"}</td>
                   <td
                     className={`${

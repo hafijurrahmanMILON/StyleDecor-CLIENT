@@ -118,7 +118,7 @@ const Register = () => {
             console.log("google user push success,", res.data);
           }
           console.log(res.data);
-          toast.success("Google login successful");
+          toast.success("Google SignIn successful");
           navigate(from);
         });
       })

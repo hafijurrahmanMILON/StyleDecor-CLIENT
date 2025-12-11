@@ -5,7 +5,7 @@ import { MdOutlineCollectionsBookmark } from 'react-icons/md';
 
 const PaymentCancel = () => {
     return (
-        <div className="min-h-screen flex items-center justify-center p-4">
+        <div className="min-h-[80vh] flex items-center justify-center p-4">
             <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center">
                 <div className="flex justify-center mb-6">
                     <div className="w-24 h-24 rounded-full bg-red-100 flex items-center justify-center">
