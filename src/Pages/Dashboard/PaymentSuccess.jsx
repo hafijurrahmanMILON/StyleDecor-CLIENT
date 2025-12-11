@@ -2,25 +2,30 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router";
 import { FaCheckCircle, FaHome } from "react-icons/fa";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import { useRef } from "react";
 
 const PaymentSuccess = () => {
   const axiosSecure = useAxiosSecure();
   const [searchParams] = useSearchParams();
   const sessionId = searchParams.get("session_id");
   const [paymentInfo, setPaymentInfo] = useState({});
+  const dupliPrventRef = useRef(false);
 
   useEffect(() => {
-    if (sessionId) {
-      axiosSecure
-        .patch(`/payment-success?session_id=${sessionId}`)
-        .then((res) => {
-          console.log(res.data);
-          setPaymentInfo({
-            transactionId: res.data.transactionId,
-            trackingId: res.data.trackingId,
-          });
-        });
+    if (!sessionId || dupliPrventRef.current) {
+      return;
     }
+    dupliPrventRef.current = true;
+
+    axiosSecure
+      .patch(`/payment-success?session_id=${sessionId}`)
+      .then((res) => {
+        console.log(res.data);
+        setPaymentInfo({
+          transactionId: res.data.transactionId,
+          trackingId: res.data.trackingId,
+        });
+      });
   }, [sessionId]);
   const navigate = useNavigate();
   const [countdown, setCountdown] = useState(5);

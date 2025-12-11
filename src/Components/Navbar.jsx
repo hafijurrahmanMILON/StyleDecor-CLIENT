@@ -10,6 +10,7 @@ import {
   IoPersonAddOutline,
 } from "react-icons/io5";
 import userImg from "../assets/user.png";
+import { LuLayoutDashboard } from "react-icons/lu";
 
 const Navbar = () => {
   const { user, signOutFunc } = useAuth();
@@ -43,7 +44,7 @@ const Navbar = () => {
       </li>
       {user && (
         <li>
-          <MyLink to="/dashboard/my-bookings">Dashboard</MyLink>
+          <MyLink to="/be-a-decorator">Be a Decorator</MyLink>
         </li>
       )}
     </>
@@ -86,7 +87,7 @@ const Navbar = () => {
       </div>
       <div className="navbar-end">
         {user ? (
-          <div className="flex justify-center items-center gap-3 text-center">
+          <div className="flex justify-center cursor-pointer items-center gap-3 text-center">
             <div className="dropdown dropdown-end lg:dropdown-center text-center z-50">
               <div
                 tabIndex={0}
@@ -111,6 +112,13 @@ const Navbar = () => {
                   <h1 className="text-sm truncate">{user.email}</h1>
                 </div>
 
+                <Link
+                  to="/dashboard/my-bookings"
+                  className="flex btn btn-soft btn-primary items-center gap-3 p-3 rounded-xl font-medium justify-center mt-2"
+                >
+                  <LuLayoutDashboard className="text-lg" />
+                  Dashboard
+                </Link>
                 <button
                   onClick={handleSignOut}
                   className="flex btn btn-primary items-center gap-3 p-3 rounded-xl font-medium justify-center mt-2"

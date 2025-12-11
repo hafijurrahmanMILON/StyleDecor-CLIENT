@@ -45,10 +45,10 @@ const DashLayout = () => {
               <path d="M14 10l2 2l-2 2"></path>
             </svg>
           </label>
-          <div className="px-4 text-3xl font-semibold">Dashboard</div>
+          <div className="px-4 text-primary text-2xl font-semibold">STYLEDECOR</div>
         </nav>
         {/* Page content here */}
-        <div className="w-9/12 mx-auto my-12">
+        <div className="w-9/12 mx-auto min-h-[80vh] my-12">
           <Outlet></Outlet>
         </div>
       </div>
@@ -87,7 +87,7 @@ const DashLayout = () => {
               </Link>
             </li>
 
-            {/* My parcels */}
+            {/* My Bookings*/}
             <li>
               <NavLink
                 to="/dashboard/my-bookings"

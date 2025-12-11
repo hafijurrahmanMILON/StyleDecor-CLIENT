@@ -15,6 +15,8 @@ import MyProfile from "../Pages/Dashboard/MyProfile";
 import PrivateRoute from "../Private/PrivateRoute";
 import PaymentSuccess from "../Pages/Dashboard/PaymentSuccess";
 import PaymentCancel from "../Pages/Dashboard/PaymentCancel";
+import PaymentHistory from "../Pages/Dashboard/PaymentHistory";
+import BeADecorator from "../Pages/BeADecorator";
 
 export const router = createBrowserRouter([
   {
@@ -42,14 +44,10 @@ export const router = createBrowserRouter([
         path: "/coverage",
         Component: Coverage,
       },
-      // {
-      //   path: "/myProfile",
-      //   element: (
-      //     <PrivateRoute>
-      //       <MyProfile></MyProfile>
-      //     </PrivateRoute>
-      //   ),
-      // },
+      {
+        path: "/be-a-decorator",
+        Component: BeADecorator,
+      },
       {
         path: "/login",
         Component: Login,
@@ -87,6 +85,10 @@ export const router = createBrowserRouter([
       {
         path: "payment-cancel",
         Component: PaymentCancel,
+      },
+      {
+        path: "payment-history",
+        Component: PaymentHistory,
       },
     ],
   },
