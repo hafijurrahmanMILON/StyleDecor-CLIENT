@@ -28,7 +28,7 @@ const PaymentHistory = () => {
     <div>
       <h1 className="text-4xl my-6 font-bold text-primary">Payment History</h1>
       {payments.length === 0 ? (
-        <div className="flex flex-col justify-center items-center min-h-[80vh]">
+        <div className="flex flex-col gap-4 justify-center items-center min-h-[80vh]">
           <h1 className="text-5xl font-bold text-primary">
             No Transaction Yet!
           </h1>

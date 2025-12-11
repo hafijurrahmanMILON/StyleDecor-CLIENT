@@ -17,6 +17,7 @@ import PaymentSuccess from "../Pages/Dashboard/PaymentSuccess";
 import PaymentCancel from "../Pages/Dashboard/PaymentCancel";
 import PaymentHistory from "../Pages/Dashboard/PaymentHistory";
 import BeADecorator from "../Pages/BeADecorator";
+import DecoratorRequest from "../Pages/Dashboard/DecoratorRequests";
 
 export const router = createBrowserRouter([
   {
@@ -89,6 +90,10 @@ export const router = createBrowserRouter([
       {
         path: "payment-history",
         Component: PaymentHistory,
+      },
+      {
+        path: "decorator-request",
+        Component: DecoratorRequest,
       },
     ],
   },

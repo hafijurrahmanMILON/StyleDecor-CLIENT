@@ -4,13 +4,13 @@ import {
   MdOutlineCollectionsBookmark,
   MdOutlineDeliveryDining,
   MdOutlineHistory,
-  MdOutlineSportsMotorsports,
 } from "react-icons/md";
 import { LuUsers } from "react-icons/lu";
 import { FiHome } from "react-icons/fi";
 import { CgProfile } from "react-icons/cg";
 import useAuth from "../Hooks/useAuth";
 import Loading from "../Components/Loading";
+import { IoPersonAddOutline } from "react-icons/io5";
 
 const DashLayout = () => {
   const { loading } = useAuth();
@@ -111,15 +111,15 @@ const DashLayout = () => {
               </NavLink>
             </li>
 
-            {/* Rider apply */}
+            {/* Decorator apply */}
             <li>
               <NavLink
-                to="/dashboard/rider-request"
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Rider Requests"
+                to="/dashboard/decorator-request"
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-lg"
+                data-tip="Decorator Requests"
               >
-                <MdOutlineSportsMotorsports />
-                <span className="is-drawer-close:hidden">Rider Requests</span>
+                <IoPersonAddOutline />
+                <span className="is-drawer-close:hidden">Decorator Requests</span>
               </NavLink>
             </li>
             {/* User Management */}
