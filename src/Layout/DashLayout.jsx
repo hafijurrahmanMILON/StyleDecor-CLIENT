@@ -48,7 +48,7 @@ const DashLayout = () => {
           <div className="px-4 text-primary text-2xl font-semibold">STYLEDECOR</div>
         </nav>
         {/* Page content here */}
-        <div className="w-9/12 mx-auto min-h-[80vh] my-12">
+        <div className="max-w-7xl mx-auto min-h-[80vh] my-12">
           <Outlet></Outlet>
         </div>
       </div>
@@ -120,6 +120,17 @@ const DashLayout = () => {
               >
                 <IoPersonAddOutline />
                 <span className="is-drawer-close:hidden">Decorator Requests</span>
+              </NavLink>
+            </li>
+            {/* Decorator apply */}
+            <li>
+              <NavLink
+                to="/dashboard/approved-decorators"
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-lg"
+                data-tip="Approved Decorators"
+              >
+                <IoPersonAddOutline />
+                <span className="is-drawer-close:hidden">Approved Decorators</span>
               </NavLink>
             </li>
             {/* User Management */}

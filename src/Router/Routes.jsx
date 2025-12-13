@@ -18,6 +18,7 @@ import PaymentCancel from "../Pages/Dashboard/PaymentCancel";
 import PaymentHistory from "../Pages/Dashboard/PaymentHistory";
 import BeADecorator from "../Pages/BeADecorator";
 import DecoratorRequest from "../Pages/Dashboard/DecoratorRequests";
+import ApprovedDecorators from "../Pages/Dashboard/ApprovedDecorators";
 
 export const router = createBrowserRouter([
   {
@@ -94,6 +95,10 @@ export const router = createBrowserRouter([
       {
         path: "decorator-request",
         Component: DecoratorRequest,
+      },
+      {
+        path: "approved-decorators",
+        Component: ApprovedDecorators,
       },
     ],
   },

@@ -171,7 +171,7 @@ const MyBookings = () => {
   };
 
   if (isLoading) {
-    return <Loading />;
+    return <Loading></Loading>;
   }
   return (
     <div>
@@ -191,7 +191,7 @@ const MyBookings = () => {
           <div>
             <div className="space-y-3 my-4">
               <p>
-                {bookings.length === 0 ? "No Bookings Yet" : bookings.length}
+                {bookings.length}
               </p>
             </div>
             <div className="overflow-x-auto">
