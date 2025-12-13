@@ -7,6 +7,8 @@ import { FaArrowLeft } from "react-icons/fa";
 import { TbUserCancel, TbUserCheck } from "react-icons/tb";
 import { AiOutlineUserDelete } from "react-icons/ai";
 import userImg from "../../assets/user.png";
+import Swal from "sweetalert2";
+import { FiUserMinus } from "react-icons/fi";
 
 const ApprovedDecorators = () => {
   const axiosSecure = useAxiosSecure();
@@ -35,6 +37,66 @@ const ApprovedDecorators = () => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  const handleDemoteToUser = (decorator) => {
+    const removeInfo = {
+      status: "removed",
+      email: decorator?.email,
+    };
+    Swal.fire({
+      title: "Are you sure?",
+      text: "This will remove decorator access permanently!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Sure!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure
+          .patch(`/decorators/${decorator?._id}`, removeInfo)
+          .then((res) => {
+            if (res.data.deletedCount) {
+              refetch();
+              Swal.fire({
+                title: "Success!",
+                text: `${decorator?.name} is now a regular user.!`,
+                icon: "success",
+                showConfirmButton: true,
+              });
+            }
+          });
+      }
+    });
+  };
+
+  // const handleDelete = (decorator) => {
+  //   Swal.fire({
+  //     title: "Are you sure?",
+  //     text: "You won't be able to revert this!",
+  //     icon: "warning",
+  //     showCancelButton: true,
+  //     confirmButtonColor: "#3085d6",
+  //     cancelButtonColor: "#d33",
+  //     confirmButtonText: "Yes, Sure!",
+  //   }).then((result) => {
+  //     if (result.isConfirmed) {
+  //       axiosSecure
+  //         .delete(`/decorators/${decorator?._id}/delete`)
+  //         .then((res) => {
+  //           if (res.data.deletedCount) {
+  //             refetch();
+  //             Swal.fire({
+  //               title: "Success!",
+  //               text: `Decorator request has been Deleted!`,
+  //               icon: "success",
+  //               showConfirmButton: true,
+  //             });
+  //           }
+  //         });
+  //     }
+  //   });
+  // };
 
   if (isLoading) {
     return <Loading />;
@@ -134,18 +196,21 @@ const ApprovedDecorators = () => {
                   </div>
 
                   <div className="flex flex-wrap gap-2 pt-4 border-t border-gray-200 mt-auto">
-                    <button className="flex-1 btn btn-soft btn-success rounded-md text-sm px-2 py-1">
+                    {/* <button className="flex-1 btn btn-soft btn-success rounded-md text-sm px-2 py-1">
                       <TbUserCheck />
                       Approve
+                    </button> */}
+                    <button
+                      onClick={() => handleDemoteToUser(decorator)}
+                      className="flex-1 btn btn-soft btn-error rounded-md text-sm px-2 py-1"
+                    >
+                      <FiUserMinus />
+                      Convert to User
                     </button>
-                    <button className="flex-1 btn btn-soft btn-warning rounded-md text-sm px-2 py-1">
-                      <TbUserCancel />
-                      Cancel
-                    </button>
-                    <button className="flex-1 btn btn-soft btn-error rounded-md text-sm px-2 py-1">
+                    {/* <button className="flex-1 btn btn-soft btn-error rounded-md text-sm px-2 py-1">
                       <AiOutlineUserDelete />
                       Delete
-                    </button>
+                    </button> */}
                   </div>
                 </div>
               ))}

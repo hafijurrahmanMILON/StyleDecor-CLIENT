@@ -11,6 +11,7 @@ import { CgProfile } from "react-icons/cg";
 import useAuth from "../Hooks/useAuth";
 import Loading from "../Components/Loading";
 import { IoPersonAddOutline } from "react-icons/io5";
+import { CiBoxList } from "react-icons/ci";
 
 const DashLayout = () => {
   const { loading } = useAuth();
@@ -48,7 +49,7 @@ const DashLayout = () => {
           <div className="px-4 text-primary text-2xl font-semibold">STYLEDECOR</div>
         </nav>
         {/* Page content here */}
-        <div className="max-w-7xl mx-auto min-h-[80vh] my-12">
+        <div className="max-w-7xl mx-4 lg:mx-auto min-h-[80vh] my-12 ">
           <Outlet></Outlet>
         </div>
       </div>
@@ -122,36 +123,15 @@ const DashLayout = () => {
                 <span className="is-drawer-close:hidden">Decorator Requests</span>
               </NavLink>
             </li>
-            {/* Decorator apply */}
+            {/* All Decorators */}
             <li>
               <NavLink
                 to="/dashboard/approved-decorators"
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-lg"
-                data-tip="Approved Decorators"
+                data-tip="Decorators"
               >
-                <IoPersonAddOutline />
-                <span className="is-drawer-close:hidden">Approved Decorators</span>
-              </NavLink>
-            </li>
-            {/* User Management */}
-            <li>
-              <NavLink
-                to="/dashboard/user-management"
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="User Management"
-              >
-                <LuUsers />
-                <span className="is-drawer-close:hidden">User Management</span>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/dashboard/assign-rider"
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                data-tip="Assign Rider"
-              >
-                <MdOutlineDeliveryDining />
-                <span className="is-drawer-close:hidden">Assign Rider</span>
+                <CiBoxList />
+                <span className="is-drawer-close:hidden">Decorators</span>
               </NavLink>
             </li>
 

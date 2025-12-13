@@ -7,6 +7,7 @@ import { AiOutlineUserDelete } from "react-icons/ai";
 import { Link } from "react-router";
 import { FaArrowLeft } from "react-icons/fa";
 import userImg from "../../assets/user.png";
+import Swal from "sweetalert2";
 
 const DecoratorRequests = () => {
   const axiosSecure = useAxiosSecure();
@@ -15,12 +16,78 @@ const DecoratorRequests = () => {
     data: decorators = [],
     refetch,
   } = useQuery({
-    queryKey: ["decorators", "pending"],
+    queryKey: ["decorators", "pending", "cancelled"],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/decorators?status=pending`);
+      const res = await axiosSecure.get(`/decorators?status=pending,cancelled`);
       return res.data;
     },
   });
+
+  const handleUpdateDecorator = (decorator, status) => {
+    const updateInfo = {
+      status,
+      email: decorator?.email,
+    };
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Sure!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure
+          .patch(`/decorators/${decorator?._id}`, updateInfo)
+          .then((res) => {
+            if (res.data.modifiedCount) {
+              refetch();
+              Swal.fire({
+                title: "Success!",
+                text: `Decorator request has been ${status}!`,
+                icon: "success",
+                showConfirmButton: true,
+              });
+            }
+          });
+      }
+    });
+  };
+
+  const handleApprove = (decorator) => {
+    handleUpdateDecorator(decorator, "approved");
+  };
+  const handleCancel = (decorator) => {
+    handleUpdateDecorator(decorator, "cancelled");
+  };
+  const handleDelete = (decorator) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Sure!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure
+          .delete(`/decorators/${decorator?._id}/delete`)
+          .then((res) => {
+            if (res.data.deletedCount) {
+              refetch();
+              Swal.fire({
+                title: "Success!",
+                text: `Decorator request has been Deleted!`,
+                icon: "success",
+                showConfirmButton: true,
+              });
+            }
+          });
+      }
+    });
+  };
 
   if (isLoading) {
     return <Loading />;
@@ -33,9 +100,7 @@ const DecoratorRequests = () => {
           <h1 className="text-4xl text-primary font-bold">
             Decorator Requests
           </h1>
-          <p className="text-gray-600 mt-2">
-            Manage decorator applications
-          </p>
+          <p className="text-gray-600 mt-2">Manage decorator applications</p>
           <div className="mt-4 p-3 bg-primary/10 text-primary font-medium rounded-lg inline-block">
             Total Requests: {decorators.length}
           </div>
@@ -123,15 +188,24 @@ const DecoratorRequests = () => {
                 </div>
 
                 <div className="flex flex-wrap gap-2 pt-4 border-t border-gray-200 mt-auto">
-                  <button className="flex-1 btn btn-soft btn-success rounded-md text-sm px-2 py-1">
+                  <button
+                    onClick={() => handleApprove(decorator)}
+                    className="flex-1 btn btn-soft btn-success rounded-md text-sm px-2 py-1"
+                  >
                     <TbUserCheck />
                     Approve
                   </button>
-                  <button className="flex-1 btn btn-soft btn-warning rounded-md text-sm px-2 py-1">
+                  <button
+                    onClick={() => handleCancel(decorator)}
+                    className="flex-1 btn btn-soft btn-warning rounded-md text-sm px-2 py-1"
+                  >
                     <TbUserCancel />
                     Cancel
                   </button>
-                  <button className="flex-1 btn btn-soft btn-error rounded-md text-sm px-2 py-1">
+                  <button
+                    onClick={() => handleDelete(decorator)}
+                    className="flex-1 btn btn-soft btn-error rounded-md text-sm px-2 py-1"
+                  >
                     <AiOutlineUserDelete />
                     Delete
                   </button>

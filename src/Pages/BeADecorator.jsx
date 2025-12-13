@@ -21,12 +21,9 @@ const BeADecorator = () => {
 
   const handleRequestSubmit = (data) => {
     const newDecorator = {
-      //   name: user?.displayName,
-      //   email: user?.email,
-      // photoURL: user?.photoURL,
-      name: data?.displayName,
-      email: data?.email,
-      photoURL: "",
+      name: user?.displayName,
+      email: user?.email,
+      photoURL: user?.photoURL,
       nid: data.nid,
       phone: data.phone,
       location: data.location,
@@ -97,9 +94,9 @@ const BeADecorator = () => {
               </label>
               <input
                 type="text"
-                defaultValue={user?.displayName || ""}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50  focus:outline-none focus:ring-0"
-                {...register("displayName")}
+                value={user?.displayName || ""}
+                readOnly
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 cursor-not-allowed focus:outline-none focus:ring-0"
               />
             </div>
             <div>
@@ -108,9 +105,9 @@ const BeADecorator = () => {
               </label>
               <input
                 type="email"
-                defaultValue={user?.email || ""}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 focus:outline-none focus:ring-0"
-                {...register("email")}
+                value={user?.email || ""}
+                readOnly
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 cursor-not-allowed focus:outline-none focus:ring-0"
               />
             </div>
           </div>
@@ -124,7 +121,7 @@ const BeADecorator = () => {
                 type="number"
                 {...register("nid", { required: true })}
                 placeholder="Enter your NID number"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none  focus:ring-0"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:outline-none focus:ring-0"
               />
               {errors.nid && (
                 <p className="text-red-600 text-sm mt-1">NID is required</p>
