@@ -195,7 +195,7 @@ const MyBookings = () => {
               </p>
             </div>
             <div className="overflow-x-auto">
-              <table className="table table-zebra">
+              <table className="table table-zebra text-center">
                 {/* head */}
                 <thead>
                   <tr>
@@ -204,10 +204,11 @@ const MyBookings = () => {
                     <th>Cost</th>
                     <th>Service Status</th>
                     <th>Payment Status</th>
+                    <th>Tracking ID</th>
                     <th>Action</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="text-xs">
                   {bookings.map((booking, index) => (
                     <tr key={index}>
                       <th>{index + 1}</th>
@@ -223,6 +224,7 @@ const MyBookings = () => {
                       >
                         {booking.paymentStatus}
                       </td>
+                      <td >{booking.trackingId || "N/A"}</td>
                       <td>
                         {booking.paymentStatus === "unpaid" && (
                           <button

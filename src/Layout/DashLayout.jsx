@@ -14,6 +14,8 @@ import Loading from "../Components/Loading";
 import { IoPersonAddOutline } from "react-icons/io5";
 import { CiBoxList } from "react-icons/ci";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
+import { LiaUsersCogSolid } from "react-icons/lia";
+import { TbListDetails } from "react-icons/tb";
 
 const DashLayout = () => {
   const { loading } = useAuth();
@@ -130,13 +132,13 @@ const DashLayout = () => {
               <NavLink
                 to="/dashboard/approved-decorators"
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-lg"
-                data-tip="Decorators"
+                data-tip="Decorator Management"
               >
-                <CiBoxList />
-                <span className="is-drawer-close:hidden">Decorators</span>
+                <LiaUsersCogSolid />
+                <span className="is-drawer-close:hidden">Decorator Management</span>
               </NavLink>
             </li>
-            {/* All Decorators */}
+            {/* Service Management */}
             <li>
               <NavLink
                 to="/dashboard/service-management"
@@ -145,6 +147,17 @@ const DashLayout = () => {
               >
                 <LuServerCog />
                 <span className="is-drawer-close:hidden">Service Management</span>
+              </NavLink>
+            </li>
+            {/* Bookings Management */}
+            <li>
+              <NavLink
+                to="/dashboard/booking-management"
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-lg"
+                data-tip="Booking Management"
+              >
+                <TbListDetails />
+                <span className="is-drawer-close:hidden">Booking Management</span>
               </NavLink>
             </li>
 

@@ -21,6 +21,7 @@ import DecoratorRequest from "../Pages/Dashboard/DecoratorRequests";
 import ApprovedDecorators from "../Pages/Dashboard/ApprovedDecorators";
 import ServiceManagement from "../Pages/Dashboard/ServiceManagement";
 import AddService from "../Pages/Dashboard/AddService";
+import BookingManagement from "../Pages/Dashboard/BookingManagement";
 
 export const router = createBrowserRouter([
   {
@@ -109,6 +110,10 @@ export const router = createBrowserRouter([
       {
         path: "add-service",
         Component: AddService,
+      },
+      {
+        path: "booking-management",
+        Component: BookingManagement,
       },
     ],
   },

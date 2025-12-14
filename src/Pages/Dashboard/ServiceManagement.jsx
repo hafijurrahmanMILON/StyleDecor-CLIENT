@@ -159,28 +159,22 @@ const ServiceManagement = () => {
         ) : (
           <div className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden p-2 md:p-4">
             <div className="overflow-x-auto">
-              <table className="table table-zebra w-full">
+              <table className="table table-zebra text-center">
                 <thead>
                   <tr className="bg-gray-50">
-                    <th className="text-gray-700 font-semibold">#</th>
-                    <th className="text-gray-700 font-semibold">Service</th>
-                    <th className="text-gray-700 font-semibold">Price</th>
-                    <th className="text-gray-700 font-semibold">Category</th>
-                    <th className="text-gray-700 font-semibold">Actions</th>
+                    <th>#</th>
+                    <th>Service</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   {services.map((service, index) => (
                     <tr key={service?._id}>
                       <td className="font-medium">{index + 1}</td>
-                      <td>
-                        <div className="flex items-center gap-3">
-                          <div>
-                            <p className="font-medium text-gray-800">
-                              {service?.service_name}
-                            </p>
-                          </div>
-                        </div>
+                      <td className="font-medium text-gray-800">
+                        {service?.service_name}
                       </td>
                       <td>
                         <div className="font-bold text-primary">
@@ -208,22 +202,20 @@ const ServiceManagement = () => {
                         </span>
                       </td>
                       <td>
-                        <div className="flex">
-                          <button
-                            onClick={() => handleEditModal(service)}
-                            className="btn btn-success btn-ghost btn-sm tooltip"
-                            data-tip="Edit Service"
-                          >
-                            <FaRegEdit className="text-lg" />
-                          </button>
-                          <button
-                            onClick={() => handleDeleteService(service._id)}
-                            className="btn btn-error btn-ghost btn-sm  tooltip"
-                            data-tip="Delete Service"
-                          >
-                            <FiTrash className="text-lg" />
-                          </button>
-                        </div>
+                        <button
+                          onClick={() => handleEditModal(service)}
+                          className="btn btn-success btn-ghost btn-sm tooltip"
+                          data-tip="Edit Service"
+                        >
+                          <FaRegEdit className="text-lg" />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteService(service._id)}
+                          className="btn btn-error btn-ghost btn-sm  tooltip"
+                          data-tip="Delete Service"
+                        >
+                          <FiTrash className="text-lg" />
+                        </button>
                       </td>
                     </tr>
                   ))}
