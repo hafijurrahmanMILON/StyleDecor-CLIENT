@@ -19,6 +19,8 @@ import PaymentHistory from "../Pages/Dashboard/PaymentHistory";
 import BeADecorator from "../Pages/BeADecorator";
 import DecoratorRequest from "../Pages/Dashboard/DecoratorRequests";
 import ApprovedDecorators from "../Pages/Dashboard/ApprovedDecorators";
+import ServiceManagement from "../Pages/Dashboard/ServiceManagement";
+import AddService from "../Pages/Dashboard/AddService";
 
 export const router = createBrowserRouter([
   {
@@ -99,6 +101,14 @@ export const router = createBrowserRouter([
       {
         path: "approved-decorators",
         Component: ApprovedDecorators,
+      },
+      {
+        path: "service-management",
+        Component: ServiceManagement,
+      },
+      {
+        path: "add-service",
+        Component: AddService,
       },
     ],
   },

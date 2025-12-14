@@ -70,33 +70,7 @@ const ApprovedDecorators = () => {
     });
   };
 
-  // const handleDelete = (decorator) => {
-  //   Swal.fire({
-  //     title: "Are you sure?",
-  //     text: "You won't be able to revert this!",
-  //     icon: "warning",
-  //     showCancelButton: true,
-  //     confirmButtonColor: "#3085d6",
-  //     cancelButtonColor: "#d33",
-  //     confirmButtonText: "Yes, Sure!",
-  //   }).then((result) => {
-  //     if (result.isConfirmed) {
-  //       axiosSecure
-  //         .delete(`/decorators/${decorator?._id}/delete`)
-  //         .then((res) => {
-  //           if (res.data.deletedCount) {
-  //             refetch();
-  //             Swal.fire({
-  //               title: "Success!",
-  //               text: `Decorator request has been Deleted!`,
-  //               icon: "success",
-  //               showConfirmButton: true,
-  //             });
-  //           }
-  //         });
-  //     }
-  //   });
-  // };
+  
 
   if (isLoading) {
     return <Loading />;
@@ -162,7 +136,7 @@ const ApprovedDecorators = () => {
                     <span
                       className={`flex items-center px-3 py-1 rounded-full text-xs font-medium ${
                         decorator.status === "approved"
-                          ? "bg-green-100 text-green-800"
+                          ? "bg-blue-100 text-blue-800"
                           : decorator.status === "pending"
                           ? "bg-yellow-100 text-yellow-800"
                           : "bg-red-100 text-red-800"
@@ -173,7 +147,7 @@ const ApprovedDecorators = () => {
                     <span
                       className={`flex items-center px-3 py-1 rounded-full text-xs font-medium ${
                         decorator.workStatus === "available"
-                          ? "bg-blue-100 text-blue-800"
+                          ? "bg-green-100 text-green-800"
                           : "bg-gray-100 text-gray-800"
                       }`}
                     >

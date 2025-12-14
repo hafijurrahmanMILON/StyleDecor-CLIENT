@@ -4,14 +4,16 @@ import {
   MdOutlineCollectionsBookmark,
   MdOutlineDeliveryDining,
   MdOutlineHistory,
+  MdOutlineMiscellaneousServices,
 } from "react-icons/md";
-import { LuUsers } from "react-icons/lu";
+import { LuServerCog, LuUsers } from "react-icons/lu";
 import { FiHome } from "react-icons/fi";
 import { CgProfile } from "react-icons/cg";
 import useAuth from "../Hooks/useAuth";
 import Loading from "../Components/Loading";
 import { IoPersonAddOutline } from "react-icons/io5";
 import { CiBoxList } from "react-icons/ci";
+import { AiOutlineUsergroupAdd } from "react-icons/ai";
 
 const DashLayout = () => {
   const { loading } = useAuth();
@@ -119,7 +121,7 @@ const DashLayout = () => {
                 className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-lg"
                 data-tip="Decorator Requests"
               >
-                <IoPersonAddOutline />
+                <AiOutlineUsergroupAdd />
                 <span className="is-drawer-close:hidden">Decorator Requests</span>
               </NavLink>
             </li>
@@ -132,6 +134,17 @@ const DashLayout = () => {
               >
                 <CiBoxList />
                 <span className="is-drawer-close:hidden">Decorators</span>
+              </NavLink>
+            </li>
+            {/* All Decorators */}
+            <li>
+              <NavLink
+                to="/dashboard/service-management"
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-lg"
+                data-tip="Service Management"
+              >
+                <LuServerCog />
+                <span className="is-drawer-close:hidden">Service Management</span>
               </NavLink>
             </li>
 

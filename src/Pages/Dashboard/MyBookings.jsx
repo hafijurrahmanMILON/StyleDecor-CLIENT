@@ -103,7 +103,7 @@ const MyBookings = () => {
               refetch();
               Swal.fire({
                 title: "Confirmed!",
-                text: "Service Updated Successfully!",
+                text: "Booking Edited Successfully!",
                 icon: "success",
               });
             }
@@ -256,7 +256,7 @@ const MyBookings = () => {
             </div>
           </div>
           {/* modal */}
-          <dialog ref={editModalRef} className="modal backdrop:bg-black/30">
+          <dialog ref={editModalRef} className="modal modal-bottom sm:modal-middle">
             <div className="modal-box w-11/12 max-w-5xl p-0">
               <div className="p-5 pb-0 flex justify-between items-center">
                 <h3 className="text-2xl font-bold">Update Booking</h3>

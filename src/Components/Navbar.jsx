@@ -113,7 +113,7 @@ const Navbar = () => {
                 </div>
 
                 <Link
-                  to="/dashboard/my-bookings"
+                  to="/dashboard/my-profile"
                   className="flex btn btn-soft btn-primary items-center gap-3 p-3 rounded-xl font-medium justify-center mt-2"
                 >
                   <LuLayoutDashboard className="text-lg" />

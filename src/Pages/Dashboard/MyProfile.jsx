@@ -1,12 +1,11 @@
 import React from "react";
 import useAuth from "../../Hooks/useAuth";
 import { FaUser, FaEnvelope, FaCalendarAlt, FaShieldAlt } from "react-icons/fa";
-import userIMG from '../../assets/user.png'
+import userIMG from "../../assets/user.png";
+import Loading from "../../Components/Loading";
 
 const MyProfile = () => {
-  const { user } = useAuth();
-
-
+  const { user, loading } = useAuth();
 
   const joinDate = user?.metadata?.creationTime
     ? new Date(user?.metadata.creationTime).toLocaleDateString("en-US", {
@@ -24,6 +23,10 @@ const MyProfile = () => {
       })
     : "N/A";
 
+  if (loading) {
+    return <Loading></Loading>;
+  }
+
   return (
     <div className="min-h-screen py-12 px-4">
       <div className="max-w-4xl mx-auto">
@@ -35,7 +38,7 @@ const MyProfile = () => {
               <div className="relative">
                 <img
                   src={user?.photoURL || userIMG}
-                  alt={user?.displayName || 'User'}
+                  alt={user?.displayName || "User"}
                   className="w-32 h-32 rounded-full border-4 border-white shadow-lg object-cover"
                 />
                 <div className="absolute bottom-2 right-2 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
