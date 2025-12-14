@@ -35,8 +35,6 @@ const ServiceManagement = () => {
     formState: { errors },
   } = useForm();
 
- 
-
   const handleEditModal = (service) => {
     setSelectedService(service);
     editModalRef.current.showModal();
@@ -56,7 +54,7 @@ const ServiceManagement = () => {
   }, [selectedService, reset]);
 
   const handleEditService = (data) => {
-    editModalRef.current.close()
+    editModalRef.current.close();
     Swal.fire({
       title: "Confirm?",
       text: "Do you want to update this service?",
@@ -67,12 +65,39 @@ const ServiceManagement = () => {
       confirmButtonText: "Yes, Confirm!",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosSecure.patch(`/services/${selectedService?._id}/update`, data).then((res) => {
-          if (res.data.modifiedCount) {
-            refetch()
+        axiosSecure
+          .patch(`/services/${selectedService?._id}/update`, data)
+          .then((res) => {
+            if (res.data.modifiedCount) {
+              refetch();
+              Swal.fire({
+                title: "Updated!",
+                text: "Service has been Updated!",
+                icon: "success",
+              });
+            }
+          });
+      }
+    });
+  };
+
+  const handleDeleteService = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure.delete(`/services/${id}/delete`).then((res) => {
+          if (res.data.deletedCount) {
+            refetch();
             Swal.fire({
-              title: "Updated!",
-              text: "Service has been Updated!",
+              title: "Deleted!",
+              text: "Service has been deleted.",
               icon: "success",
             });
           }
@@ -192,6 +217,7 @@ const ServiceManagement = () => {
                             <FaRegEdit className="text-lg" />
                           </button>
                           <button
+                            onClick={() => handleDeleteService(service._id)}
                             className="btn btn-error btn-ghost btn-sm  tooltip"
                             data-tip="Delete Service"
                           >
@@ -207,7 +233,7 @@ const ServiceManagement = () => {
           </div>
         )}
       </div>
-  
+
       {/* edit modal */}
       <dialog ref={editModalRef} className="modal modal-bottom sm:modal-middle">
         <div className="modal-box w-11/12 max-w-4xl max-h-[90vh] p-8">
