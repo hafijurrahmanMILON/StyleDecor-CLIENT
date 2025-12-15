@@ -22,6 +22,7 @@ import ApprovedDecorators from "../Pages/Dashboard/ApprovedDecorators";
 import ServiceManagement from "../Pages/Dashboard/ServiceManagement";
 import AddService from "../Pages/Dashboard/AddService";
 import BookingManagement from "../Pages/Dashboard/BookingManagement";
+import Analytics from "../Pages/Dashboard/Analytics";
 
 export const router = createBrowserRouter([
   {
@@ -114,6 +115,10 @@ export const router = createBrowserRouter([
       {
         path: "booking-management",
         Component: BookingManagement,
+      },
+      {
+        path: "admin-analytics",
+        Component: Analytics,
       },
     ],
   },

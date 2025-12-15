@@ -2,17 +2,14 @@ import React from "react";
 import { Link, NavLink, Outlet } from "react-router";
 import {
   MdOutlineCollectionsBookmark,
-  MdOutlineDeliveryDining,
   MdOutlineHistory,
-  MdOutlineMiscellaneousServices,
 } from "react-icons/md";
-import { LuServerCog, LuUsers } from "react-icons/lu";
+import { LuServerCog } from "react-icons/lu";
 import { FiHome } from "react-icons/fi";
 import { CgProfile } from "react-icons/cg";
 import useAuth from "../Hooks/useAuth";
 import Loading from "../Components/Loading";
-import { IoPersonAddOutline } from "react-icons/io5";
-import { CiBoxList } from "react-icons/ci";
+import { IoBarChartOutline } from "react-icons/io5";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
 import { LiaUsersCogSolid } from "react-icons/lia";
 import { TbListDetails } from "react-icons/tb";
@@ -50,7 +47,7 @@ const DashLayout = () => {
               <path d="M14 10l2 2l-2 2"></path>
             </svg>
           </label>
-          <div className="px-4 text-primary text-2xl font-semibold">STYLEDECOR</div>
+          <div className="px-4 text-primary text-2xl font-semibold">StyleDecor</div>
         </nav>
         {/* Page content here */}
         <div className="max-w-7xl mx-4 lg:mx-auto min-h-[80vh] my-12 ">
@@ -116,6 +113,18 @@ const DashLayout = () => {
               </NavLink>
             </li>
 
+             {/* admin-analytics */}
+            <li>
+              <NavLink
+                to="/dashboard/admin-analytics"
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-lg"
+                data-tip="Business Analytics"
+              >
+                <IoBarChartOutline />
+                <span className="is-drawer-close:hidden">Business Analytics</span>
+              </NavLink>
+            </li>
+
             {/* Decorator apply */}
             <li>
               <NavLink
@@ -127,6 +136,7 @@ const DashLayout = () => {
                 <span className="is-drawer-close:hidden">Decorator Requests</span>
               </NavLink>
             </li>
+           
             {/* All Decorators */}
             <li>
               <NavLink

@@ -144,9 +144,9 @@ const BookingManagement = () => {
                       {booking.paymentStatus}
                     </td>
                     <td>
-                      {booking.status === "decorator assigned" ? (
+                      {booking.status !== "pending" ? (
                         <span className="text-sm text-green-500">
-                          Decorator Assigned
+                          {booking?.status}
                         </span>
                       ) : booking.paymentStatus === "unpaid" ? (
                         <span className="text-sm text-warning/80">
