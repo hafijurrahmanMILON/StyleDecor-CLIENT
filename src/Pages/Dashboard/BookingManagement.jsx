@@ -63,6 +63,7 @@ const BookingManagement = () => {
           )
           .then((res) => {
             if (res.data.modifiedCount) {
+              refetch();
               Swal.fire({
                 title: "Decorator Assigned!",
                 text: `${decorator?.name} has been Assigned!`,

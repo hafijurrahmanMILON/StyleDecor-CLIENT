@@ -1,9 +1,6 @@
 import React from "react";
 import { Link, NavLink, Outlet } from "react-router";
-import {
-  MdOutlineCollectionsBookmark,
-  MdOutlineHistory,
-} from "react-icons/md";
+import { MdOutlineCollectionsBookmark, MdOutlineHistory } from "react-icons/md";
 import { LuServerCog } from "react-icons/lu";
 import { FiHome } from "react-icons/fi";
 import { CgProfile } from "react-icons/cg";
@@ -13,9 +10,13 @@ import { IoBarChartOutline } from "react-icons/io5";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
 import { LiaUsersCogSolid } from "react-icons/lia";
 import { TbListDetails } from "react-icons/tb";
+import { GoSidebarCollapse, GoTasklist } from "react-icons/go";
+import useRole from "../Hooks/useRole";
+import { VscSettings } from "react-icons/vsc";
 
 const DashLayout = () => {
   const { loading } = useAuth();
+  const { role } = useRole();
 
   if (loading) {
     return <Loading></Loading>;
@@ -29,25 +30,14 @@ const DashLayout = () => {
           <label
             htmlFor="my-drawer-4"
             aria-label="open sidebar"
-            className="btn btn-square btn-ghost"
+            className="px-4 hover:cursor-pointer"
           >
             {/* Sidebar toggle icon */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              strokeLinejoin="round"
-              strokeLinecap="round"
-              strokeWidth="2"
-              fill="none"
-              stroke="currentColor"
-              className="my-1.5 inline-block size-4"
-            >
-              <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
-              <path d="M9 4v16"></path>
-              <path d="M14 10l2 2l-2 2"></path>
-            </svg>
+            <GoSidebarCollapse className="text-xl" />
           </label>
-          <div className="px-4 text-primary text-2xl font-semibold">StyleDecor</div>
+          <div className="px-4 text-primary text-2xl font-semibold">
+            StyleDecor
+          </div>
         </nav>
         {/* Page content here */}
         <div className="max-w-7xl mx-4 lg:mx-auto min-h-[80vh] my-12 ">
@@ -113,86 +103,104 @@ const DashLayout = () => {
               </NavLink>
             </li>
 
-             {/* admin-analytics */}
-            <li>
-              <NavLink
-                to="/dashboard/admin-analytics"
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-lg"
-                data-tip="Business Analytics"
-              >
-                <IoBarChartOutline />
-                <span className="is-drawer-close:hidden">Business Analytics</span>
-              </NavLink>
-            </li>
+            {/* admin only links */}
+            {role === "admin" && (
+              <>
+                {/* admin-analytics */}
+                <li>
+                  <NavLink
+                    to="/dashboard/admin-analytics"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-lg"
+                    data-tip="Business Analytics"
+                  >
+                    <IoBarChartOutline />
+                    <span className="is-drawer-close:hidden">
+                      Business Analytics
+                    </span>
+                  </NavLink>
+                </li>
 
-            {/* Decorator apply */}
-            <li>
-              <NavLink
-                to="/dashboard/decorator-request"
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-lg"
-                data-tip="Decorator Requests"
-              >
-                <AiOutlineUsergroupAdd />
-                <span className="is-drawer-close:hidden">Decorator Requests</span>
-              </NavLink>
-            </li>
-           
-            {/* All Decorators */}
-            <li>
-              <NavLink
-                to="/dashboard/approved-decorators"
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-lg"
-                data-tip="Decorator Management"
-              >
-                <LiaUsersCogSolid />
-                <span className="is-drawer-close:hidden">Decorator Management</span>
-              </NavLink>
-            </li>
-            {/* Service Management */}
-            <li>
-              <NavLink
-                to="/dashboard/service-management"
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-lg"
-                data-tip="Service Management"
-              >
-                <LuServerCog />
-                <span className="is-drawer-close:hidden">Service Management</span>
-              </NavLink>
-            </li>
-            {/* Bookings Management */}
-            <li>
-              <NavLink
-                to="/dashboard/booking-management"
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-lg"
-                data-tip="Booking Management"
-              >
-                <TbListDetails />
-                <span className="is-drawer-close:hidden">Booking Management</span>
-              </NavLink>
-            </li>
+                {/* Decorator apply */}
+                <li>
+                  <NavLink
+                    to="/dashboard/decorator-request"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-lg"
+                    data-tip="Decorator Requests"
+                  >
+                    <AiOutlineUsergroupAdd />
+                    <span className="is-drawer-close:hidden">
+                      Decorator Requests
+                    </span>
+                  </NavLink>
+                </li>
+
+                {/* All Decorators */}
+                <li>
+                  <NavLink
+                    to="/dashboard/approved-decorators"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-lg"
+                    data-tip="Decorator Management"
+                  >
+                    <LiaUsersCogSolid />
+                    <span className="is-drawer-close:hidden">
+                      Decorator Management
+                    </span>
+                  </NavLink>
+                </li>
+                {/* Service Management */}
+                <li>
+                  <NavLink
+                    to="/dashboard/service-management"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-lg"
+                    data-tip="Service Management"
+                  >
+                    <LuServerCog />
+                    <span className="is-drawer-close:hidden">
+                      Service Management
+                    </span>
+                  </NavLink>
+                </li>
+                {/* Bookings Management */}
+                <li>
+                  <NavLink
+                    to="/dashboard/booking-management"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-lg"
+                    data-tip="Booking Management"
+                  >
+                    <TbListDetails />
+                    <span className="is-drawer-close:hidden">
+                      Booking Management
+                    </span>
+                  </NavLink>
+                </li>
+              </>
+            )}
+
+            {/* decorator only links */}
+            {role === "decorator" && (
+              <>
+                <li>
+                  <NavLink
+                    to="/dashboard/assigned-projects"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-lg"
+                    data-tip="Assigned Projects"
+                  >
+                    <GoTasklist />
+                    <span className="is-drawer-close:hidden">
+                      Assigned Projects
+                    </span>
+                  </NavLink>
+                </li>
+              </>
+            )}
 
             {/* settings */}
             <li>
               <button
-                className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-lg"
                 data-tip="Settings"
               >
-                {/* Settings icon */}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  strokeLinejoin="round"
-                  strokeLinecap="round"
-                  strokeWidth="2"
-                  fill="none"
-                  stroke="currentColor"
-                  className="my-1.5 inline-block size-4"
-                >
-                  <path d="M20 7h-9"></path>
-                  <path d="M14 17H5"></path>
-                  <circle cx="17" cy="17" r="3"></circle>
-                  <circle cx="7" cy="7" r="3"></circle>
-                </svg>
+                <VscSettings />
                 <span className="is-drawer-close:hidden">Settings</span>
               </button>
             </li>

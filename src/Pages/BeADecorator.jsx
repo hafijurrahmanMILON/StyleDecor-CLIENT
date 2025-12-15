@@ -121,7 +121,7 @@ const BeADecorator = () => {
                 type="number"
                 {...register("nid", { required: true })}
                 placeholder="Enter your NID number"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:outline-none focus:ring-0"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-0"
               />
               {errors.nid && (
                 <p className="text-red-600 text-sm mt-1">NID is required</p>

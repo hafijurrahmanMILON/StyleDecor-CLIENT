@@ -22,10 +22,11 @@ const Register = () => {
   } = useForm();
 
   const handleSubmitRegister = (data) => {
-    console.log("hello", data.photo[0]);
+    // console.log("hello", data.photo[0]);
     const profileImage = data.photo[0];
     createUserFunc(data.email, data.password)
       .then((res) => {
+        const firebaseUser = res.user;
         console.log(res);
         const formData = new FormData();
         formData.append("image", profileImage);
@@ -38,7 +39,7 @@ const Register = () => {
             formData
           )
           .then((res) => {
-            console.log("after image upload", res.data.data.url);
+            // console.log("after image upload", res.data.data.url);
             const photoURL = res.data.data.url;
 
             const updateData = {
@@ -46,22 +47,20 @@ const Register = () => {
               photoURL: photoURL,
             };
 
-            const userInfo = {
-              displayName: data.name,
-              email: data.email,
-              photoURL: photoURL,
-            };
-
             updateProfileFunc(updateData)
               .then(() => {
+                const userInfo = {
+                  displayName: data.name,
+                  email: firebaseUser.email,
+                  photoURL: photoURL,
+                };
                 axiosSecure.post(`/users`, userInfo).then((res) => {
                   if (res.data.insertedId) {
                     console.log("user push success", res.data);
-                    toast.success("sign In successful");
                   }
                 });
                 console.log("updated success");
-                toast.success("sign In successful");
+                toast.success('sign In successful')
                 navigate(from);
               })
               .catch((error) => {

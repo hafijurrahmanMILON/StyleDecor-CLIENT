@@ -23,6 +23,8 @@ import ServiceManagement from "../Pages/Dashboard/ServiceManagement";
 import AddService from "../Pages/Dashboard/AddService";
 import BookingManagement from "../Pages/Dashboard/BookingManagement";
 import Analytics from "../Pages/Dashboard/Analytics";
+import AdminRoute from "../Private/AdminRoute";
+import AssignedProjects from "../Pages/Dashboard/AssignedProjects";
 
 export const router = createBrowserRouter([
   {
@@ -52,7 +54,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/be-a-decorator",
-        Component: BeADecorator,
+        element: (
+          <PrivateRoute>
+            <BeADecorator></BeADecorator>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/login",
@@ -98,27 +104,55 @@ export const router = createBrowserRouter([
       },
       {
         path: "decorator-request",
-        Component: DecoratorRequest,
+        element: (
+          <AdminRoute>
+            <DecoratorRequest></DecoratorRequest>
+          </AdminRoute>
+        ),
       },
       {
         path: "approved-decorators",
-        Component: ApprovedDecorators,
+        element: (
+          <AdminRoute>
+            <ApprovedDecorators></ApprovedDecorators>
+          </AdminRoute>
+        ),
       },
       {
         path: "service-management",
-        Component: ServiceManagement,
+        element: (
+          <AdminRoute>
+            <ServiceManagement></ServiceManagement>
+          </AdminRoute>
+        ),
       },
       {
         path: "add-service",
-        Component: AddService,
+        element: (
+          <AdminRoute>
+            <AddService></AddService>
+          </AdminRoute>
+        ),
       },
       {
         path: "booking-management",
-        Component: BookingManagement,
+        element: (
+          <AdminRoute>
+            <BookingManagement></BookingManagement>
+          </AdminRoute>
+        ),
       },
       {
         path: "admin-analytics",
-        Component: Analytics,
+        element: (
+          <AdminRoute>
+            <Analytics></Analytics>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "assigned-projects",
+        element: <AssignedProjects></AssignedProjects>,
       },
     ],
   },
