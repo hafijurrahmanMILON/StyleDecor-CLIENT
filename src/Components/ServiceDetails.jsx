@@ -80,8 +80,6 @@ const ServiceDetails = () => {
       location: formData.serviceType === "on-site" ? formData.location : null,
       notes: formData.notes || null,
       paymentStatus: "unpaid",
-      transactionId: null,
-      decoratorId: null,
       status: "pending",
     };
     console.log("Booking Data:", bookingData);

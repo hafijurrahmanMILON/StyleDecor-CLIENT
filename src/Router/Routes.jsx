@@ -25,6 +25,7 @@ import BookingManagement from "../Pages/Dashboard/BookingManagement";
 import Analytics from "../Pages/Dashboard/Analytics";
 import AdminRoute from "../Private/AdminRoute";
 import AssignedProjects from "../Pages/Dashboard/AssignedProjects";
+import DecoratorRoute from "../Private/DecoratorRoute";
 
 export const router = createBrowserRouter([
   {
@@ -102,6 +103,7 @@ export const router = createBrowserRouter([
         path: "payment-history",
         Component: PaymentHistory,
       },
+      // admin only routes
       {
         path: "decorator-request",
         element: (
@@ -150,9 +152,15 @@ export const router = createBrowserRouter([
           </AdminRoute>
         ),
       },
+
+      // decorator only routes
       {
         path: "assigned-projects",
-        element: <AssignedProjects></AssignedProjects>,
+        element: (
+          <DecoratorRoute>
+            <AssignedProjects></AssignedProjects>
+          </DecoratorRoute>
+        ),
       },
     ],
   },

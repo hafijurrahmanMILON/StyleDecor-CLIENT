@@ -5,10 +5,12 @@ import Loading from "../../Components/Loading";
 import { FaArrowLeft } from "react-icons/fa";
 import { Link } from "react-router";
 import Swal from "sweetalert2";
+import { useRef } from "react";
+import { useState } from "react";
 
 const BookingManagement = () => {
-  const [selectedBooking, setSelectedBooking] = React.useState(null);
-  const assignDecoratorModal = React.useRef();
+  const [selectedBooking, setSelectedBooking] = useState(null);
+  const assignDecoratorModal = useRef();
   const axiosSecure = useAxiosSecure();
 
   const {
@@ -24,11 +26,9 @@ const BookingManagement = () => {
   });
 
   const { data: decorators = [] } = useQuery({
-    queryKey: ["decorators", "available"],
+    queryKey: ["decorators"],
     queryFn: async () => {
-      const res = await axiosSecure.get(
-        `/available-decorators?workStatus=available`
-      );
+      const res = await axiosSecure.get(`/decorators/select`);
       return res.data;
     },
   });
@@ -225,10 +225,21 @@ const BookingManagement = () => {
                           {decorator?.name}
                         </h4>
                         <div className="flex items-center gap-2 mt-1">
-                          <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                          <span className="text-xs text-gray-500">
-                            Available
-                          </span>
+                          {decorator.workStatus === "available" ? (
+                            <>
+                              <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                              <span className="text-xs text-green-500">
+                                {decorator.workStatus}
+                              </span>{" "}
+                            </>
+                          ) : (
+                            <>
+                              <div className="w-2 h-2 rounded-full bg-red-500"></div>
+                              <span className="text-xs text-red-500">
+                                {decorator.workStatus}
+                              </span>
+                            </>
+                          )}
                         </div>
                       </div>
                     </div>

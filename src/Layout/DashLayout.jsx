@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, NavLink, Outlet } from "react-router";
 import { MdOutlineCollectionsBookmark, MdOutlineHistory } from "react-icons/md";
-import { LuServerCog } from "react-icons/lu";
+import { LuCalendarCheck, LuCalendarDays, LuServerCog } from "react-icons/lu";
 import { FiHome } from "react-icons/fi";
 import { CgProfile } from "react-icons/cg";
 import useAuth from "../Hooks/useAuth";
@@ -10,9 +10,11 @@ import { IoBarChartOutline } from "react-icons/io5";
 import { AiOutlineUsergroupAdd } from "react-icons/ai";
 import { LiaUsersCogSolid } from "react-icons/lia";
 import { TbListDetails } from "react-icons/tb";
-import { GoSidebarCollapse, GoTasklist } from "react-icons/go";
+import { GoSidebarCollapse } from "react-icons/go";
 import useRole from "../Hooks/useRole";
 import { VscSettings } from "react-icons/vsc";
+import { GrTask } from "react-icons/gr";
+import { FaTasks } from "react-icons/fa";
 
 const DashLayout = () => {
   const { loading } = useAuth();
@@ -185,9 +187,21 @@ const DashLayout = () => {
                     className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-lg"
                     data-tip="Assigned Projects"
                   >
-                    <GoTasklist />
+                    <FaTasks/>
                     <span className="is-drawer-close:hidden">
                       Assigned Projects
+                    </span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/dashboard/todays-schedule"
+                    className="is-drawer-close:tooltip is-drawer-close:tooltip-right text-lg"
+                    data-tip="Today's Schedule"
+                  >
+                    <LuCalendarDays />
+                    <span className="is-drawer-close:hidden">
+                      Today's Schedule
                     </span>
                   </NavLink>
                 </li>
