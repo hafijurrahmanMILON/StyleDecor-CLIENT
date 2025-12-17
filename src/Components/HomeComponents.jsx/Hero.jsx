@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import heroIMG from "../../assets/hero2.jpg";
+import { Link } from "react-router";
 
 const Hero = () => {
   const headingText = "Transform Your Space with StyleDecor";
@@ -48,14 +49,9 @@ const Hero = () => {
             expert decorators. Available 7 days a week.
           </motion.p>
 
-          <motion.div>
-            <motion.button
-              whileTap={{ scale: -0.5 }}
-              className="bg-secondary hover:bg-primary text-white font-semibold py-3 px-4 rounded-full text-md transition-all duration-300"
-            >
-              Book Your Decoration Now
-            </motion.button>
-          </motion.div>
+          <Link to="/services" className="btn btn-secondary rounded-full">
+            Book Your Decoration Now!
+          </Link>
 
           <motion.div
             initial={{ opacity: 0 }}

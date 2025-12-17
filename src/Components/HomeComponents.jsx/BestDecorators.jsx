@@ -8,7 +8,7 @@ import DecoratorCard from "./DecoratorCard";
 
 const BestDecorators = () => {
   const axiosInstance = useAxiosInstance();
-  const { data: bestDecorators, isLoading } = useQuery({
+  const { data: bestDecorators} = useQuery({
     queryKey: ["bestDecorators"],
     queryFn: async () => {
       const res = await axiosInstance.get(`/best-decorators`);
@@ -16,17 +16,6 @@ const BestDecorators = () => {
       return res.data;
     },
   });
-
-  if (isLoading) {
-    return (
-      <div className="min-h-[400px] flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading decorators...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="py-16 px-4">
@@ -59,7 +48,7 @@ const BestDecorators = () => {
           initial={{ width: 0 }}
           whileInView={{ width: "100%" }}
           transition={{ duration: 1, delay: 0.5 }}
-          className="h-1 bg-gradient-to-r from-transparent via-primary to-transparent mt-16"
+          className=" mt-16"
         />
       </div>
     </div>

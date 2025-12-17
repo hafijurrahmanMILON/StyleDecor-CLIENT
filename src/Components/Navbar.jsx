@@ -11,9 +11,12 @@ import {
 } from "react-icons/io5";
 import userImg from "../assets/user.png";
 import { LuLayoutDashboard } from "react-icons/lu";
+import useRole from "../Hooks/useRole";
+import { CgProfile } from "react-icons/cg";
 
 const Navbar = () => {
   const { user, signOutFunc } = useAuth();
+  const { role } = useRole();
 
   const handleSignOut = () => {
     signOutFunc()
@@ -24,6 +27,12 @@ const Navbar = () => {
         toast.error(error.message);
         console.log(error.message);
       });
+  };
+
+  const getDashboardRoute = () => {
+    if (role === "admin") return "/dashboard/admin-analytics";
+    if (role === "decorator") return "/dashboard/decorator-dashboard";
+    return "/dashboard/my-bookings"; // default user route
   };
   const navLinks = (
     <>
@@ -43,9 +52,11 @@ const Navbar = () => {
         <MyLink to="/contact">Contact</MyLink>
       </li>
       {user && (
-        <li>
-          <MyLink to="/be-a-decorator">Be a Decorator</MyLink>
-        </li>
+        <>
+          <li>
+            <MyLink to="/be-a-decorator">Be a Decorator</MyLink>
+          </li>
+        </>
       )}
     </>
   );
@@ -114,14 +125,21 @@ const Navbar = () => {
 
                 <Link
                   to="/dashboard/my-profile"
-                  className="flex btn btn-soft btn-primary items-center gap-3 p-3 rounded-xl font-medium justify-center mt-2"
+                  className="flex btn btn-soft btn-primary items-center gap-3 p-3 rounded-xl font-medium justify-center"
+                >
+                  <CgProfile className="text-lg" />
+                  My Profile
+                </Link>
+                <Link
+                  to={getDashboardRoute()}
+                  className="flex btn btn-soft btn-primary items-center gap-3 p-3 rounded-xl font-medium justify-center"
                 >
                   <LuLayoutDashboard className="text-lg" />
                   Dashboard
                 </Link>
                 <button
                   onClick={handleSignOut}
-                  className="flex btn btn-primary items-center gap-3 p-3 rounded-xl font-medium justify-center mt-2"
+                  className="flex btn btn-primary items-center gap-3 p-3 rounded-xl font-medium justify-center"
                 >
                   <IoLogOutOutline className="text-lg" />
                   Log out

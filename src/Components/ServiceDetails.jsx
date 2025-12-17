@@ -433,7 +433,7 @@ const ServiceDetails = () => {
                     type="text"
                     defaultValue={user?.displayName}
                     {...register("customerName")}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-gray-50"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-gray-50 cursor-not-allowed"
                     readOnly
                   />
                 </div>
@@ -447,7 +447,7 @@ const ServiceDetails = () => {
                     type="email"
                     defaultValue={user?.email}
                     {...register("customerEmail")}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-gray-50"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-gray-50 cursor-not-allowed"
                     readOnly
                   />
                 </div>
@@ -502,20 +502,6 @@ const ServiceDetails = () => {
                   )}
                 </div>
               </div>
-              <div>
-                <label>Unit</label>
-                <input
-                  type="number"
-                  min="1"
-                  defaultValue="1"
-                  {...register("unitCount", {
-                    required: "Unit count required",
-                    min: { value: 1, message: "Minimum 1 unit required" },
-                  })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-gray-50"
-                />
-              </div>
-
               <div className="bg-blue-50 border border-blue-100 rounded-lg p-4">
                 <div className="flex items-center gap-3">
                   <div className="w-5 h-5 text-blue-500">
@@ -531,6 +517,19 @@ const ServiceDetails = () => {
                     Working hours: 09:00 - 20:00
                   </span>
                 </div>
+              </div>
+              <div>
+                <label>Unit</label>
+                <input
+                  type="number"
+                  min="1"
+                  defaultValue="1"
+                  {...register("unitCount", {
+                    required: "Unit count required",
+                    min: { value: 1, message: "Minimum 1 unit required" },
+                  })}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-gray-50"
+                />
               </div>
 
               {serviceType === "on-site" && (

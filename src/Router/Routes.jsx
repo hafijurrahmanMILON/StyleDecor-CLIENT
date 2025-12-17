@@ -26,6 +26,8 @@ import Analytics from "../Pages/Dashboard/Analytics";
 import AdminRoute from "../Private/AdminRoute";
 import AssignedProjects from "../Pages/Dashboard/AssignedProjects";
 import DecoratorRoute from "../Private/DecoratorRoute";
+import TodaysSchedule from "../Pages/Dashboard/TodaysSchedule";
+import DecoratorDashboard from "../Pages/Dashboard/DecoratorDashboard";
 
 export const router = createBrowserRouter([
   {
@@ -155,13 +157,29 @@ export const router = createBrowserRouter([
 
       // decorator only routes
       {
-        path: "assigned-projects",
+        path: "decorator-dashboard",
         element: (
           <DecoratorRoute>
-            <AssignedProjects></AssignedProjects>
+            <DecoratorDashboard></DecoratorDashboard>
           </DecoratorRoute>
         ),
       },
+      // {
+      //   path: "assigned-projects",
+      //   element: (
+      //     <DecoratorRoute>
+      //       <AssignedProjects></AssignedProjects>
+      //     </DecoratorRoute>
+      //   ),
+      // },
+      // {
+      //   path: "todays-schedule",
+      //   element: (
+      //     <DecoratorRoute>
+      //       <TodaysSchedule></TodaysSchedule>
+      //     </DecoratorRoute>
+      //   ),
+      // },
     ],
   },
 ]);

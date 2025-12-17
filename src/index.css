@@ -10,8 +10,8 @@
   default: true;
 
   --color-primary: #1B7261;
-  --color-secondary: #6B705C;
-  --color-accent: #ddbea9;
+  --color-secondary: #4A5D5A;
+  --color-accent: #C5A059;
   --color-base-100: #fff;
 }
 
@@ -22,3 +22,5 @@
 /* #237464 */
 /* #6B705C */
 /* #a4ab90 */
+/* #1B7261 */
+/* #4A5D5A */

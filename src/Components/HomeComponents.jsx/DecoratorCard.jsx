@@ -13,24 +13,17 @@ const DecoratorCard = ({ decorator, index }) => {
         type: "spring",
         stiffness: 100,
       }}
-      whileHover={{
-        y: -8,
-        scale: 1.02,
-        boxShadow:
-          "0 20px 25px -5px rgba(27, 114, 97, 0.1), 0 10px 10px -5px rgba(27, 114, 97, 0.04)",
-      }}
-      className="bg-base-100 rounded-xl shadow-lg p-5 transition-all duration-300 group cursor-pointer"
+      className="bg-base-100 rounded-xl shadow-lg p-5 transition-all duration-300 group "
     >
       <motion.div
         className="relative mb-4"
-        whileHover={{ scale: 1.05 }}
         transition={{ duration: 0.3 }}
       >
         <div className="w-28 h-28 mx-auto rounded-full overflow-hidden border-4 border-white shadow-xl">
           <img
             src={decorator.photoURL}
             alt={decorator.name}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            className="w-full h-full object-cover transition-transform duration-500"
           />
         </div>
 
@@ -47,7 +40,7 @@ const DecoratorCard = ({ decorator, index }) => {
         />
       </motion.div>
 
-      <h3 className="text-lg font-bold text-center text-secondary mb-2 group-hover:text-primary transition-colors duration-300">
+      <h3 className="text-lg font-bold text-center text-secondary mb-2  transition-colors duration-300">
         {decorator.name}
       </h3>
 

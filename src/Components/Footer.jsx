@@ -1,14 +1,17 @@
-import logoImg from "../assets/Copilot_20251206_154458.png";
 import fb from "../assets/facebook.png";
 import yt from "../assets/youtube.png";
 import x from "../assets/twitter.png";
+import Logo from "./logo";
 
 const Footer = () => {
   return (
-    <footer className="bg-primary text-white p-8 px-2 md:px-12 lg:px-28">
+    <footer className="bg-primary/80 text-white p-8 px-2 md:px-12 lg:px-28">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
         <div>
-          <img className="w-28 h-20 rounded-lg" src={logoImg} alt="" />
+          {/* <img className="w-28 h-20 rounded-lg" src={logoImg} alt="" /> */}
+
+          <Logo></Logo>
+
           <div className="flex mt-4 items-center gap-4">
             <a href="" target="_blank">
               <img src={fb} alt="" />

@@ -3,6 +3,18 @@ import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import Loading from "../Components/Loading";
 
+import L from 'leaflet';
+import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
+import markerIcon from 'leaflet/dist/images/marker-icon.png';
+import markerShadow from 'leaflet/dist/images/marker-shadow.png';
+
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+    iconRetinaUrl: markerIcon2x,
+    iconUrl: markerIcon,
+    shadowUrl: markerShadow,
+});
+
 const Coverage = () => {
   const [serviceCenters, setServiceCenters] = useState([]);
   const mapRef = useRef(null);
@@ -15,7 +27,8 @@ const Coverage = () => {
       .then((res) => res.json())
       .then((data) => {
         setServiceCenters(data);
-      });
+      })
+      .catch(err => console.error("Error loading JSON:", err));
   }, []);
 
   const handleSearch = (e) => {
@@ -24,14 +37,16 @@ const Coverage = () => {
     const district = serviceCenters.find((center) =>
       center.district.toLowerCase().includes(location.toLowerCase())
     );
-    // console.log(district)
 
-    if (district) {
+    if (district && mapRef.current) {
       const coordinate = [district.latitude, district.longitude];
-      // console.log('heelo', coordinate)
-      mapRef.current.flyTo(coordinate, 10);
+      mapRef.current.flyTo(coordinate, 12);
     }
   };
+
+  if (serviceCenters.length === 0) {
+    return <Loading />;
+  }
 
   return (
     <div className="bg-white rounded-3xl mt-8 mb-12 py-12 px-6 md:px-20">
@@ -62,7 +77,7 @@ const Coverage = () => {
               placeholder="Search district or city..."
               className="grow outline-none text-sm bg-transparent"
             />
-            <button className="bg-primary hover:bg-primary/90 text-white font-semibold px-6 py-2 rounded-full">
+            <button type="submit" className="btn btn-primary rounded-full">
               Search
             </button>
           </div>
@@ -104,9 +119,9 @@ const Coverage = () => {
                 position={[center.latitude, center.longitude]}
               >
                 <Popup className="rounded-xl">
-                  <div className="p-4">
+                  <div className="p-2 min-w-[200px]">
                     <div className="mb-3">
-                      <h3 className="font-bold text-gray-800">
+                      <h3 className="font-bold text-gray-800 text-lg">
                         {center.district}
                       </h3>
                       <p className="text-sm text-gray-600">{center.city}</p>
@@ -142,9 +157,9 @@ const Coverage = () => {
                           );
                         }
                       }}
-                      className="w-full bg-primary hover:bg-primary/90 text-white py-2 px-4 rounded-lg text-sm font-medium"
+                      className="btn btn-primary btn-sm rounded-xl w-full"
                     >
-                      Focus on this location
+                      Zoom to this location
                     </button>
                   </div>
                 </Popup>
