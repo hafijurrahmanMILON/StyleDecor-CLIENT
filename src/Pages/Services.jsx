@@ -179,7 +179,7 @@ const Services = () => {
           {/* Right Side: Service Grid */}
           <div className="col-span-12 lg:col-span-9">
             {isLoading ? (
-              <div className="min-h-[60vh] flex items-center justify-center bg-white rounded-[3rem] border border-primary/5 shadow-sm">
+              <div className="min-h-[60vh] flex items-center justify-center bg-white rounded-[3rem]">
                 <Loading />
               </div>
             ) : allServices.length === 0 ? (
