@@ -12,6 +12,7 @@ const BookingManagement = () => {
   const [selectedBooking, setSelectedBooking] = useState(null);
   const assignDecoratorModal = useRef();
   const axiosSecure = useAxiosSecure();
+  // console.log(selectedBooking)
 
   const {
     data: bookings = [],
@@ -26,9 +27,12 @@ const BookingManagement = () => {
   });
 
   const { data: decorators = [] } = useQuery({
-    queryKey: ["decorators"],
+    queryKey: ["decorators", "approved", selectedBooking?.serviceCategory],
+    enabled: !!selectedBooking?.serviceCategory,
     queryFn: async () => {
-      const res = await axiosSecure.get(`/decorators/select`);
+      const res = await axiosSecure.get(
+        `/decorators/select?speciality=${selectedBooking?.serviceCategory}&status=approved`
+      );
       return res.data;
     },
   });
@@ -116,53 +120,118 @@ const BookingManagement = () => {
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="table table-zebra text-center">
-              {/* head */}
+            <table className="w-full">
               <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Service Name</th>
-                  <th>Cost</th>
-                  <th>Service Type</th>
-                  <th>Payment Status</th>
-                  <th>Action</th>
+                <tr className="bg-linear-to-r from-gray-50 to-gray-100 border-b border-gray-200">
+                  <th className="p-4 text-left font-semibold text-sm uppercase tracking-wider whitespace-nowrap">
+                    #
+                  </th>
+                  <th className="p-4 text-left font-semibold text-sm uppercase tracking-wider whitespace-nowrap min-w-[150px]">
+                    Service Name
+                  </th>
+                  <th className="p-4 text-left font-semibold text-sm uppercase tracking-wider whitespace-nowrap">
+                    Category
+                  </th>
+                  <th className="p-4 text-left font-semibold text-sm uppercase tracking-wider whitespace-nowrap">
+                    Cost
+                  </th>
+                  <th className="p-4 text-left font-semibold text-sm uppercase tracking-wider whitespace-nowrap">
+                    Service Type
+                  </th>
+                  <th className="p-4 text-left font-semibold text-sm uppercase tracking-wider whitespace-nowrap">
+                    Payment Status
+                  </th>
+                  <th className="p-4 text-left font-semibold text-sm uppercase tracking-wider whitespace-nowrap min-w-[150px]">
+                    Action
+                  </th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-gray-100">
                 {bookings.map((booking, index) => (
-                  <tr key={index}>
-                    <th>{index + 1}</th>
-                    <td>{booking.serviceName}</td>
-                    <td>${booking.totalCost}</td>
-                    <td>{booking.serviceType || "N/A"}</td>
-                    <td
-                      className={`${
-                        booking.paymentStatus === "paid"
-                          ? "text-green-400"
-                          : "text-red-400"
-                      }`}
-                    >
-                      {booking.paymentStatus}
+                  <tr
+                    key={index}
+                    className="hover:bg-gray-50 transition-colors duration-150"
+                  >
+                    <td className="p-4 font-medium whitespace-nowrap">
+                      {index + 1}
                     </td>
-                    <td>
+                    <td className="p-4">
+                      <div className="font-medium truncate">
+                        {booking.serviceName}
+                      </div>
+                    </td>
+                    <td className="p-4">
+                      <span className="inline-block px-3 py-1 text-xs font-medium bg-gray-100 rounded-full whitespace-nowrap">
+                        {booking.serviceCategory}
+                      </span>
+                    </td>
+                    <td className="p-4 whitespace-nowrap">
+                      <div className="flex items-center gap-1">
+                        <span className="font-semibold">
+                          {booking.totalCost}
+                        </span>
+                        <span className="text-xs">BDT</span>
+                      </div>
+                    </td>
+                    <td className="p-4 whitespace-nowrap">
+                      <div className="flex items-center gap-2">
+                        <div
+                          className={`w-2 h-2 rounded-full ${
+                            booking.serviceType === "on-site"
+                              ? "bg-green-500"
+                              : "bg-blue-500"
+                          }`}
+                        ></div>
+                        <span>{booking.serviceType || "N/A"}</span>
+                      </div>
+                    </td>
+                    <td className="p-4 whitespace-nowrap">
+                      <div className="flex items-center gap-2">
+                        <div
+                          className={`w-2 h-2 rounded-full ${
+                            booking.paymentStatus === "paid"
+                              ? "bg-green-500"
+                              : "bg-red-500"
+                          }`}
+                        ></div>
+                        <span
+                          className={`font-medium ${
+                            booking.paymentStatus === "paid"
+                              ? "text-green-600"
+                              : "text-red-600"
+                          }`}
+                        >
+                          {booking.paymentStatus.charAt(0).toUpperCase() +
+                            booking.paymentStatus.slice(1)}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="p-4 whitespace-nowrap">
                       {booking.status !== "pending" ? (
-                        <span className="text-sm text-green-500">
-                          {booking?.status}
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                          <span className="text-sm font-medium text-green-600">
+                            {booking.status.charAt(0).toUpperCase() +
+                              booking.status.slice(1)}
+                          </span>
+                        </div>
                       ) : booking.paymentStatus === "unpaid" ? (
-                        <span className="text-sm text-warning/80">
-                          Payment Pending
-                        </span>
+                        <div className="flex items-center gap-2">
+                          <div className="w-2 h-2 rounded-full bg-yellow-500 animate-pulse"></div>
+                          <span className="text-sm font-medium text-yellow-600">
+                            Payment Pending
+                          </span>
+                        </div>
                       ) : booking.serviceType === "on-site" &&
                         booking.paymentStatus === "paid" ? (
                         <button
                           onClick={() => handleAssignDecoratorModal(booking)}
-                          className="btn btn-outline btn-primary btn-sm"
+                          className="btn btn-sm btn-primary btn-soft rounded-xl whitespace-nowrap"
                         >
                           Select Decorator
                         </button>
                       ) : (
-                        <span className="text-sm text-gray-500">
+                        <span className="text-sm italic whitespace-nowrap">
                           Not Applicable
                         </span>
                       )}
@@ -227,17 +296,23 @@ const BookingManagement = () => {
                         <div className="flex items-center gap-2 mt-1">
                           {decorator.workStatus === "available" ? (
                             <>
-                              <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                              <span className="text-xs text-green-500">
-                                {decorator.workStatus}
-                              </span>{" "}
+                              <div className="p-1 py-0 rounded-full bg-green-200">
+                                <p className="text-xs text-green-600">
+                                  {decorator.workStatus}
+                                </p>
+                              </div>
                             </>
                           ) : (
                             <>
-                              <div className="w-2 h-2 rounded-full bg-red-500"></div>
-                              <span className="text-xs text-red-500">
-                                {decorator.workStatus}
-                              </span>
+                              <div className="p-2 py-0 rounded-full bg-gray-200">
+                                <p className="text-xs text-gray-600">
+                                  {decorator.workStatus === "assigned" ? (
+                                    <span>working on another project</span>
+                                  ) : (
+                                    decorator.workStatus
+                                  )}
+                                </p>
+                              </div>
                             </>
                           )}
                         </div>

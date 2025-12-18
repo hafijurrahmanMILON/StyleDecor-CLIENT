@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../Hooks/useAuth";
 import { toast } from "react-hot-toast";
-import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
+import { IoEyeOffOutline, IoEyeOutline, IoLogInOutline } from "react-icons/io5";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 
 const Login = () => {
@@ -83,77 +83,101 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="bg-base-100 rounded-2xl shadow-xl overflow-hidden w-full max-w-xl">
-        <div className="bg-primary text-white p-6 text-center">
-          <h1 className="text-3xl font-bold">StyleDecor</h1>
-          <p className="opacity-90 mt-1">Beautiful spaces, seamless booking</p>
-        </div>
+    <div className="min-h-screen flex items-center justify-center p-6">
+      <div className="bg-white rounded-[2.5rem] shadow-2xl shadow-gray-200/50 w-full max-w-[550px] overflow-hidden border border-gray-100">
+        <div className="p-10 md:p-14">
+          <div className="text-center mb-10">
+            <h1 className="text-4xl font-black tracking-tighter text-primary mb-2">
+              Style<span className="text-accent">Decor</span>
+            </h1>
+            <p className="text-gray-400 font-medium italic">
+              Welcome back to your aesthetic home
+            </p>
+          </div>
 
-        <div className="p-8">
-          <h2 className="text-2xl font-bold text-secondary mb-1">
-            Welcome Back
-          </h2>
-          <p className="text-gray-600 mb-6">
-            Login to manage your decoration appointments
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">Sign In</h2>
+          <p className="text-gray-500 mb-8 font-medium">
+            Manage your decoration appointments effortlessly.
           </p>
 
-          <form onSubmit={handleSubmit(handleLogin)} className="space-y-5">
-            {/* Email Field */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+          <form onSubmit={handleSubmit(handleLogin)} className="space-y-6">
+            <div className="space-y-1.5">
+              <label className="text-[11px] uppercase tracking-[0.15em] font-bold text-gray-500 ml-1">
                 Email Address
               </label>
               <input
                 type="email"
                 {...register("email", { required: true })}
-                placeholder="your@email.com"
-                className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                placeholder="hello@example.com"
+                className="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all duration-300 text-gray-700 placeholder:text-gray-300 outline-none shadow-sm"
               />
-              {errors.email?.type === "required" && (
-                <p className="text-red-600 text-sm mt-1">Email is required</p>
-              )}
-            </div>
-
-            {/* Password Field */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Password
-              </label>
-              <div className="relative">
-                <input
-                  type={show ? "text" : "password"}
-                  {...register("password", { required: true })}
-                  placeholder="Enter your password"
-                  className="input input-bordered w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                />
-                <span
-                  onClick={() => setShow(!show)}
-                  className="hover:cursor-pointer absolute right-3 top-3  z-10"
-                >
-                  {show ? <IoEyeOutline /> : <IoEyeOffOutline />}
-                </span>
-              </div>
-              {errors.password?.type === "required" && (
-                <p className="text-red-600 text-sm mt-1">
-                  Password is required
+              {errors.email && (
+                <p className="text-red-400 text-xs mt-1 ml-1">
+                  Email is required
                 </p>
               )}
             </div>
 
+            <div className="space-y-1.5">
+              <div className="flex justify-between items-center">
+                <label className="text-[11px] uppercase tracking-[0.15em] font-bold text-gray-500 ml-1">
+                  Secret Password
+                </label>
+                <button
+                  type="button"
+                  className="text-[10px] uppercase font-bold text-primary hover:text-accent transition-colors"
+                >
+                  Forgot?
+                </button>
+              </div>
+              <div className="relative">
+                <input
+                  type={show ? "text" : "password"}
+                  {...register("password", { required: true })}
+                  placeholder="••••••••"
+                  className="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all duration-300 text-gray-700 placeholder:text-gray-300 outline-none shadow-sm"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShow(!show)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary transition-colors"
+                >
+                  {show ? (
+                    <IoEyeOutline size={20} />
+                  ) : (
+                    <IoEyeOffOutline size={20} />
+                  )}
+                </button>
+              </div>
+              {errors.password && (
+                <p className="text-red-400 text-xs mt-1 ml-1">
+                  Password is required
+                </p>
+              )}
+            </div>
             <button
               type="submit"
-              className="btn w-full bg-primary hover:bg-secondary text-white font-semibold py-3 rounded-lg transition-colors duration-300"
+              className="w-full bg-primary hover:bg-primary text-white font-bold py-4 rounded-2xl shadow-lg shadow-primary/30 transition-all duration-300 active:scale-[0.98] mt-4 flex items-center justify-center gap-2"
             >
-              Login to StyleDecor
+              <IoLogInOutline size={22} />
+              Login to Account
             </button>
           </form>
 
-          <div className="divider my-8 text-gray-400">Or</div>
+          <div className="relative my-10">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-100"></div>
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-white px-4 text-gray-400 font-bold tracking-[0.2em]">
+                Quick Access
+              </span>
+            </div>
+          </div>
 
           <button
             onClick={handleGoogleLogin}
-            className="btn btn-outline w-full gap-3 border-gray-300 hover:bg-gray-50 hover:border-gray-400 text-gray-700"
+            className="w-full flex items-center justify-center gap-3 px-5 py-4 border border-gray-100 rounded-2xl text-gray-600 font-bold hover:bg-gray-50 transition-all duration-300 active:scale-[0.98]"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path
@@ -176,18 +200,14 @@ const Login = () => {
             Continue with Google
           </button>
 
-          <p className="text-center mt-8 text-gray-600">
-            Don't have an account?{" "}
+          <p className="text-center mt-10 text-gray-500 font-medium">
+            New here?{" "}
             <Link
-              state={location?.state}
               to="/register"
-              className="text-primary hover:text-secondary font-medium transition-colors duration-300"
+              className="text-primary font-bold hover:underline decoration-accent decoration-2 underline-offset-4"
             >
-              Create account
+              Create Account
             </Link>
-          </p>
-          <p className="text-center text-sm text-gray-500 mt-6">
-            Book in-studio consultations or on-site decoration services
           </p>
         </div>
       </div>

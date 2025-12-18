@@ -9,15 +9,15 @@ const MainLayout = () => {
   const { loading } = useAuth();
 
   if (loading) {
-    return <Loading></Loading>
+    return <Loading></Loading>;
   }
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="sticky top-0 z-50">
+      <header className="sticky top-0 w-full z-50">
         <Navbar></Navbar>
       </header>
-      <main className="flex-1 min-h-screen">
+      <main className="flex-1">
         <Outlet></Outlet>
       </main>
       <footer>

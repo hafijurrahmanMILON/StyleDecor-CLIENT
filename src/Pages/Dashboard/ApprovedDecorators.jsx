@@ -70,8 +70,6 @@ const ApprovedDecorators = () => {
     });
   };
 
-  
-
   if (isLoading) {
     return <Loading />;
   }
@@ -170,21 +168,13 @@ const ApprovedDecorators = () => {
                   </div>
 
                   <div className="flex flex-wrap gap-2 pt-4 border-t border-gray-200 mt-auto">
-                    {/* <button className="flex-1 btn btn-soft btn-success rounded-md text-sm px-2 py-1">
-                      <TbUserCheck />
-                      Approve
-                    </button> */}
                     <button
                       onClick={() => handleDemoteToUser(decorator)}
                       className="flex-1 btn btn-soft btn-error rounded-md text-sm px-2 py-1"
                     >
                       <FiUserMinus />
-                      Convert to User
+                      Remove from Decorator
                     </button>
-                    {/* <button className="flex-1 btn btn-soft btn-error rounded-md text-sm px-2 py-1">
-                      <AiOutlineUserDelete />
-                      Delete
-                    </button> */}
                   </div>
                 </div>
               ))}

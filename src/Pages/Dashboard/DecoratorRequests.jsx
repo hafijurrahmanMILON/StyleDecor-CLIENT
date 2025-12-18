@@ -126,97 +126,97 @@ const DecoratorRequests = () => {
           </div>
         ) : (
           <div className="overflow-x-auto bg-white rounded-xl shadow-md">
-            <table className="table">
-              <thead>
-                <tr className="bg-gray-50">
-                  <th className="text-gray-700 font-semibold">#</th>
-                  <th className="text-gray-700 font-semibold">Candidate</th>
-                  <th className="text-gray-700 font-semibold">Status</th>
-                  <th className="text-gray-700 font-semibold">Specialities</th>
-                  <th className="text-gray-700 font-semibold">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {decorators.map((decorator, index) => (
-                  <tr key={index} className="hover:bg-gray-50">
-                    <td className="font-medium text-gray-600">{index + 1}</td>
-                    <td>
-                      <div className="flex items-center gap-3">
-                        <div className="avatar">
-                          <div className="mask mask-squircle h-10 w-10">
-                            <img
-                              src={decorator.photoURL || userImg}
-                              alt={decorator.name}
-                              className="object-cover"
-                            />
-                          </div>
-                        </div>
-                        <div>
-                          <div className="font-bold text-gray-800">
-                            {decorator.name}
-                          </div>
-                          <div className="text-sm text-gray-500">
-                            {decorator.email}
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <span
-                        className={`items-center px-3 py-1 rounded-full text-xs font-medium ${
-                          decorator.status ===  "pending"
-                            ? "bg-yellow-100 text-yellow-800"
-                            : "bg-red-100 text-red-800"
-                        }`}
-                      >
-                        {decorator.status}
-                      </span>
-                    </td>
-                    <td>
-                      <div className="flex flex-wrap gap-1">
-                        {decorator.specialities?.map((spec, idx) => (
-                          <span
-                            key={idx}
-                            className="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded"
-                          >
-                            {spec}
-                          </span>
-                        ))}
-                      </div>
-                    </td>
-                    <td>
-                      <div className="flex gap-2">
-                        <div className="tooltip" data-tip="Approve">
-                          <button
-                            onClick={() => handleApprove(decorator)}
-                            className="btn btn-soft btn-success btn-sm"
-                          >
-                            <TbUserCheck className="w-4 h-4" />
-                          </button>
-                        </div>
-                        <div className="tooltip" data-tip="Cancel">
-                          <button
-                            onClick={() => handleCancel(decorator)}
-                            className="btn btn-soft btn-warning btn-sm"
-                          >
-                            <TbUserCancel className="w-4 h-4" />
-                          </button>
-                        </div>
-                        <div className="tooltip" data-tip="Delete">
-                          <button
-                            onClick={() => handleDelete(decorator)}
-                            className="btn btn-soft btn-error btn-sm"
-                          >
-                            <AiOutlineUserDelete className="w-4 h-4" />
-                          </button>
-                        </div>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+  <table className="table">
+    <thead>
+      <tr className="bg-gray-50">
+        <th className="font-semibold whitespace-nowrap">#</th>
+        <th className="font-semibold whitespace-nowrap">Candidate</th>
+        <th className="font-semibold whitespace-nowrap">Status</th>
+        <th className="font-semibold whitespace-nowrap">Specialities</th>
+        <th className="font-semibold whitespace-nowrap">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {decorators.map((decorator, index) => (
+        <tr key={index} className="hover:bg-gray-50">
+          <td className="font-medium text-gray-600 whitespace-nowrap">{index + 1}</td>
+          <td className="whitespace-nowrap">
+            <div className="flex items-center gap-3">
+              <div className="avatar shrink-0">
+                <div className="mask mask-squircle h-10 w-10">
+                  <img
+                    src={decorator.photoURL || userImg}
+                    alt={decorator.name}
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+              <div className="min-w-0">
+                <div className="font-bold text-gray-800 truncate">
+                  {decorator.name}
+                </div>
+                <div className="text-sm text-gray-500 truncate">
+                  {decorator.email}
+                </div>
+              </div>
+            </div>
+          </td>
+          <td className="whitespace-nowrap">
+            <span
+              className={`items-center px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap ${
+                decorator.status ===  "pending"
+                  ? "bg-yellow-100 text-yellow-800"
+                  : "bg-red-100 text-red-800"
+              }`}
+            >
+              {decorator.status}
+            </span>
+          </td>
+          <td>
+            <div className="flex flex-wrap gap-1">
+              {decorator.specialities?.map((spec, idx) => (
+                <span
+                  key={idx}
+                  className="px-2 py-1 bg-gray-100 text-xs rounded whitespace-nowrap shrink-0"
+                >
+                  {spec}
+                </span>
+              ))}
+            </div>
+          </td>
+          <td className="whitespace-nowrap">
+            <div className="flex gap-2">
+              <div className="tooltip" data-tip="Approve">
+                <button
+                  onClick={() => handleApprove(decorator)}
+                  className="btn btn-soft btn-success btn-sm shrink-0"
+                >
+                  <TbUserCheck className="w-4 h-4" />
+                </button>
+              </div>
+              <div className="tooltip" data-tip="Cancel">
+                <button
+                  onClick={() => handleCancel(decorator)}
+                  className="btn btn-soft btn-warning btn-sm shrink-0"
+                >
+                  <TbUserCancel className="w-4 h-4" />
+                </button>
+              </div>
+              <div className="tooltip" data-tip="Delete">
+                <button
+                  onClick={() => handleDelete(decorator)}
+                  className="btn btn-soft btn-error btn-sm shrink-0"
+                >
+                  <AiOutlineUserDelete className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
         )}
       </div>
     </div>

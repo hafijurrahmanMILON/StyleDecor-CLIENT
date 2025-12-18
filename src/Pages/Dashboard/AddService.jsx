@@ -8,8 +8,8 @@ import { useNavigate } from "react-router";
 
 const AddService = () => {
   const { user } = useAuth();
-    const axiosSecure = useAxiosSecure();
-    const navigate = useNavigate()
+  const axiosSecure = useAxiosSecure();
+  const navigate = useNavigate();
 
   const {
     handleSubmit,
@@ -32,7 +32,7 @@ const AddService = () => {
           icon: "success",
           showConfirmButton: true,
         });
-          navigate('/dashboard/service-management')
+        navigate("/dashboard/service-management");
       }
     });
   };
@@ -40,17 +40,16 @@ const AddService = () => {
   return (
     <div className="min-h-screen py-8 px-4 md:px-8">
       <div className="max-w-4xl mx-auto">
-        {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl md:text-4xl font-bold text-primary">Add New Service</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-primary">
+            Add New Service
+          </h1>
           <p className="text-gray-600 mt-1">Create a new decoration service</p>
         </div>
 
-        {/* Form Card */}
         <div className="bg-white rounded-xl shadow-md border border-gray-200 p-8">
           <form onSubmit={handleSubmit(handleAddService)}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Service Name */}
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Service Name *
@@ -62,17 +61,18 @@ const AddService = () => {
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                 />
                 {errors.service_name?.type === "required" && (
-                  <p className="text-red-600 text-sm mt-1">Service name is required</p>
+                  <p className="text-red-600 text-sm mt-1">
+                    Service name is required
+                  </p>
                 )}
               </div>
 
-              {/* Cost */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Cost (USD) *
+                  Cost (BDT) *
                 </label>
                 <div className="relative">
-                  <span className="absolute left-3 top-3 text-gray-500">$</span>
+                  <span className="absolute left-3 top-3 text-gray-500">৳</span>
                   <input
                     type="number"
                     {...register("cost", { required: true })}
@@ -85,7 +85,6 @@ const AddService = () => {
                 )}
               </div>
 
-              {/* Unit */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Unit *
@@ -109,7 +108,6 @@ const AddService = () => {
                 )}
               </div>
 
-              {/* Category */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Category *
@@ -128,11 +126,12 @@ const AddService = () => {
                   <option value="ceremony">Ceremony</option>
                 </select>
                 {errors.service_category?.type === "required" && (
-                  <p className="text-red-600 text-sm mt-1">Category is required</p>
+                  <p className="text-red-600 text-sm mt-1">
+                    Category is required
+                  </p>
                 )}
               </div>
 
-              {/* Photo URL */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Photo URL
@@ -145,7 +144,6 @@ const AddService = () => {
                 />
               </div>
 
-              {/* Description */}
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Description *
@@ -157,17 +155,15 @@ const AddService = () => {
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                 />
                 {errors.description?.type === "required" && (
-                  <p className="text-red-600 text-sm mt-1">Description is required</p>
+                  <p className="text-red-600 text-sm mt-1">
+                    Description is required
+                  </p>
                 )}
               </div>
             </div>
 
-            {/* Submit Button */}
             <div className="pt-8 mt-8 border-t border-gray-200">
-              <button
-                type="submit"
-                className="w-full text-lg btn btn-primary"
-              >
+              <button type="submit" className="w-full text-lg btn btn-primary">
                 <FaPlus />
                 Add Service
               </button>

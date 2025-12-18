@@ -117,10 +117,10 @@ const ServiceManagement = () => {
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-800">
+            <h1 className="text-3xl font-bold text-primary">
               Services Management
             </h1>
-            <p className="text-gray-600 mt-1">Manage all decoration services</p>
+            <p className=" mt-1">Manage all decoration services</p>
           </div>
           <Link
             to="/dashboard/add-service"
@@ -134,7 +134,7 @@ const ServiceManagement = () => {
         {/* Services Table */}
         {services.length === 0 ? (
           <div className="text-center mt-0 md:mt-12 py-16">
-            <div className="text-gray-400 mb-4">
+            <div className=" mb-4">
               <svg
                 className="w-20 h-20 mx-auto"
                 fill="none"
@@ -149,12 +149,8 @@ const ServiceManagement = () => {
                 />
               </svg>
             </div>
-            <h3 className="text-xl font-medium text-gray-700 mb-2">
-              No services found
-            </h3>
-            <p className="text-gray-500">
-              Add your first decoration service to get started
-            </p>
+            <h3 className="text-xl font-medium  mb-2">No services found</h3>
+            <p className="">Add your first decoration service to get started</p>
           </div>
         ) : (
           <div className="bg-white rounded-xl shadow-md border border-gray-200 overflow-hidden p-2 md:p-4">
@@ -173,16 +169,12 @@ const ServiceManagement = () => {
                   {services.map((service, index) => (
                     <tr key={service?._id}>
                       <td className="font-medium">{index + 1}</td>
-                      <td className="font-medium text-gray-800">
-                        {service?.service_name}
-                      </td>
+                      <td className="font-medium ">{service?.service_name}</td>
                       <td>
                         <div className="font-bold text-primary">
-                          ${service?.cost}
+                          ৳{service?.cost}
                         </div>
-                        <div className="text-gray-500 text-sm">
-                          {service?.unit}
-                        </div>
+                        <div className=" text-sm">{service?.unit}</div>
                       </td>
                       <td>
                         <span
@@ -195,7 +187,7 @@ const ServiceManagement = () => {
                               ? "bg-pink-100 text-pink-700"
                               : service?.service_category === "office"
                               ? "bg-blue-100 text-blue-700"
-                              : "bg-gray-100 text-gray-700"
+                              : "bg-gray-100 "
                           }`}
                         >
                           {service?.service_category}
@@ -249,7 +241,7 @@ const ServiceManagement = () => {
           <form onSubmit={handleSubmit(handleEditService)} className="mt-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium  mb-2">
                   Service Name *
                 </label>
                 <input
@@ -266,11 +258,11 @@ const ServiceManagement = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Cost (USD) *
+                <label className="block text-sm font-medium  mb-2">
+                  Cost (BDT) *
                 </label>
                 <div className="relative">
-                  <span className="absolute left-3 top-3 text-gray-500">$</span>
+                  <span className="absolute left-3 top-3 ">৳</span>
                   <input
                     type="number"
                     {...register("cost", { required: true })}
@@ -284,7 +276,7 @@ const ServiceManagement = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium  mb-2">
                   Unit *
                 </label>
                 <select
@@ -307,7 +299,7 @@ const ServiceManagement = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium  mb-2">
                   Category *
                 </label>
                 <select
@@ -333,7 +325,7 @@ const ServiceManagement = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium  mb-2">
                   Photo URL *
                 </label>
                 <input
@@ -350,7 +342,7 @@ const ServiceManagement = () => {
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium  mb-2">
                   Description *
                 </label>
                 <textarea

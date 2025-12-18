@@ -1,86 +1,123 @@
-import fb from "../assets/facebook.png";
-import yt from "../assets/youtube.png";
-import x from "../assets/twitter.png";
-import Logo from "./logo";
+import {
+  FaFacebookF,
+  FaYoutube,
+  FaInstagram,
+  FaMapMarkerAlt,
+  FaEnvelope,
+  FaPhoneAlt,
+} from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+import logoImg from "../assets/logo96-Photoroom.png";
 
 const Footer = () => {
   return (
-    <footer className="bg-primary/80 text-white p-8 px-2 md:px-12 lg:px-28">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-        <div>
-          {/* <img className="w-28 h-20 rounded-lg" src={logoImg} alt="" /> */}
-
-          <Logo></Logo>
-
-          <div className="flex mt-4 items-center gap-4">
-            <a href="" target="_blank">
-              <img src={fb} alt="" />
-            </a>
-            <a href="" target="_blank">
-              <img src={yt} alt="" />
-            </a>
-            <a href="" target="_blank">
-              <img className="w-9" src={x} alt="" />
-            </a>
+    <footer className="bg-secondary/60 text-white pt-20 pb-10 px-6 md:px-12 lg:px-28">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+        <div className="space-y-6">
+          <img
+            className="w-36 brightness-110"
+            src={logoImg}
+            alt="StyleDecor Logo"
+          />
+          <p className=" text-sm leading-relaxed max-w-xs">
+            Transforming your spaces into art. Premium interior and event
+            decoration services tailored to your lifestyle.
+          </p>
+          <div className="flex items-center gap-3">
+            {[
+              { icon: <FaFacebookF /> },
+              { icon: <FaYoutube /> },
+              { icon: <FaXTwitter /> },
+              { icon: <FaInstagram /> },
+            ].map((social, index) => (
+              <a
+                key={index}
+                href={social.link}
+                className="h-10 w-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 hover:bg-primary hover:border-primary transition-all duration-300 text-white/80 hover:text-white"
+              >
+                {social.icon}
+              </a>
+            ))}
           </div>
         </div>
+
         <div>
-          <h3 className="text-xl font-semibold relative pb-2">
+          <h3 className="text-lg font-bold tracking-wider mb-8 uppercase text-primary">
             Contact Info
-            <span className="absolute bottom-0 left-0 h-0.5 bg-white w-12"></span>
-            <span className="absolute bottom-0 left-14 h-0.5 bg-white/30 w-10"></span>
           </h3>
-          <ul className="mt-4 space-y-2 text-white/80">
-            <li className="flex items-start">
-              <div>
-                <span className="font-semibold text-white">Location</span>
-                <p>2976 Sunrise Road, Las Vegas</p>
+          <ul className="space-y-5">
+            <li className="flex gap-4">
+              <FaMapMarkerAlt className="text-primary mt-1 shrink-0" />
+              <div className="text-sm  leading-snug">
+                <span className="block text-white font-medium mb-1">
+                  Location
+                </span>
+                2976 Sunrise Road, Las Vegas
               </div>
             </li>
-            <li className="flex items-start">
-              <div>
-                <span className="font-semibold text-white">Email</span>
-                <p>hello@wazo.com</p>
+            <li className="flex gap-4">
+              <FaEnvelope className="text-primary mt-1 shrink-0" />
+              <div className="text-sm  leading-snug">
+                <span className="block text-white font-medium mb-1">Email</span>
+                hello@styledecor.com
               </div>
             </li>
-            <li className="flex items-start">
-              <div>
-                <span className="font-semibold text-white">Phone</span>
-                <p>+1-3454-5678-77</p>
+            <li className="flex gap-4">
+              <FaPhoneAlt className="text-primary mt-1 shrink-0" />
+              <div className="text-sm  leading-snug">
+                <span className="block text-white font-medium mb-1">Phone</span>
+                +1-3454-5678-77
               </div>
             </li>
           </ul>
         </div>
-
         <div>
-          <h3 className="text-xl font-semibold relative pb-2">
+          <h3 className="text-lg font-bold tracking-wider mb-8 uppercase text-primary">
             Quick Links
-            <span className="absolute bottom-0 left-0 h-0.5 bg-white w-12"></span>
-            <span className="absolute bottom-0 left-14 h-0.5 bg-white/30 w-10"></span>
           </h3>
-          <div className="flex flex-col mt-4 space-y-1 font-semibold text-base">
-            <a className="link link-hover">Terms of use</a>
-            <a className="link link-hover">Privacy policy</a>
-            <a className="link link-hover">Cookie policy</a>
-          </div>
+          <ul className="flex flex-col space-y-3">
+            {[
+              "Terms of use",
+              "Privacy policy",
+              "Cookie policy",
+              "About Us",
+              "Our Portfolio",
+            ].map((item) => (
+              <li key={item}>
+                <a className=" hover:text-primary text-sm transition-colors duration-300 flex items-center gap-2 group">
+                  <span className=" w-0 bg-primary group-hover:w-3 transition-all duration-300"></span>
+                  {item}
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
 
+        {/* Working Hours */}
         <div>
-          <h3 className="text-xl font-semibold relative pb-2">
+          <h3 className="text-lg font-bold tracking-wider mb-8 uppercase text-primary">
             Working Hours
-            <span className="absolute bottom-0 left-0 h-0.5 bg-white w-12"></span>
-            <span className="absolute bottom-0 left-14 h-0.5 bg-white/30 w-10"></span>
           </h3>
-          <div className="space-y-2 mt-4">
-            <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
-            <p>Saturday: 10:00 AM - 4:00 PM</p>
-            <p>Sunday: Closed</p>
+          <div className="bg-white/5 p-6 rounded-2xl border border-white/10 space-y-4">
+            <div className="flex justify-between items-center text-sm">
+              <span className="">Mon - Fri</span>
+              <span className="text-white font-medium">9 AM - 6 PM</span>
+            </div>
+            <div className="flex justify-between items-center text-sm border-y border-white/5 py-3">
+              <span className="">Saturday</span>
+              <span className="text-white font-medium">10 AM - 4 PM</span>
+            </div>
+            <div className="flex justify-between items-center text-sm">
+              <span className="">Sunday</span>
+              <span className="text-rose-400 font-medium italic">Closed</span>
+            </div>
           </div>
         </div>
       </div>
-
-      <div className="border-t border-white/30 mt-8 pt-8 text-center">
-        <p>&copy; 2024 StyleDecor All rights reserved.</p>
+      <div className=" text-center  border-t border-white/5 mt-20 pt-8 text-xs  uppercase">
+        <p className="text-center">
+          © 2025 StyleDecor. Designed for Excellence.
+        </p>
       </div>
     </footer>
   );

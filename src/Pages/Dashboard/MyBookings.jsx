@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
+import ReactPaginate from "react-paginate";
 import {
-  FaArrowLeft,
   FaCalendarAlt,
+  FaCheckCircle,
   FaClock,
   FaMapMarkerAlt,
   FaRegCreditCard,
@@ -14,7 +15,6 @@ import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { MdOutlineCancelPresentation } from "react-icons/md";
 import Swal from "sweetalert2";
-import { Link } from "react-router";
 import Loading from "../../Components/Loading";
 
 const MyBookings = () => {
@@ -22,6 +22,10 @@ const MyBookings = () => {
   const axiosSecure = useAxiosSecure();
   const [selectedBooking, setSelectedBooking] = useState(null);
   const editModalRef = useRef();
+
+  // Pagination State
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 10;
 
   const {
     register,
@@ -42,6 +46,16 @@ const MyBookings = () => {
       return res.data;
     },
   });
+
+  // Pagination Logic
+  const endOffset = itemOffset + itemsPerPage;
+  const currentItems = bookings.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(bookings.length / itemsPerPage);
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % bookings.length;
+    setItemOffset(newOffset);
+  };
 
   const serviceType = watch("serviceType");
   const unitCount = watch("unitCount");
@@ -174,323 +188,302 @@ const MyBookings = () => {
     return <Loading></Loading>;
   }
   return (
-    <div>
+    <div className="my-12">
       <h1 className="text-4xl font-bold text-primary">My Bookings</h1>
-      {bookings.length === 0 ? (
-        <div className="flex flex-col justify-center items-center min-h-[80vh]">
-          <h1 className="text-5xl font-bold text-primary">No Bookings Yet!</h1>
-          <Link to="/" className="btn btn-secondary">
-            {" "}
-            <FaArrowLeft />
-            Back to Homepage
-          </Link>
-        </div>
-      ) : (
-        <div>
-          {/* main */}
-          <div>
-            <div className="space-y-3 my-4">
-              <p>
-                {bookings.length}
-              </p>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="table table-zebra text-center">
-                {/* head */}
+      <p className="text-gray-600 mt-1">Manage and payment bookings</p>
+      <div className="mt-4 p-3 bg-primary/10 text-primary font-medium rounded-lg inline-block">
+        Total Bookings: {bookings.length}
+      </div>
+
+      <div className="mt-6">
+        {bookings.length === 0 ? (
+          <div className="p-12 text-center flex flex-col justify-center items-center min-h-[50vh]">
+            <h3 className="text-lg font-semibold mb-2">No Bookings Found</h3>
+          </div>
+        ) : (
+          <>
+            <div className="overflow-x-auto rounded-xl border border-gray-200 shadow-lg bg-white">
+              <table className="w-full">
                 <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Service Name</th>
-                    <th>Cost</th>
-                    <th>Service Status</th>
-                    <th>Payment Status</th>
-                    <th>Tracking ID</th>
-                    <th>Action</th>
+                  <tr className="bg-linear-to-r from-primary/5 to-secondary/5 border-b border-gray-200">
+                    <th className="text-center p-4">#</th>
+                    <th className="text-left p-4">Service Name</th>
+                    <th className="text-center p-4">Cost</th>
+                    <th className="text-center p-4">Service Status</th>
+                    <th className="text-center p-4">Payment Status</th>
+                    <th className="text-center p-4">Tracking ID</th>
+                    <th className="text-center p-4">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="text-xs">
-                  {bookings.map((booking, index) => (
-                    <tr key={index}>
-                      <th>{index + 1}</th>
-                      <td>{booking.serviceName}</td>
-                      <td>${booking.totalCost}</td>
-                      <td>{booking.status || "N/A"}</td>
-                      <td
-                        className={`${
-                          booking.paymentStatus === "paid"
-                            ? "text-green-400"
-                            : "text-red-400"
-                        }`}
-                      >
-                        {booking.paymentStatus}
+                <tbody>
+                  {/* mapped over currentItems instead of bookings */}
+                  {currentItems.map((booking, index) => (
+                    <tr
+                      key={booking._id}
+                      className="hover:bg-gray-50 border-b border-gray-100 last:border-0 transition-colors"
+                    >
+                      <td className="text-center p-4 font-medium">
+                        {itemOffset + index + 1}
                       </td>
-                      <td >{booking.trackingId || "N/A"}</td>
-                      <td>
-                        {booking.paymentStatus === "unpaid" && (
-                          <button
-                            onClick={() => handlePayment(booking)}
-                            className="btn  text-lg  btn-xs btn-ghost tooltip"
-                            data-tip="Pay Now"
-                          >
-                            <FaRegCreditCard />
-                          </button>
-                        )}
-                        <button
-                          onClick={() => handleEditModal(booking)}
-                          className="btn text-lg  btn-xs btn-ghost tooltip"
-                          data-tip="Edit Booking"
+                      <td className="text-left p-4">
+                        <div className="font-medium">{booking.serviceName}</div>
+                        <div className="text-xs text-gray-400">
+                          ID: {booking._id?.slice(-8)}
+                        </div>
+                      </td>
+                      <td className="text-center p-4 font-semibold">
+                        {booking.totalCost} BDT
+                      </td>
+                      <td className="text-center p-4 capitalize">
+                        {booking.status || "Pending"}
+                      </td>
+                      <td className="text-center p-4">
+                        <span
+                          className={`px-2 py-1 rounded text-xs font-bold ${
+                            booking.paymentStatus === "paid"
+                              ? "bg-green-100 text-green-600"
+                              : "bg-red-100 text-red-600"
+                          }`}
                         >
-                          <FaRegEdit />
-                        </button>
-
-                        <button
-                          onClick={() => handleDelete(booking._id)}
-                          className="btn text-lg  btn-xs btn-ghost tooltip"
-                          data-tip="Cancel Booking"
-                        >
-                          <MdOutlineCancelPresentation />
-                        </button>
+                          {booking.paymentStatus || "unpaid"}
+                        </span>
+                      </td>
+                      <td className="text-center p-4">
+                        <span className="bg-gray-100 px-2 py-1 rounded text-xs">
+                          {booking.trackingId || "N/A"}
+                        </span>
+                      </td>
+                      <td className="text-center p-4">
+                        <div className="flex gap-1 justify-center">
+                          {booking.paymentStatus === "unpaid" && (
+                            <button
+                              onClick={() => handlePayment(booking)}
+                              className="btn btn-sm btn-primary btn-soft text-lg tooltip"
+                              data-tip="Pay Now"
+                            >
+                              <FaRegCreditCard />
+                            </button>
+                          )}
+                          {booking.paymentStatus !== "paid" ? (
+                            <>
+                              <button
+                                onClick={() => handleEditModal(booking)}
+                                className="btn btn-sm btn-warning btn-soft text-lg tooltip"
+                                data-tip="Edit"
+                              >
+                                <FaRegEdit />
+                              </button>
+                              <button
+                                onClick={() => handleDelete(booking._id)}
+                                className="btn btn-sm btn-error btn-soft text-lg tooltip"
+                                data-tip="Cancel"
+                              >
+                                <MdOutlineCancelPresentation />
+                              </button>
+                            </>
+                          ) : (
+                            <span className="text-green-600 flex items-center gap-1 text-sm">
+                              <FaCheckCircle /> Paid
+                            </span>
+                          )}
+                        </div>
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-          </div>
-          {/* modal */}
-          <dialog ref={editModalRef} className="modal modal-bottom sm:modal-middle">
-            <div className="modal-box w-11/12 max-w-5xl p-0">
-              <div className="p-5 pb-0 flex justify-between items-center">
-                <h3 className="text-2xl font-bold">Update Booking</h3>
-                <button
-                  onClick={() => editModalRef.current.close()}
-                  className="btn btn-ghost btn-circle"
-                >
-                  ✕
-                </button>
+            {bookings.length > itemsPerPage && (
+              <div className="mt-8 flex justify-center">
+                <ReactPaginate
+                  breakLabel="..."
+                  nextLabel="Next >"
+                  onPageChange={handlePageClick}
+                  pageRangeDisplayed={3}
+                  pageCount={pageCount}
+                  previousLabel="< Previous"
+                  renderOnZeroPageCount={null}
+                  containerClassName="flex items-center gap-2 list-none"
+                  pageLinkClassName="px-4 py-2 border rounded-md hover:bg-primary hover:text-white transition-colors"
+                  activeLinkClassName="bg-primary text-white border-primary"
+                  previousLinkClassName="px-4 py-2 border rounded-md hover:bg-gray-100"
+                  nextLinkClassName="px-4 py-2 border rounded-md hover:bg-gray-100"
+                  disabledClassName="opacity-50 cursor-not-allowed"
+                  breakLinkClassName="px-4 py-2"
+                />
               </div>
+            )}
+          </>
+        )}
+      </div>
 
-              <form
-                onSubmit={handleSubmit(handleEdit)}
-                className="p-6 space-y-6"
-              >
-                <div>
-                  <h4 className="font-semibold text-gray-800 mb-4">
-                    Service Type *
-                  </h4>
-                  <div className="grid md:grid-cols-2 gap-4">
-                    <label
-                      className={`border-2 p-4 rounded-xl cursor-pointer transition-all ${
-                        serviceType === "in-studio"
-                          ? "border-primary bg-primary/5"
-                          : "border-gray-200"
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        value="in-studio"
-                        {...register("serviceType", { required: true })}
-                        className="mr-2 radio-primary"
-                      />
-                      <div className="font-medium text-gray-800">In-Studio</div>
-                      <div className="text-sm text-gray-600">
-                        Visit our studio for consultation
-                      </div>
-                    </label>
+      {/* modal */}
+      <dialog
+  ref={editModalRef}
+  className="modal modal-bottom sm:modal-middle backdrop-blur-md transition-all duration-300"
+>
+  <div className="modal-box w-11/12 max-w-5xl p-0  shadow-2xl border border-white/20 overflow-hidden rounded-3xl">
+    <div className="relative p-6 ">
+      <div className="flex justify-between items-center relative z-10">
+        <div>
+          <h3 className="text-3xl font-extrabold tracking-tight">Update Booking</h3>
+          <p className=" text-sm opacity-90 mt-1">Refine your service details and preferences</p>
+        </div>
+        <button
+          onClick={() => editModalRef.current.close()}
+          className="btn btn-circle btn-sm bg-white/20 border-none hover:bg-white/40 text-white transition-all"
+        >
+          ✕
+        </button>
+      </div>
+    </div>
 
-                    <label
-                      className={`border-2 p-4 rounded-xl cursor-pointer transition-all ${
-                        serviceType === "on-site"
-                          ? "border-primary bg-primary/5"
-                          : "border-gray-200"
-                      }`}
-                    >
-                      <input
-                        type="radio"
-                        value="on-site"
-                        {...register("serviceType", { required: true })}
-                        className="mr-2"
-                      />
-                      <div className="font-medium text-gray-800">On-Site</div>
-                      <div className="text-sm text-gray-600">
-                        We come to your venue
-                      </div>
-                    </label>
-                  </div>
-                  {errors.serviceType && (
-                    <p className="text-red-600 text-sm mt-2">
-                      Please select service type
-                    </p>
-                  )}
-                </div>
+    <form onSubmit={handleSubmit(handleEdit)} className="p-8 space-y-8">
+      <div className="space-y-4">
+        <label className="text-sm font-bold uppercase tracking-wider text-gray-500 ml-1">
+          Service Type <span className="text-red-500">*</span>
+        </label>
+        <div className="grid md:grid-cols-2 gap-5">
+          {["in-studio", "on-site"].map((type) => (
+            <label
+              key={type}
+              className={`relative border-2 p-5 rounded-2xl cursor-pointer transition-all duration-300 group flex flex-col gap-2 ${
+                serviceType === type
+                  ? "border-primary bg-primary/5 ring-4 ring-primary/10"
+                  : "border-gray-100 bg-gray-50/50 hover:border-gray-300 hover:bg-white"
+              }`}
+            >
+              <div className="flex items-center justify-between">
+                <span className={`text-lg font-bold ${serviceType === type ? "text-primary" : "text-gray-700"}`}>
+                  {type === "in-studio" ? "In-Studio" : "On-Site"}
+                </span>
+                <input
+                  type="radio"
+                  value={type}
+                  {...register("serviceType", { required: true })}
+                  className="radio radio-primary radio-sm"
+                />
+              </div>
+              <p className="text-sm text-gray-500 leading-relaxed">
+                {type === "in-studio" 
+                  ? "Visit our professional studio with full equipment access." 
+                  : "Enjoy the comfort of your own venue; we bring the service to you."}
+              </p>
+            </label>
+          ))}
+        </div>
+        {errors.serviceType && (
+          <p className="text-red-500 text-xs font-medium animate-pulse">Please select a service type</p>
+        )}
+      </div>
 
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
-                      <FaCalendarAlt className="text-gray-400" />
-                      Date<span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="date"
-                      min={today}
-                      {...register("date", {
-                        required: "Date is required",
-                        min: {
-                          value: today,
-                          message: "Cannot select past date",
-                        },
-                      })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg"
-                    />
-                    {errors.date && (
-                      <p className="text-red-600 text-sm mt-1">
-                        {errors.date.message}
-                      </p>
-                    )}
-                  </div>
+      {/* Date, Time & Units Row */}
+      <div className="grid md:grid-cols-3 gap-6">
+        <div className="space-y-2">
+          <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+            <FaCalendarAlt className="text-primary/70" /> Booking Date
+          </label>
+          <input
+            type="date"
+            min={today}
+            {...register("date", { required: "Date is required" })}
+            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all font-medium"
+          />
+        </div>
 
-                  <div>
-                    <label className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
-                      <FaClock className="text-gray-400" />
-                      Time<span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="time"
-                      min="09:00"
-                      max="20:00"
-                      {...register("time", {
-                        required: "Time is required",
-                        validate: (value) => {
-                          const hour = parseInt(value.split(":")[0]);
-                          if (hour < 9 || hour >= 20)
-                            return "Select time between 9 AM - 8 PM";
-                          return true;
-                        },
-                      })}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg"
-                    />
-                    {errors.time && (
-                      <p className="text-red-600 text-sm mt-1">
-                        {errors.time.message}
-                      </p>
-                    )}
-                  </div>
-                </div>
+        <div className="space-y-2">
+          <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+            <FaClock className="text-primary/70" /> Preferred Time
+          </label>
+          <input
+            type="time"
+            {...register("time", { required: "Time is required" })}
+            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all font-medium"
+          />
+        </div>
 
-                <div>
-                  <label className="text-sm font-medium text-gray-700 mb-2">
-                    Total Units<span className="text-red-500">*</span>
-                  </label>
-                  <input
-                    type="number"
-                    min="1"
-                    {...register("unitCount", {
-                      required: "Unit count is required",
-                      min: { value: 1, message: "Minimum 1 unit required" },
-                    })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg"
-                  />
-                  {errors.unitCount && (
-                    <p className="text-red-600 text-sm mt-1">
-                      {errors.unitCount.message}
-                    </p>
-                  )}
-                </div>
+        <div className="space-y-2">
+          <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+            Total Units
+          </label>
+          <input
+            type="number"
+            min="1"
+            {...register("unitCount", { required: true })}
+            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all font-medium"
+          />
+        </div>
+      </div>
 
-                <div className="bg-blue-50 border border-blue-100 rounded-lg p-4">
-                  <div className="flex items-center gap-3">
-                    <svg
-                      className="w-5 h-5 text-blue-500"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        fillRule="evenodd"
-                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                    <span className="text-blue-700 text-sm">
-                      Working hours: 9:00 AM - 8:00 PM
-                    </span>
-                  </div>
-                </div>
-
-                {serviceType === "on-site" && (
-                  <div>
-                    <label className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
-                      <FaMapMarkerAlt className="text-gray-400" />
-                      Location<span className="text-red-500">*</span>
-                    </label>
-                    <textarea
-                      {...register("location", {
-                        required:
-                          serviceType === "on-site"
-                            ? "Location is required"
-                            : false,
-                      })}
-                      rows={3}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg"
-                      placeholder="Enter full address..."
-                    />
-                    {errors.location && (
-                      <p className="text-red-600 text-sm mt-1">
-                        {errors.location.message}
-                      </p>
-                    )}
-                  </div>
-                )}
-
-                <div>
-                  <label className="text-sm font-medium text-gray-700 mb-2 flex items-center gap-2">
-                    <FaStickyNote className="text-gray-400" />
-                    Additional Notes (Optional)
-                  </label>
-                  <textarea
-                    {...register("notes")}
-                    rows={3}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg"
-                    placeholder="Any special requirements..."
-                  />
-                </div>
-
-                <div className="bg-gray-50 rounded-lg p-6">
-                  <h5 className="font-semibold text-gray-800 mb-3">
-                    Service Summary
-                  </h5>
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <p className="font-medium text-gray-800">
-                        {selectedBooking?.serviceName}
-                      </p>
-                      <p className="text-gray-600 text-sm">
-                        Unit Price: ${unitPrice}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <p className="text-sm text-gray-600">Total Cost</p>
-                      <p className="text-2xl font-bold text-primary">
-                        ${calculatedTotalCost.toFixed(2)}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full bg-primary hover:bg-secondary text-white font-semibold py-4 rounded-lg text-lg transition-colors"
-                >
-                  Update Booking
-                </button>
-              </form>
-            </div>
-
-            <form method="dialog" className="modal-backdrop">
-              <button>close</button>
-            </form>
-          </dialog>
+      {/* Conditional Location Field */}
+      {serviceType === "on-site" && (
+        <div className="space-y-2 animate-in fade-in slide-in-from-top-2 duration-300">
+          <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+            <FaMapMarkerAlt className="text-primary/70" /> Event Location
+          </label>
+          <textarea
+            {...register("location", { required: serviceType === "on-site" })}
+            rows={2}
+            placeholder="Provide full address or landmark..."
+            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+          />
         </div>
       )}
+
+      {/* Notes Field */}
+      <div className="space-y-2">
+        <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+          <FaStickyNote className="text-primary/70" /> Special Instructions
+        </label>
+        <textarea
+          {...register("notes")}
+          rows={2}
+          placeholder="Anything else we should know?"
+          className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+        />
+      </div>
+
+      {/* Summary & Price Footer */}
+      <div className="bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 rounded-2xl p-6 flex flex-col md:flex-row justify-between items-center gap-4 shadow-inner">
+        <div className="flex items-center gap-4">
+          <div className="p-3 bg-white rounded-xl shadow-sm">
+            <div className="w-10 h-10 flex items-center justify-center bg-primary/10 rounded-full">
+               <FaRegCreditCard className="text-primary" />
+            </div>
+          </div>
+          <div>
+            <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Pricing Plan</p>
+            <p className="text-lg font-bold text-gray-800">{selectedBooking?.serviceName}</p>
+            <p className="text-xs text-gray-500 font-medium italic">Unit Price: {unitPrice} BDT</p>
+          </div>
+        </div>
+        
+        <div className="text-center md:text-right">
+          <p className="text-sm font-semibold text-gray-500 uppercase tracking-widest">Estimated Total</p>
+          <div className="flex items-baseline gap-1 justify-center md:justify-end">
+            <span className="text-3xl font-black text-primary">৳{calculatedTotalCost.toFixed(0)}</span>
+            <span className="text-sm font-bold text-gray-400">BDT</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Action Button */}
+      <button
+        type="submit"
+        className="group relative w-full h-16 bg-primary overflow-hidden rounded-2xl transition-all duration-300 hover:shadow-[0_20px_40px_-15px_rgba(var(--primary-rgb),0.4)] active:scale-95"
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+        <span className="relative text-white font-bold text-xl tracking-wide">
+          Confirm & Update Changes
+        </span>
+      </button>
+    </form>
+  </div>
+
+  <form method="dialog" className="modal-backdrop bg-black/40 backdrop-blur-sm">
+    <button className="cursor-default">close</button>
+  </form>
+</dialog>
     </div>
   );
 };

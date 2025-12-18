@@ -1,6 +1,6 @@
 import React from "react";
 import useAuth from "../../Hooks/useAuth";
-import { FaUser, FaEnvelope, FaCalendarAlt, FaShieldAlt } from "react-icons/fa";
+import { FaUser, FaEnvelope, FaCalendarAlt, FaShieldAlt, FaFingerprint, FaLink } from "react-icons/fa";
 import userIMG from "../../assets/user.png";
 import Loading from "../../Components/Loading";
 
@@ -24,151 +24,106 @@ const MyProfile = () => {
     : "N/A";
 
   if (loading) {
-    return <Loading></Loading>;
+    return <Loading />;
   }
 
   return (
-    <div className="min-h-screen py-12 px-4">
+    <div className="min-h-screen  py-16 px-4">
       <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-          <div className="bg-secondary h-32"></div>
-
-          <div className="relative px-8 pb-8">
-            <div className="flex flex-col md:flex-row md:items-end gap-6 -mt-16">
-              <div className="relative">
+        <div className="bg-white rounded-4xl shadow-sm border border-gray-100 overflow-hidden">
+          
+          {/* Top Profile Section */}
+          <div className="p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 border-b border-gray-50">
+            <div className="relative">
+              <div className="w-32 h-32 md:w-40 md:h-40 rounded-full p-1 bg-linear-to-tr from-[#C5A059] to-[#1B7261]">
                 <img
                   src={user?.photoURL || userIMG}
                   alt={user?.displayName || "User"}
-                  className="w-32 h-32 rounded-full border-4 border-white shadow-lg object-cover"
+                  className="w-full h-full rounded-full border-4 border-white object-cover shadow-sm"
                 />
-                <div className="absolute bottom-2 right-2 w-4 h-4 bg-green-500 rounded-full border-2 border-white"></div>
               </div>
+              <div className="absolute bottom-3 right-3 w-5 h-5 bg-green-500 rounded-full border-4 border-white shadow-sm"></div>
+            </div>
 
-              <div className="flex-1">
-                <h1 className="text-3xl font-bold text-gray-800">
-                  {user?.displayName || "User"}
-                </h1>
-                <p className="text-gray-600 flex items-center gap-2 mt-1">
-                  <FaEnvelope className="text-primary" />
+            <div className="text-center md:text-left space-y-2">
+              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
+                {user?.displayName || "User Name"}
+              </h1>
+              <div className="flex flex-wrap justify-center md:justify-start gap-4 text-gray-500 font-medium">
+                <span className="flex items-center gap-2 bg-gray-50 px-3 py-1 rounded-full text-sm">
+                  <FaEnvelope className="text-[#1B7261]" />
                   {user?.email}
-                </p>
+                </span>
+                <span className={`flex items-center gap-2 px-3 py-1 rounded-full text-sm font-bold ${
+                    user?.emailVerified ? "bg-green-50 text-green-600" : "bg-amber-50 text-amber-600"
+                  }`}>
+                  <FaShieldAlt />
+                  {user?.emailVerified ? "Verified" : "Not verified"}
+                </span>
               </div>
             </div>
+          </div>
 
-            <div className="grid md:grid-cols-2 gap-6 mt-8">
-              <div className="bg-gray-50 rounded-xl p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <FaUser className="text-primary" />
-                  </div>
-                  <h3 className="font-semibold text-gray-800">
-                    Account Information
-                  </h3>
+          <div className="grid md:grid-cols-2">
+            
+            <div className="p-8 md:p-10 border-b md:border-b-0 md:border-r border-gray-50 hover:bg-gray-50/30 transition-colors">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 bg-[#1B7261]/10 rounded-2xl flex items-center justify-center text-[#1B7261]">
+                  <FaUser size={20} />
                 </div>
-                <div className="space-y-3">
-                  <div>
-                    <p className="text-sm text-gray-600">Display Name</p>
-                    <p className="font-medium text-gray-800">
-                      {user?.displayName || "Not set"}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600">User ID</p>
-                    <p className="font-medium text-gray-800 text-sm break-all">
-                      {user?.uid || "N/A"}
-                    </p>
-                  </div>
-                </div>
+                <h3 className="text-lg font-bold text-gray-800">Identity Details</h3>
               </div>
-
-              <div className="bg-gray-50 rounded-xl p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-secondary/10 rounded-lg flex items-center justify-center">
-                    <FaCalendarAlt className="text-secondary" />
-                  </div>
-                  <h3 className="font-semibold text-gray-800">
-                    Activity Details
-                  </h3>
+              
+              <div className="space-y-5">
+                <div>
+                  <label className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Display Name</label>
+                  <p className="text-gray-700 font-semibold mt-1">{user?.displayName || "Not Provided"}</p>
                 </div>
-                <div className="space-y-3">
-                  <div>
-                    <p className="text-sm text-gray-600">Member Since</p>
-                    <p className="font-medium text-gray-800">{joinDate}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600">Last Sign In</p>
-                    <p className="font-medium text-gray-800">{lastSignIn}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-gray-50 rounded-xl p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-accent/50 rounded-lg flex items-center justify-center">
-                    <FaShieldAlt className="text-secondary" />
-                  </div>
-                  <h3 className="font-semibold text-gray-800">
-                    Account Status
-                  </h3>
-                </div>
-                <div className="space-y-3">
-                  <div>
-                    <p className="text-sm text-gray-600">Email Verification</p>
-                    <span
-                      className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium ${
-                        user?.emailVerified
-                          ? "bg-green-100 text-green-700"
-                          : "bg-yellow-100 text-yellow-700"
-                      }`}
-                    >
-                      {user?.emailVerified ? "✓ Verified" : "⚠ Not Verified"}
-                    </span>
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-600">Account Type</p>
-                    <p className="font-medium text-gray-800">Standard User</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-gray-50 rounded-xl p-6">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <svg
-                      className="w-5 h-5 text-primary"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                  </div>
-                  <h3 className="font-semibold text-gray-800">Provider Info</h3>
-                </div>
-                <div className="space-y-3">
-                  <div>
-                    <p className="text-sm text-gray-600">Sign-in Method</p>
-                    <p className="font-medium text-gray-800">
-                      {user?.providerData?.[0]?.providerId || "N/A"}
-                    </p>
-                  </div>
+                <div>
+                  <label className="text-[10px] uppercase tracking-widest text-gray-400 font-bold flex items-center gap-1">
+                    <FaFingerprint size={10} /> User ID
+                  </label>
+                  <p className="text-xs font-mono text-gray-500 mt-1 break-all bg-gray-50 p-2 rounded-lg">
+                    {user?.uid}
+                  </p>
                 </div>
               </div>
             </div>
 
-            {/* <div className="mt-8 flex gap-4">
-              <button className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors font-medium">
-                Edit Profile
-              </button>
-              <button className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium">
-                Change Password
-              </button>
-            </div> */}
+            <div className="p-8 md:p-10 hover:bg-gray-50/30 transition-colors">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 bg-[#C5A059]/10 rounded-2xl flex items-center justify-center text-[#C5A059]">
+                  <FaCalendarAlt size={20} />
+                </div>
+                <h3 className="text-lg font-bold text-gray-800">Timeline & Access</h3>
+              </div>
+
+              <div className="space-y-5">
+                <div className="flex justify-between items-center border-b border-gray-50 pb-3">
+                  <span className="text-sm text-gray-500">Member Since</span>
+                  <span className="text-sm font-bold text-gray-700">{joinDate}</span>
+                </div>
+                <div className="flex justify-between items-center border-b border-gray-50 pb-3">
+                  <span className="text-sm text-gray-500">Last Sign In</span>
+                  <span className="text-sm font-bold text-gray-700">{lastSignIn}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-500 flex items-center gap-2">
+                    <FaLink size={12} /> Provider
+                  </span>
+                  <span className="text-xs font-bold uppercase tracking-widest text-[#1B7261] bg-[#1B7261]/5 px-3 py-1 rounded-md">
+                    {user?.providerData?.[0]?.providerId || "Firebase"}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div className="bg-gray-50/50 p-6 text-center">
+             <p className="text-xs text-gray-400 font-medium italic">
+                You are currently logged in as a <span className="text-[#C5A059] font-bold">Standard User</span>
+             </p>
           </div>
         </div>
       </div>

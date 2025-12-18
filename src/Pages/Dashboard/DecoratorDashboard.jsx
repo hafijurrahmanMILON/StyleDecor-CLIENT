@@ -10,10 +10,10 @@ const DecoratorDashboard = () => {
         <Earnings></Earnings>
       </div>
       <div>
-        <TodaysSchedule></TodaysSchedule>
+        <AssignedProjects></AssignedProjects>
       </div>
       <div>
-        <AssignedProjects></AssignedProjects>
+        <TodaysSchedule></TodaysSchedule>
       </div>
     </div>
   );

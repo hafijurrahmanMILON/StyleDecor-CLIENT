@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import useAxiosInstance from "../Hooks/useAxiosInstance";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
 import ServiceCard from "../Components/ServiceCard";
 import useDebounce from "../Hooks/useDebounce";
 import { FaFilter, FaSearch } from "react-icons/fa";
+import Loading from "../Components/Loading";
 
 const Services = () => {
-  const axiosInstance = useAxiosInstance();
+  const axiosSecure = useAxiosSecure();
 
   const [searchText, setSearchText] = useState("");
   const [serviceType, setServiceType] = useState("");
@@ -17,7 +18,7 @@ const Services = () => {
   const maxDebounce = useDebounce(maxBudget);
   const minDebounce = useDebounce(minBudget);
 
-  const { data: allServices = [] } = useQuery({
+  const { data: allServices = [], isLoading } = useQuery({
     queryKey: [
       "allServices",
       searchDebounce,
@@ -26,7 +27,7 @@ const Services = () => {
       minDebounce,
     ],
     queryFn: async () => {
-      const res = await axiosInstance.get(
+      const res = await axiosSecure.get(
         `/all-services?searchText=${searchDebounce}&serviceType=${serviceType}&maxBudget=${maxDebounce}&minBudget=${minDebounce}`
       );
       return res.data;
@@ -51,7 +52,7 @@ const Services = () => {
         </div>
 
         {/* Mobile Filter Button */}
-        <div className="md:hidden mb-6">
+        <div className="lg:hidden mb-6">
           <label
             htmlFor="filter-drawer"
             className="btn btn-primary w-full gap-2"
@@ -62,7 +63,7 @@ const Services = () => {
         </div>
 
         <div className="grid grid-cols-12 gap-8">
-          <div className="hidden md:block col-span-3">
+          <div className="hidden lg:block lg:col-span-3">
             <div className="bg-base-100 rounded-xl shadow-md p-6 sticky top-24">
               <h2 className="text-xl font-bold text-secondary mb-6">Filters</h2>
 
@@ -98,6 +99,8 @@ const Services = () => {
                   <option value="office">Office Decoration</option>
                   <option value="wedding">Wedding Decoration</option>
                   <option value="ceremony">Ceremony Decoration</option>
+                  <option value="seminar">Seminar Decoration</option>
+                  <option value="meeting">Meeting Decoration</option>
                 </select>
               </div>
 
@@ -118,7 +121,7 @@ const Services = () => {
                 <div className="space-y-4">
                   <div>
                     <label className="block text-xs text-gray-500 mb-1">
-                      Min Budget ($)
+                      Min Budget (৳)
                     </label>
                     <input
                       type="number"
@@ -131,7 +134,7 @@ const Services = () => {
 
                   <div>
                     <label className="block text-xs text-gray-500 mb-1">
-                      Max Budget ($)
+                      Max Budget (৳)
                     </label>
                     <input
                       type="number"
@@ -156,9 +159,13 @@ const Services = () => {
           </div>
 
           {/* Right Side */}
-          <div className="col-span-12 md:col-span-9">
-            {allServices.length === 0 ? (
-              <div className="text-center py-12">
+          <div className="col-span-12 lg:col-span-9">
+            {isLoading ? (
+              <div className="min-h-[50vh]">
+                <Loading />
+              </div>
+            ) : allServices.length === 0 ? (
+              <div className="text-center min-h-[60vh] flex flex-col justify-center items-center py-12">
                 <div className="text-gray-400 mb-4">
                   <svg
                     className="w-16 h-16 mx-auto"
@@ -182,7 +189,7 @@ const Services = () => {
                 </p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {allServices.map((service) => (
                   <ServiceCard key={service._id} service={service} />
                 ))}
@@ -193,7 +200,7 @@ const Services = () => {
       </div>
 
       {/* Mobile Drawer */}
-      <div className="drawer drawer-end md:hidden">
+      <div className="drawer drawer-end lg:hidden">
         <input id="filter-drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-side">
           <label
@@ -244,6 +251,8 @@ const Services = () => {
                 <option value="office">Office Decoration</option>
                 <option value="wedding">Wedding Decoration</option>
                 <option value="ceremony">Ceremony Decoration</option>
+                <option value="seminar">Seminar Decoration</option>
+                <option value="meeting">Meeting Decoration</option>
               </select>
             </div>
 
@@ -264,7 +273,7 @@ const Services = () => {
               <div className="space-y-4">
                 <div>
                   <label className="block text-xs text-gray-500 mb-1">
-                    Min Budget ($)
+                    Min Budget (৳)
                   </label>
                   <input
                     type="number"
@@ -277,7 +286,7 @@ const Services = () => {
 
                 <div>
                   <label className="block text-xs text-gray-500 mb-1">
-                    Max Budget ($)
+                    Max Budget (৳)
                   </label>
                   <input
                     type="number"
