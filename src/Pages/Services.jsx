@@ -42,156 +42,180 @@ const Services = () => {
   return (
     <div className="w-10/12 mx-auto my-12">
       <div>
-        <div className="mb-8 text-center">
-          <h1 className="text-3xl md:text-5xl font-bold text-secondary">
-            All Services
-          </h1>
-          <p className="text-gray-600 mt-2">
-            Find the perfect decoration service for your needs
-          </p>
+        <div className="mb-16 lg:mb-24 text-center relative px-4">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-24 bg-primary/5 blur-[100px] -z-10"></div>
+
+          <div className="inline-block relative">
+            <h2 className="text-5xl lg:text-7xl font-black text-primary tracking-tighter leading-tight">
+              All{" "}
+              <span className="text-accent italic font-serif tracking-normal">
+                Services
+              </span>
+            </h2>
+          </div>
+
+          {/* Description */}
+          <div className="mt-6 max-w-xl mx-auto">
+            <p className="text-[#6B705C] font-semibold text-sm lg:text-lg leading-relaxed tracking-wide">
+              Discover an elite range of{" "}
+              <span className="text-primary font-black italic">
+                bespoke decoration
+              </span>{" "}
+              solutions tailored for your most significant milestones.
+            </p>
+          </div>
         </div>
 
-        {/* Mobile Filter Button */}
+        {/*  Filter Button */}
         <div className="lg:hidden mb-6">
           <label
             htmlFor="filter-drawer"
-            className="btn btn-primary w-full gap-2"
+            className="btn btn-primary btn-outline w-full gap-2"
           >
             <FaFilter />
             Filter Services
           </label>
         </div>
 
-        <div className="grid grid-cols-12 gap-8">
-          <div className="hidden lg:block lg:col-span-3">
-            <div className="bg-base-100 rounded-xl shadow-md p-6 sticky top-24">
-              <h2 className="text-xl font-bold text-secondary mb-6">Filters</h2>
+        <div className="grid grid-cols-12 gap-10 items-start">
+          <div className="hidden lg:block lg:col-span-3 sticky top-28">
+            <div className="bg-white rounded-4xl shadow-[0_20px_60px_-15px_rgba(27,114,97,0.08)] border border-primary/5 p-8">
+              <div className="flex items-center gap-3 mb-10">
+                <div className="w-1.5 h-6 bg-primary rounded-full"></div>
+                <h2 className="text-2xl font-black text-primary tracking-tight text-nowrap">
+                  Filter
+                </h2>
+              </div>
 
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Search Services
+              <div className="mb-10 group">
+                <label className="block text-[10px] font-black text-[#6B705C] uppercase tracking-[0.2em] mb-3 ml-1">
+                  Keywords
                 </label>
                 <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <FaSearch className="h-5 w-5 text-primary" />
-                  </div>
+                  <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-primary opacity-40 group-focus-within:opacity-100 transition-opacity" />
                   <input
                     type="search"
                     value={searchText}
                     onChange={(e) => setSearchText(e.target.value)}
-                    placeholder="Search by service name..."
-                    className="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                    placeholder="What are you looking for?"
+                    className="w-full pl-12 pr-4 py-4 bg-[#fdfbf9] border-none rounded-2xl focus:ring-2 focus:ring-primary/20 text-sm font-semibold text-primary placeholder-[#6B705C]/40 transition-all shadow-inner"
                   />
                 </div>
               </div>
 
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Service Category
+              <div className="mb-10">
+                <label className="block text-[10px] font-black text-[#6B705C] uppercase tracking-[0.2em] mb-3 ml-1">
+                  Category
                 </label>
-                <select
-                  value={serviceType}
-                  onChange={(e) => setServiceType(e.target.value)}
-                  className="w-full py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                >
-                  <option value="">All Categories</option>
-                  <option value="home">Home Decoration</option>
-                  <option value="office">Office Decoration</option>
-                  <option value="wedding">Wedding Decoration</option>
-                  <option value="ceremony">Ceremony Decoration</option>
-                  <option value="seminar">Seminar Decoration</option>
-                  <option value="meeting">Meeting Decoration</option>
-                </select>
+                <div className="relative">
+                  <select
+                    value={serviceType}
+                    onChange={(e) => setServiceType(e.target.value)}
+                    className="w-full py-4 px-4 bg-[#fdfbf9] border-none rounded-2xl appearance-none focus:ring-2 focus:ring-primary/20 text-sm font-bold text-primary cursor-pointer shadow-inner"
+                  >
+                    <option value="">All Collections</option>
+                    <option value="home">Bespoke Home</option>
+                    <option value="office">Corporate Spaces</option>
+                    <option value="wedding">Grand Weddings</option>
+                    <option value="ceremony">Ceremonial</option>
+                    <option value="seminar">Elite Seminars</option>
+                    <option value="meeting">Private Meetings</option>
+                  </select>
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-primary">
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </div>
+                </div>
               </div>
 
-              <div className="mb-6">
-                <div className="flex justify-between items-center mb-3">
-                  <label className="block text-sm font-medium text-gray-700">
-                    Budget Range
+              <div className="mb-10">
+                <div className="flex justify-between items-center mb-4">
+                  <label className="text-[10px] font-black text-[#6B705C] uppercase tracking-[0.2em] ml-1">
+                    Budget (৳)
                   </label>
                   <button
                     type="button"
                     onClick={handleResetBudget}
-                    className="text-sm text-primary hover:text-secondary font-medium transition-colors"
+                    className="text-[9px] font-black text-[#ddbea9] hover:text-primary uppercase tracking-widest transition-colors"
                   >
-                    Reset
+                    Clear
                   </button>
                 </div>
-
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-xs text-gray-500 mb-1">
-                      Min Budget (৳)
-                    </label>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="relative">
                     <input
                       type="number"
                       value={minBudget}
                       onChange={(e) => setMinBudget(e.target.value)}
-                      placeholder="0"
-                      className="w-full py-3 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                      placeholder="Min"
+                      className="w-full py-3 px-4 bg-[#fdfbf9] border-none rounded-xl text-xs font-bold text-primary shadow-inner focus:ring-1 focus:ring-primary/20"
                     />
                   </div>
-
-                  <div>
-                    <label className="block text-xs text-gray-500 mb-1">
-                      Max Budget (৳)
-                    </label>
+                  <div className="relative">
                     <input
                       type="number"
                       value={maxBudget}
                       onChange={(e) => setMaxBudget(e.target.value)}
-                      placeholder="1000"
-                      className="w-full py-3 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                      placeholder="Max"
+                      className="w-full py-3 px-4 bg-[#fdfbf9] border-none rounded-xl text-xs font-bold text-primary shadow-inner focus:ring-1 focus:ring-primary/20"
                     />
                   </div>
                 </div>
               </div>
-
-              <div className="pt-6 border-t border-gray-200">
-                <p className="text-sm text-gray-600">
-                  <span className="font-semibold text-primary">
-                    {allServices.length}
-                  </span>{" "}
-                  services found
-                </p>
-              </div>
             </div>
           </div>
 
-          {/* Right Side */}
+          {/* Right Side: Service Grid */}
           <div className="col-span-12 lg:col-span-9">
             {isLoading ? (
-              <div className="min-h-[50vh]">
+              <div className="min-h-[60vh] flex items-center justify-center bg-white rounded-[3rem] border border-primary/5 shadow-sm">
                 <Loading />
               </div>
             ) : allServices.length === 0 ? (
-              <div className="text-center min-h-[60vh] flex flex-col justify-center items-center py-12">
-                <div className="text-gray-400 mb-4">
+              <div className="text-center min-h-[70vh] flex flex-col justify-center items-center py-12 bg-white rounded-[3rem] border border-primary/5 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.02)]">
+                <div className="w-24 h-24 mb-6 bg-[#fdfbf9] rounded-full flex items-center justify-center shadow-inner text-[#ddbea9]">
                   <svg
-                    className="w-16 h-16 mx-auto"
+                    className="w-10 h-10"
                     fill="none"
-                    viewBox="0 0 24 24"
                     stroke="currentColor"
+                    viewBox="0 0 24 24"
                   >
                     <path
                       strokeLinecap="round"
                       strokeLinejoin="round"
                       strokeWidth={1}
-                      d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                     />
                   </svg>
                 </div>
-                <h3 className="text-xl font-medium text-gray-700 mb-2">
-                  No services found
+                <h3 className="text-2xl font-black text-primary mb-2 tracking-tight italic">
+                  No Match Found
                 </h3>
-                <p className="text-gray-500">
-                  Try adjusting your filters to find more services
+                <p className="text-[#6B705C] font-semibold max-w-xs mx-auto">
+                  We couldn't find any services matching your refined criteria.
+                  Try broadening your selection.
                 </p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 animate-in fade-in slide-in-from-bottom-4 duration-1000">
                 {allServices.map((service) => (
-                  <ServiceCard key={service._id} service={service} />
+                  <div
+                    key={service._id}
+                    className="transition-all duration-500 hover:-translate-y-2"
+                  >
+                    <ServiceCard service={service} />
+                  </div>
                 ))}
               </div>
             )}
@@ -200,112 +224,136 @@ const Services = () => {
       </div>
 
       {/* Mobile Drawer */}
-      <div className="drawer drawer-end lg:hidden">
+      <div className="drawer drawer-end lg:hidden z-100">
         <input id="filter-drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-side">
           <label
             htmlFor="filter-drawer"
             aria-label="close sidebar"
-            className="drawer-overlay"
+            className="drawer-overlay backdrop-blur-sm bg-black/20"
           ></label>
-          <div className="bg-base-100 min-h-full w-80 p-6">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-bold text-secondary">Filters</h2>
+
+          <div className="bg-[#fdfbf9] min-h-full w-85 max-w-[320px] p-8 shadow-2xl flex flex-col">
+            <div className="flex items-center justify-between mb-10">
+              <div>
+                <h2 className="text-2xl font-black text-primary tracking-tight">
+                  Refine
+                </h2>
+                <div className="h-1 w-6 bg-[#ddbea9] rounded-full mt-1"></div>
+              </div>
               <label
                 htmlFor="filter-drawer"
-                className="btn btn-ghost btn-circle"
+                className="btn btn-ghost btn-circle bg-white shadow-sm text-primary hover:rotate-90 transition-transform duration-300"
               >
-                ✕
-              </label>
-            </div>
-
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Search Services
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FaSearch className="h-5 w-5 text-primary" />
-                </div>
-                <input
-                  type="search"
-                  value={searchText}
-                  onChange={(e) => setSearchText(e.target.value)}
-                  placeholder="Search by service name..."
-                  className="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                />
-              </div>
-            </div>
-
-            <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Service Category
-              </label>
-              <select
-                value={serviceType}
-                onChange={(e) => setServiceType(e.target.value)}
-                className="w-full py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-              >
-                <option value="">All Categories</option>
-                <option value="home">Home Decoration</option>
-                <option value="office">Office Decoration</option>
-                <option value="wedding">Wedding Decoration</option>
-                <option value="ceremony">Ceremony Decoration</option>
-                <option value="seminar">Seminar Decoration</option>
-                <option value="meeting">Meeting Decoration</option>
-              </select>
-            </div>
-
-            <div className="mb-6">
-              <div className="flex justify-between items-center mb-3">
-                <label className="block text-sm font-medium text-gray-700">
-                  Budget Range
-                </label>
-                <button
-                  type="button"
-                  onClick={handleResetBudget}
-                  className="text-sm text-primary hover:text-secondary font-medium transition-colors"
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
                 >
-                  Reset
-                </button>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  />
+                </svg>
+              </label>
+            </div>
+
+            <div className="grow space-y-8 overflow-y-auto">
+              <div className="group">
+                <label className="block text-[10px] font-black text-[#6B705C] uppercase tracking-[0.2em] mb-3 ml-1">
+                  Search
+                </label>
+                <div className="relative">
+                  <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-primary opacity-40" />
+                  <input
+                    type="search"
+                    value={searchText}
+                    onChange={(e) => setSearchText(e.target.value)}
+                    placeholder="Service name..."
+                    className="w-full pl-12 pr-4 py-4 bg-white border-none rounded-2xl focus:ring-2 focus:ring-primary/20 text-sm font-semibold text-primary shadow-sm"
+                  />
+                </div>
               </div>
 
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-xs text-gray-500 mb-1">
-                    Min Budget (৳)
+              <div>
+                <label className="block text-[10px] font-black text-[#6B705C] uppercase tracking-[0.2em] mb-3 ml-1">
+                  Category
+                </label>
+                <div className="relative">
+                  <select
+                    value={serviceType}
+                    onChange={(e) => setServiceType(e.target.value)}
+                    className="w-full py-4 px-4 bg-white border-none rounded-2xl appearance-none focus:ring-2 focus:ring-primary/20 text-sm font-bold text-primary shadow-sm"
+                  >
+                    <option value="">All Collections</option>
+                    <option value="home">Home Decoration</option>
+                    <option value="office">Office Decor</option>
+                    <option value="wedding">Weddings</option>
+                    <option value="ceremony">Ceremony</option>
+                    <option value="seminar">Seminar</option>
+                    <option value="meeting">Meeting</option>
+                  </select>
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-primary">
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div className="flex justify-between items-center mb-4">
+                  <label className="text-[10px] font-black text-[#6B705C] uppercase tracking-[0.2em] ml-1">
+                    Budget (৳)
                   </label>
+                  <button
+                    onClick={handleResetBudget}
+                    className="text-[10px] font-bold text-[#ddbea9] underline underline-offset-4"
+                  >
+                    Reset
+                  </button>
+                </div>
+                <div className="space-y-3">
                   <input
                     type="number"
                     value={minBudget}
                     onChange={(e) => setMinBudget(e.target.value)}
-                    placeholder="0"
-                    className="w-full py-3 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                    placeholder="Min Price"
+                    className="w-full py-4 px-5 bg-white border-none rounded-xl text-sm font-bold text-primary shadow-sm focus:ring-1 focus:ring-primary/20"
                   />
-                </div>
-
-                <div>
-                  <label className="block text-xs text-gray-500 mb-1">
-                    Max Budget (৳)
-                  </label>
                   <input
                     type="number"
                     value={maxBudget}
                     onChange={(e) => setMaxBudget(e.target.value)}
-                    placeholder="1000"
-                    className="w-full py-3 px-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                    placeholder="Max Price"
+                    className="w-full py-4 px-5 bg-white border-none rounded-xl text-sm font-bold text-primary shadow-sm focus:ring-1 focus:ring-primary/20"
                   />
                 </div>
               </div>
             </div>
 
-            <div className="pt-6 border-t border-gray-200">
-              <p className="text-sm text-gray-600">
-                <span className="font-semibold text-primary">
+            <div className="mt-auto pt-8 border-t border-gray-100">
+              <div className="flex items-center justify-between  p-5 rounded-2xl shadow-xl shadow-primary/20">
+                <span className="text-[10px] font-black uppercase tracking-widest">
+                  Results Found
+                </span>
+                <span className="text-2xl font-black ">
                   {allServices.length}
-                </span>{" "}
-                services found
-              </p>
+                </span>
+              </div>
             </div>
           </div>
         </div>

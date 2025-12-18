@@ -219,72 +219,95 @@ const ServiceManagement = () => {
       </div>
 
       {/* edit modal */}
-      <dialog ref={editModalRef} className="modal modal-bottom sm:modal-middle">
-        <div className="modal-box w-11/12 max-w-4xl max-h-[90vh] p-8">
-          <div className="">
-            <div className="flex justify-between items-center">
+      <dialog
+        ref={editModalRef}
+        className="modal modal-bottom sm:modal-middle transition-all duration-500"
+      >
+        <div className="modal-box w-11/12 max-w-4xl p-0 overflow-hidden rounded-[2.5rem] shadow-2xl border border-primary/5">
+          <div className="bg-white px-8 py-6 flex justify-between items-center border-b border-primary/5">
+            <div className="flex items-center gap-4">
+              <div className="w-2 h-10 bg-primary rounded-full"></div>
               <div>
-                <h3 className="text-2xl md:text-3xl text-primary  font-bold">
-                  Edit Service
+                <h3 className="text-2xl md:text-3xl font-black text-primary tracking-tight">
+                  Edit{" "}
+                  <span className="text-[#ddbea9] italic font-serif">
+                    Service
+                  </span>
                 </h3>
-                <p>Update service details</p>
+                <p className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#6B705C] mt-1">
+                  Refine your service excellence
+                </p>
               </div>
-              <button
-                onClick={() => editModalRef.current.close()}
-                className="btn btn-ghost btn-circle"
-              >
-                ✕
-              </button>
             </div>
+            <button
+              type="button"
+              onClick={() => editModalRef.current.close()}
+              className="btn btn-ghost btn-circle"
+            >
+              ✕
+            </button>
           </div>
 
-          <form onSubmit={handleSubmit(handleEditService)} className="mt-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <form onSubmit={handleSubmit(handleEditService)} className="p-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium  mb-2">
-                  Service Name *
+                <label className="block text-[10px] font-black text-[#6B705C] uppercase tracking-widest mb-2 ml-1">
+                  Service Designation
                 </label>
                 <input
                   type="text"
-                  {...register("service_name", { required: true })}
+                  {...register("service_name", {
+                    required: "Service name is required",
+                  })}
                   placeholder="Enter service name"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  className="w-full px-5 py-4 bg-white border-none rounded-2xl focus:ring-2 focus:ring-primary/10 text-sm font-semibold text-primary shadow-sm"
                 />
-                {errors.service_name?.type === "required" && (
-                  <p className="text-red-600 text-sm mt-1">
-                    Service name is required
+                {errors.service_name && (
+                  <p className="text-red-500 text-[11px] mt-2 ml-1 font-bold">
+                    {errors.service_name.message}
                   </p>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-medium  mb-2">
-                  Cost (BDT) *
+                <label className="block text-[10px] font-black text-[#6B705C] uppercase tracking-widest mb-2 ml-1">
+                  Investment (BDT)
                 </label>
                 <div className="relative">
-                  <span className="absolute left-3 top-3 ">৳</span>
+                  <span className="absolute left-5 top-1/2 -translate-y-1/2 text-primary font-bold">
+                    ৳
+                  </span>
                   <input
                     type="number"
-                    {...register("cost", { required: true })}
-                    placeholder="Enter cost"
-                    className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                    {...register("cost", {
+                      required: "Service cost is required",
+                      valueAsNumber: true,
+                      min: { value: 1, message: "Cost must be greater than 0" },
+                    })}
+                    className="w-full pl-10 pr-5 py-4 bg-white border-none rounded-2xl focus:ring-2 focus:ring-primary/10 text-sm font-semibold text-primary shadow-sm"
                   />
                 </div>
-                {errors.cost?.type === "required" && (
-                  <p className="text-red-600 text-sm mt-1">Cost is required</p>
+                {errors.cost && (
+                  <p className="text-red-500 text-[11px] mt-2 ml-1 font-bold">
+                    {errors.cost.message}
+                  </p>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-medium  mb-2">
-                  Unit *
+                <label className="block text-[10px] font-black text-[#6B705C] uppercase tracking-widest mb-2 ml-1">
+                  Billing Unit
                 </label>
                 <select
-                  {...register("unit", { required: true })}
-                  defaultValue="Select unit"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  {...register("unit", {
+                    required: "Billing unit is required",
+                  })}
+                  className="w-full px-5 py-4 bg-white border-none rounded-2xl focus:ring-2 focus:ring-primary/10 text-sm font-bold text-primary shadow-sm appearance-none"
+                  defaultValue=""
                 >
-                  <option disabled={true}>Select unit</option>
+                  <option value="" disabled>
+                    Select unit
+                  </option>
                   <option value="per hour">per hour</option>
                   <option value="per day">per day</option>
                   <option value="per event">per event</option>
@@ -293,88 +316,106 @@ const ServiceManagement = () => {
                   <option value="per meter">per meter</option>
                   <option value="per project">per project</option>
                 </select>
-                {errors.unit?.type === "required" && (
-                  <p className="text-red-600 text-sm mt-1">Unit is required</p>
+                {errors.unit && (
+                  <p className="text-red-500 text-[11px] mt-2 ml-1 font-bold">
+                    {errors.unit.message}
+                  </p>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-medium  mb-2">
-                  Category *
+                <label className="block text-[10px] font-black text-[#6B705C] uppercase tracking-widest mb-2 ml-1">
+                  Collection Category
                 </label>
                 <select
-                  {...register("service_category", { required: true })}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                  defaultValue="Select category"
+                  {...register("service_category", {
+                    required: "Service category is required",
+                  })}
+                  className="w-full px-5 py-4 bg-white border-none rounded-2xl focus:ring-2 focus:ring-primary/10 text-sm font-bold text-primary shadow-sm appearance-none"
+                  defaultValue=""
                 >
-                  <option disabled={true}>Select category</option>
+                  <option value="" disabled>
+                    Select category
+                  </option>
                   <option value="home">Home</option>
                   <option value="wedding">Wedding</option>
                   <option value="office">Office</option>
                   <option value="seminar">Seminar</option>
                   <option value="meeting">Meeting</option>
                   <option value="ceremony">Ceremony</option>
-                  <option value="birthday">Birthday</option>
-                  <option value="corporate">Corporate</option>
                 </select>
-                {errors.service_category?.type === "required" && (
-                  <p className="text-red-600 text-sm mt-1">
-                    Category is required
+                {errors.service_category && (
+                  <p className="text-red-500 text-[11px] mt-2 ml-1 font-bold">
+                    {errors.service_category.message}
                   </p>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-medium  mb-2">
-                  Photo URL *
+                <label className="block text-[10px] font-black text-[#6B705C] uppercase tracking-widest mb-2 ml-1">
+                  Visual Identity (URL)
                 </label>
                 <input
                   type="text"
-                  {...register("image", { required: true })}
-                  placeholder="https://example.com/image.jpg"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  {...register("image", {
+                    required: "Image URL is required",
+                    pattern: {
+                      value: /^https?:\/\/.+/,
+                      message:
+                        "Please enter a valid URL starting with http:// or https://",
+                    },
+                  })}
+                  className="w-full px-5 py-4 bg-white border-none rounded-2xl focus:ring-2 focus:ring-primary/10 text-sm font-semibold text-primary shadow-sm"
                 />
-                {errors.image?.type === "required" && (
-                  <p className="text-red-600 text-sm mt-1">
-                    Image URL is required
+                {errors.image && (
+                  <p className="text-red-500 text-[11px] mt-2 ml-1 font-bold">
+                    {errors.image.message}
                   </p>
                 )}
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium  mb-2">
-                  Description *
+                <label className="block text-[10px] font-black text-[#6B705C] uppercase tracking-widest mb-2 ml-1">
+                  Service Narrative
                 </label>
                 <textarea
-                  rows={4}
-                  {...register("description", { required: true })}
-                  placeholder="Enter description of the service"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                  rows={3}
+                  {...register("description", {
+                    required: "Service description is required",
+                    minLength: {
+                      value: 20,
+                      message: "Description must be at least 20 characters",
+                    },
+                  })}
+                  className="w-full px-5 py-4 bg-white border-none rounded-2xl focus:ring-2 focus:ring-primary/10 text-sm font-semibold text-primary shadow-sm resize-none"
                 />
-                {errors.description?.type === "required" && (
-                  <p className="text-red-600 text-sm mt-1">
-                    Description is required
+                {errors.description && (
+                  <p className="text-red-500 text-[11px] mt-2 ml-1 font-bold">
+                    {errors.description.message}
                   </p>
                 )}
               </div>
             </div>
 
-            <div className="flex gap-4 pt-8 mt-8 border-t border-gray-200">
+            <div className="flex gap-4 pt-8 mt-8 border-t border-primary/5">
               <button
                 type="button"
                 onClick={() => editModalRef.current.close()}
-                className="btn btn-outline flex-1 py-3"
+                className="flex-1 py-4 px-6 rounded-2xl text-[11px] font-black uppercase tracking-widest text-[#6B705C]"
               >
                 Cancel
               </button>
-              <button type="submit" className="btn btn-primary flex-1 py-3">
-                Update Service
+              <button
+                type="submit"
+                className="flex-2 py-4 px-6 rounded-2xl bg-primary text-white text-[11px] font-black uppercase tracking-widest shadow-lg shadow-primary/20"
+              >
+                Update Service Detail
               </button>
             </div>
           </form>
         </div>
 
-        <form method="dialog" className="modal-backdrop">
+        <form method="dialog" className="modal-backdrop bg-black/30">
           <button>close</button>
         </form>
       </dialog>

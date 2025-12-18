@@ -29,7 +29,17 @@ const Earnings = () => {
 
   return (
     <div>
-      <h2 className="text-3xl font-bold text-primary mb-6">Earning Summary</h2>
+      <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+        <div className="relative">
+          <h2 className="text-4xl lg:text-5xl font-black text-primary tracking-tight mb-2">
+            Earning Summary
+          </h2>
+          <p className="text-[#6B705C] font-bold uppercase text-[10px] tracking-[0.3em] flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#ddbea9] animate-pulse"></span>
+            Financial Intelligence Dashboard
+          </p>
+        </div>
+      </div>
 
       <div className="grid md:grid-cols-3 gap-6">
         <div className="p-6 rounded-xl bg-primary/10">
@@ -37,7 +47,7 @@ const Earnings = () => {
             <div>
               <p className="text-sm text-gray-600 mb-2">Total Earnings</p>
               <h3 className="text-3xl font-bold text-primary">
-                ${totalEarnings}
+                ৳{totalEarnings.toFixed(2)}
               </h3>
             </div>
             <FaDollarSign className="w-8 h-8 text-primary/40" />
@@ -62,7 +72,7 @@ const Earnings = () => {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm text-gray-600 mb-2">Avg Per Job</p>
-              <h3 className="text-3xl font-bold text-accent">${avgEarning}</h3>
+              <h3 className="text-3xl font-bold text-accent">৳{avgEarning}</h3>
             </div>
             <FaChartBar className="w-8 h-8 text-accent/40" />
           </div>

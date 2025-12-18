@@ -27,7 +27,6 @@ const ApprovedDecorators = () => {
     },
   });
 
-  // Calculate pagination
   const totalPages = Math.ceil(decorators.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;

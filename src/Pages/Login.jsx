@@ -121,14 +121,8 @@ const Login = () => {
             <div className="space-y-1.5">
               <div className="flex justify-between items-center">
                 <label className="text-[11px] uppercase tracking-[0.15em] font-bold text-gray-500 ml-1">
-                  Secret Password
+                 Password
                 </label>
-                <button
-                  type="button"
-                  className="text-[10px] uppercase font-bold text-primary hover:text-accent transition-colors"
-                >
-                  Forgot?
-                </button>
               </div>
               <div className="relative">
                 <input
@@ -157,10 +151,10 @@ const Login = () => {
             </div>
             <button
               type="submit"
-              className="w-full bg-primary hover:bg-primary text-white font-bold py-4 rounded-2xl shadow-lg shadow-primary/30 transition-all duration-300 active:scale-[0.98] mt-4 flex items-center justify-center gap-2"
+              className="w-full btn btn-primary  hover:bg-[#145a4d] text-white font-bold py-7 text-xl rounded-2xl  mt-2"
             >
               <IoLogInOutline size={22} />
-              Login to Account
+              Login
             </button>
           </form>
 
@@ -170,14 +164,14 @@ const Login = () => {
             </div>
             <div className="relative flex justify-center text-xs uppercase">
               <span className="bg-white px-4 text-gray-400 font-bold tracking-[0.2em]">
-                Quick Access
+                OR
               </span>
             </div>
           </div>
 
           <button
             onClick={handleGoogleLogin}
-            className="w-full flex items-center justify-center gap-3 px-5 py-4 border border-gray-100 rounded-2xl text-gray-600 font-bold hover:bg-gray-50 transition-all duration-300 active:scale-[0.98]"
+            className="w-full flex items-center justify-center gap-3 px-5 py-4 border border-gray-100 rounded-2xl text-gray-600 font-bold hover:bg-gray-50 transition-all hover:cursor-pointer duration-300 active:scale-[0.98]"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path
