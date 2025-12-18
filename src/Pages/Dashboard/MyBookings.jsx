@@ -216,7 +216,6 @@ const MyBookings = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {/* mapped over currentItems instead of bookings */}
                   {currentItems.map((booking, index) => (
                     <tr
                       key={booking._id}
@@ -316,174 +315,195 @@ const MyBookings = () => {
           </>
         )}
       </div>
-
-      {/* modal */}
       <dialog
-  ref={editModalRef}
-  className="modal modal-bottom sm:modal-middle backdrop-blur-md transition-all duration-300"
->
-  <div className="modal-box w-11/12 max-w-5xl p-0  shadow-2xl border border-white/20 overflow-hidden rounded-3xl">
-    <div className="relative p-6 ">
-      <div className="flex justify-between items-center relative z-10">
-        <div>
-          <h3 className="text-3xl font-extrabold tracking-tight">Update Booking</h3>
-          <p className=" text-sm opacity-90 mt-1">Refine your service details and preferences</p>
-        </div>
-        <button
-          onClick={() => editModalRef.current.close()}
-          className="btn btn-circle btn-sm bg-white/20 border-none hover:bg-white/40 text-white transition-all"
-        >
-          ✕
-        </button>
-      </div>
-    </div>
-
-    <form onSubmit={handleSubmit(handleEdit)} className="p-8 space-y-8">
-      <div className="space-y-4">
-        <label className="text-sm font-bold uppercase tracking-wider text-gray-500 ml-1">
-          Service Type <span className="text-red-500">*</span>
-        </label>
-        <div className="grid md:grid-cols-2 gap-5">
-          {["in-studio", "on-site"].map((type) => (
-            <label
-              key={type}
-              className={`relative border-2 p-5 rounded-2xl cursor-pointer transition-all duration-300 group flex flex-col gap-2 ${
-                serviceType === type
-                  ? "border-primary bg-primary/5 ring-4 ring-primary/10"
-                  : "border-gray-100 bg-gray-50/50 hover:border-gray-300 hover:bg-white"
-              }`}
-            >
-              <div className="flex items-center justify-between">
-                <span className={`text-lg font-bold ${serviceType === type ? "text-primary" : "text-gray-700"}`}>
-                  {type === "in-studio" ? "In-Studio" : "On-Site"}
-                </span>
-                <input
-                  type="radio"
-                  value={type}
-                  {...register("serviceType", { required: true })}
-                  className="radio radio-primary radio-sm"
-                />
+        ref={editModalRef}
+        className="modal modal-bottom sm:modal-middle backdrop-blur-md transition-all duration-300"
+      >
+        <div className="modal-box w-11/12 max-w-5xl p-0  shadow-2xl border border-white/20 overflow-hidden rounded-3xl">
+          <div className="relative p-6 ">
+            <div className="flex justify-between items-center relative z-10">
+              <div>
+                <h3 className="text-3xl font-extrabold tracking-tight">
+                  Update Booking
+                </h3>
+                <p className=" text-sm opacity-90 mt-1">
+                  Refine your service details and preferences
+                </p>
               </div>
-              <p className="text-sm text-gray-500 leading-relaxed">
-                {type === "in-studio" 
-                  ? "Visit our professional studio with full equipment access." 
-                  : "Enjoy the comfort of your own venue; we bring the service to you."}
-              </p>
-            </label>
-          ))}
-        </div>
-        {errors.serviceType && (
-          <p className="text-red-500 text-xs font-medium animate-pulse">Please select a service type</p>
-        )}
-      </div>
-
-      {/* Date, Time & Units Row */}
-      <div className="grid md:grid-cols-3 gap-6">
-        <div className="space-y-2">
-          <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
-            <FaCalendarAlt className="text-primary/70" /> Booking Date
-          </label>
-          <input
-            type="date"
-            min={today}
-            {...register("date", { required: "Date is required" })}
-            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all font-medium"
-          />
-        </div>
-
-        <div className="space-y-2">
-          <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
-            <FaClock className="text-primary/70" /> Preferred Time
-          </label>
-          <input
-            type="time"
-            {...register("time", { required: "Time is required" })}
-            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all font-medium"
-          />
-        </div>
-
-        <div className="space-y-2">
-          <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
-            Total Units
-          </label>
-          <input
-            type="number"
-            min="1"
-            {...register("unitCount", { required: true })}
-            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all font-medium"
-          />
-        </div>
-      </div>
-
-      {/* Conditional Location Field */}
-      {serviceType === "on-site" && (
-        <div className="space-y-2 animate-in fade-in slide-in-from-top-2 duration-300">
-          <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
-            <FaMapMarkerAlt className="text-primary/70" /> Event Location
-          </label>
-          <textarea
-            {...register("location", { required: serviceType === "on-site" })}
-            rows={2}
-            placeholder="Provide full address or landmark..."
-            className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
-          />
-        </div>
-      )}
-
-      {/* Notes Field */}
-      <div className="space-y-2">
-        <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
-          <FaStickyNote className="text-primary/70" /> Special Instructions
-        </label>
-        <textarea
-          {...register("notes")}
-          rows={2}
-          placeholder="Anything else we should know?"
-          className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
-        />
-      </div>
-
-      {/* Summary & Price Footer */}
-      <div className="bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 rounded-2xl p-6 flex flex-col md:flex-row justify-between items-center gap-4 shadow-inner">
-        <div className="flex items-center gap-4">
-          <div className="p-3 bg-white rounded-xl shadow-sm">
-            <div className="w-10 h-10 flex items-center justify-center bg-primary/10 rounded-full">
-               <FaRegCreditCard className="text-primary" />
+              <button
+                onClick={() => editModalRef.current.close()}
+                className="btn btn-circle btn-sm bg-white/20 border-none hover:bg-white/40 text-white transition-all"
+              >
+                ✕
+              </button>
             </div>
           </div>
-          <div>
-            <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Pricing Plan</p>
-            <p className="text-lg font-bold text-gray-800">{selectedBooking?.serviceName}</p>
-            <p className="text-xs text-gray-500 font-medium italic">Unit Price: {unitPrice} BDT</p>
-          </div>
-        </div>
-        
-        <div className="text-center md:text-right">
-          <p className="text-sm font-semibold text-gray-500 uppercase tracking-widest">Estimated Total</p>
-          <div className="flex items-baseline gap-1 justify-center md:justify-end">
-            <span className="text-3xl font-black text-primary">৳{calculatedTotalCost.toFixed(0)}</span>
-            <span className="text-sm font-bold text-gray-400">BDT</span>
-          </div>
-        </div>
-      </div>
 
-      {/* Action Button */}
-      <button
-        type="submit"
-        className="group relative w-full h-16 bg-primary overflow-hidden rounded-2xl transition-all duration-300 hover:shadow-[0_20px_40px_-15px_rgba(var(--primary-rgb),0.4)] active:scale-95"
-      >
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-        <span className="relative text-white font-bold text-xl tracking-wide">
-          Confirm & Update Changes
-        </span>
-      </button>
-    </form>
-  </div>
+          <form onSubmit={handleSubmit(handleEdit)} className="p-8 space-y-8">
+            <div className="space-y-4">
+              <label className="text-sm font-bold uppercase tracking-wider text-gray-500 ml-1">
+                Service Type <span className="text-red-500">*</span>
+              </label>
+              <div className="grid md:grid-cols-2 gap-5">
+                {["in-studio", "on-site"].map((type) => (
+                  <label
+                    key={type}
+                    className={`relative border-2 p-5 rounded-2xl cursor-pointer transition-all duration-300 group flex flex-col gap-2 ${
+                      serviceType === type
+                        ? "border-primary bg-primary/5 ring-4 ring-primary/10"
+                        : "border-gray-100 bg-gray-50/50 hover:border-gray-300 hover:bg-white"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <span
+                        className={`text-lg font-bold ${
+                          serviceType === type
+                            ? "text-primary"
+                            : "text-gray-700"
+                        }`}
+                      >
+                        {type === "in-studio" ? "In-Studio" : "On-Site"}
+                      </span>
+                      <input
+                        type="radio"
+                        value={type}
+                        {...register("serviceType", { required: true })}
+                        className="radio radio-primary radio-sm"
+                      />
+                    </div>
+                    <p className="text-sm text-gray-500 leading-relaxed">
+                      {type === "in-studio"
+                        ? "Visit our professional studio with full equipment access."
+                        : "Enjoy the comfort of your own venue; we bring the service to you."}
+                    </p>
+                  </label>
+                ))}
+              </div>
+              {errors.serviceType && (
+                <p className="text-red-500 text-xs font-medium animate-pulse">
+                  Please select a service type
+                </p>
+              )}
+            </div>
 
-  <form method="dialog" className="modal-backdrop bg-black/40 backdrop-blur-sm">
-    <button className="cursor-default">close</button>
-  </form>
-</dialog>
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                  <FaCalendarAlt className="text-primary/70" /> Booking Date
+                </label>
+                <input
+                  type="date"
+                  min={today}
+                  {...register("date", { required: "Date is required" })}
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all font-medium"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                  <FaClock className="text-primary/70" /> Preferred Time
+                </label>
+                <input
+                  type="time"
+                  {...register("time", { required: "Time is required" })}
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all font-medium"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                  Total Units
+                </label>
+                <input
+                  type="number"
+                  min="1"
+                  {...register("unitCount", { required: true })}
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all font-medium"
+                />
+              </div>
+            </div>
+
+            {serviceType === "on-site" && (
+              <div className="space-y-2 animate-in fade-in slide-in-from-top-2 duration-300">
+                <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                  <FaMapMarkerAlt className="text-primary/70" /> Event Location
+                </label>
+                <textarea
+                  {...register("location", {
+                    required: serviceType === "on-site",
+                  })}
+                  rows={2}
+                  placeholder="Provide full address or landmark..."
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+                />
+              </div>
+            )}
+
+            <div className="space-y-2">
+              <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                <FaStickyNote className="text-primary/70" /> Special
+                Instructions
+              </label>
+              <textarea
+                {...register("notes")}
+                rows={2}
+                placeholder="Anything else we should know?"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all"
+              />
+            </div>
+
+            <div className="bg-linear-to-br from-gray-50 to-gray-100 border border-gray-200 rounded-2xl p-6 flex flex-col md:flex-row justify-between items-center gap-4 shadow-inner">
+              <div className="flex items-center gap-4">
+                <div className="p-3 bg-white rounded-xl shadow-sm">
+                  <div className="w-10 h-10 flex items-center justify-center bg-primary/10 rounded-full">
+                    <FaRegCreditCard className="text-primary" />
+                  </div>
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">
+                    Pricing Plan
+                  </p>
+                  <p className="text-lg font-bold text-gray-800">
+                    {selectedBooking?.serviceName}
+                  </p>
+                  <p className="text-xs text-gray-500 font-medium italic">
+                    Unit Price: {unitPrice} BDT
+                  </p>
+                </div>
+              </div>
+
+              <div className="text-center md:text-right">
+                <p className="text-sm font-semibold text-gray-500 uppercase tracking-widest">
+                  Estimated Total
+                </p>
+                <div className="flex items-baseline gap-1 justify-center md:justify-end">
+                  <span className="text-3xl font-black text-primary">
+                    ৳{calculatedTotalCost.toFixed(0)}
+                  </span>
+                  <span className="text-sm font-bold text-gray-400">BDT</span>
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="group relative w-full h-16 bg-primary overflow-hidden rounded-2xl transition-all duration-300 hover:shadow-[0_20px_40px_-15px_rgba(var(--primary-rgb),0.4)] active:scale-95"
+            >
+              <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+              <span className="relative text-white font-bold text-xl tracking-wide">
+                Confirm & Update Changes
+              </span>
+            </button>
+          </form>
+        </div>
+
+        <form
+          method="dialog"
+          className="modal-backdrop bg-black/40 backdrop-blur-sm"
+        >
+          <button className="cursor-default">close</button>
+        </form>
+      </dialog>
     </div>
   );
 };

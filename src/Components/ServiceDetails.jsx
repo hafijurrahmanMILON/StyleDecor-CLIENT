@@ -545,7 +545,7 @@ const ServiceDetails = () => {
                 </div>
               </div>
 
-              <div className="relative overflow-hidden bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-8 text-white shadow-xl">
+              <div className="relative overflow-hidden bg-linear-to-br from-gray-900 to-gray-800 rounded-3xl p-8 text-white shadow-xl">
                 <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-6">
                   <div className="text-center md:text-left">
                     <h5 className=" text-xs font-bold uppercase tracking-widest mb-1">
@@ -590,7 +590,7 @@ const ServiceDetails = () => {
                 type="submit"
                 className="group relative w-full h-18 py-5 bg-primary overflow-hidden rounded-2xl flex items-center justify-center gap-3"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                 <FaCheckCircle className="text-white text-xl" />
                 <span className="relative text-white font-black text-xl tracking-wider uppercase">
                   Finalize Reservation
