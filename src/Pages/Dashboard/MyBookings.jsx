@@ -319,7 +319,7 @@ const MyBookings = () => {
         ref={editModalRef}
         className="modal modal-bottom sm:modal-middle backdrop-blur-md transition-all duration-300"
       >
-        <div className="modal-box w-11/12 max-w-5xl p-0  shadow-2xl border border-white/20 overflow-hidden rounded-3xl">
+        <div className="modal-box w-11/12 max-w-5xl p-0  shadow-2xl border border-white/20  rounded-3xl">
           <div className="relative p-6 ">
             <div className="flex justify-between items-center relative z-10">
               <div>
