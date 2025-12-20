@@ -93,7 +93,6 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* Working Hours */}
         <div>
           <h3 className="text-lg font-bold tracking-wider mb-8 uppercase text-primary">
             Working Hours

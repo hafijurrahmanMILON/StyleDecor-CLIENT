@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import Loading from "../Components/Loading";
-import { HiSearch, HiOutlineMap, HiOutlineCursorClick } from "react-icons/hi"; // Premium Icons
+import { HiSearch, HiOutlineMap, HiOutlineCursorClick } from "react-icons/hi";
 
 import L from 'leaflet';
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
@@ -101,7 +101,7 @@ const Coverage = () => {
             >
               <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" // Premium light-theme map
+                url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
               />
 
               {serviceCenters.map((center, index) => (

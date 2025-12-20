@@ -54,7 +54,7 @@ const Services = () => {
             </h2>
           </div>
 
-          {/* Description */}
+        
           <div className="mt-6 max-w-xl mx-auto">
             <p className="text-[#6B705C] font-semibold text-sm lg:text-lg leading-relaxed tracking-wide">
               Discover an elite range of{" "}
@@ -66,7 +66,7 @@ const Services = () => {
           </div>
         </div>
 
-        {/*  Filter Button */}
+        
         <div className="lg:hidden mb-6">
           <label
             htmlFor="filter-drawer"
@@ -176,7 +176,7 @@ const Services = () => {
             </div>
           </div>
 
-          {/* Right Side: Service Grid */}
+          {/* right */}
           <div className="col-span-12 lg:col-span-9">
             {isLoading ? (
               <div className="min-h-[60vh] flex items-center justify-center bg-white rounded-[3rem]">
@@ -223,7 +223,7 @@ const Services = () => {
         </div>
       </div>
 
-      {/* Mobile Drawer */}
+      {/* Drawer */}
       <div className="drawer drawer-end lg:hidden z-100">
         <input id="filter-drawer" type="checkbox" className="drawer-toggle" />
         <div className="drawer-side">

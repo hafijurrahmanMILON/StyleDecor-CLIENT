@@ -23,7 +23,7 @@ const TodaysSchedule = () => {
   if (isLoading) return <Loading />;
 
   return (
-    <div className="p-4 lg:p-6 min-h-screen">
+    <div className="p-4 lg:p-6">
       <div className="flex items-center justify-between mb-12 relative">
         <div className="relative z-10">
           <h2 className="text-4xl lg:text-5xl font-black text-primary tracking-tight">

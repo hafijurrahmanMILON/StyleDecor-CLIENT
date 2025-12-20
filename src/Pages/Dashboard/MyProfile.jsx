@@ -1,11 +1,13 @@
 import React from "react";
 import useAuth from "../../Hooks/useAuth";
-import { FaUser, FaEnvelope, FaCalendarAlt, FaShieldAlt, FaFingerprint, FaLink } from "react-icons/fa";
+import { FaUser, FaEnvelope, FaCalendarAlt, FaShieldAlt, FaFingerprint, FaLink, FaCrown, FaPaintBrush, FaUserCircle } from "react-icons/fa";
 import userIMG from "../../assets/user.png";
 import Loading from "../../Components/Loading";
+import useRole from "../../Hooks/useRole";
 
 const MyProfile = () => {
   const { user, loading } = useAuth();
+  const { role } = useRole();
 
   const joinDate = user?.metadata?.creationTime
     ? new Date(user?.metadata.creationTime).toLocaleDateString("en-US", {
@@ -23,19 +25,47 @@ const MyProfile = () => {
       })
     : "N/A";
 
+  const getRoleBadgeStyle = () => {
+    switch (role) {
+      case "admin":
+        return {
+          bg: "bg-gradient-to-r from-red-500 to-pink-500",
+          text: "text-white",
+          icon: <FaCrown className="mr-1.5" size={12} />,
+          label: "Admin"
+        };
+      case "decorator":
+        return {
+          bg: "bg-gradient-to-r from-blue-500 to-cyan-500",
+          text: "text-white",
+          icon: <FaPaintBrush className="mr-1.5" size={12} />,
+          label: "Decorator"
+        };
+      case "user":
+      default:
+        return {
+          bg: "bg-gradient-to-r from-gray-600 to-gray-400",
+          text: "text-white",
+          icon: <FaUserCircle className="mr-1.5" size={12} />,
+          label: "User"
+        };
+    }
+  };
+
+  const roleBadge = getRoleBadgeStyle();
+
   if (loading) {
     return <Loading />;
   }
 
   return (
-    <div className="min-h-screen  py-16 px-4">
+    <div className="min-h-screen py-16 px-4">
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-4xl shadow-sm border border-gray-100 overflow-hidden">
           
-          {/* Top Profile Section */}
           <div className="p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 border-b border-gray-50">
             <div className="relative">
-              <div className="w-32 h-32 md:w-40 md:h-40 rounded-full p-1 bg-linear-to-tr from-[#C5A059] to-[#1B7261]">
+              <div className="w-32 h-32 md:w-40 md:h-40 rounded-full p-1 bg-linear-to-tr from-accent to-primary">
                 <img
                   src={user?.photoURL || userIMG}
                   alt={user?.displayName || "User"}
@@ -46,12 +76,24 @@ const MyProfile = () => {
             </div>
 
             <div className="text-center md:text-left space-y-2">
-              <h1 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
-                {user?.displayName || "User Name"}
-              </h1>
+              <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-6">
+                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
+                  {user?.displayName || "User Name"}
+                </h1>
+                
+                {role && (
+                  <div className="flex justify-center md:justify-start">
+                    <span className={`inline-flex items-center ${roleBadge.bg} ${roleBadge.text} px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm`}>
+                      {roleBadge.icon}
+                      {roleBadge.label}
+                    </span>
+                  </div>
+                )}
+              </div>
+              
               <div className="flex flex-wrap justify-center md:justify-start gap-4 text-gray-500 font-medium">
                 <span className="flex items-center gap-2 bg-gray-50 px-3 py-1 rounded-full text-sm">
-                  <FaEnvelope className="text-[#1B7261]" />
+                  <FaEnvelope className="text-primary" />
                   {user?.email}
                 </span>
                 <span className={`flex items-center gap-2 px-3 py-1 rounded-full text-sm font-bold ${
@@ -68,7 +110,7 @@ const MyProfile = () => {
             
             <div className="p-8 md:p-10 border-b md:border-b-0 md:border-r border-gray-50 hover:bg-gray-50/30 transition-colors">
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 bg-[#1B7261]/10 rounded-2xl flex items-center justify-center text-[#1B7261]">
+                <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
                   <FaUser size={20} />
                 </div>
                 <h3 className="text-lg font-bold text-gray-800">Identity Details</h3>
@@ -92,7 +134,7 @@ const MyProfile = () => {
 
             <div className="p-8 md:p-10 hover:bg-gray-50/30 transition-colors">
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 bg-[#C5A059]/10 rounded-2xl flex items-center justify-center text-[#C5A059]">
+                <div className="w-12 h-12 bg-accent/10 rounded-2xl flex items-center justify-center text-accent">
                   <FaCalendarAlt size={20} />
                 </div>
                 <h3 className="text-lg font-bold text-gray-800">Timeline & Access</h3>
@@ -111,19 +153,13 @@ const MyProfile = () => {
                   <span className="text-sm text-gray-500 flex items-center gap-2">
                     <FaLink size={12} /> Provider
                   </span>
-                  <span className="text-xs font-bold uppercase tracking-widest text-[#1B7261] bg-[#1B7261]/5 px-3 py-1 rounded-md">
+                  <span className="text-xs font-bold uppercase tracking-widest text-primary bg-primary/5 px-3 py-1 rounded-md">
                     {user?.providerData?.[0]?.providerId || "Firebase"}
                   </span>
                 </div>
               </div>
             </div>
 
-          </div>
-
-          <div className="bg-gray-50/50 p-6 text-center">
-             <p className="text-xs text-gray-400 font-medium italic">
-                You are currently logged in as a <span className="text-[#C5A059] font-bold">Standard User</span>
-             </p>
           </div>
         </div>
       </div>

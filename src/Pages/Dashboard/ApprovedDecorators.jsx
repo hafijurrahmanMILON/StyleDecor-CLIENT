@@ -4,8 +4,6 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import Loading from "../../Components/Loading";
 import { Link } from "react-router";
 import { FaArrowLeft } from "react-icons/fa";
-import { TbUserCancel, TbUserCheck } from "react-icons/tb";
-import { AiOutlineUserDelete } from "react-icons/ai";
 import userImg from "../../assets/user.png";
 import Swal from "sweetalert2";
 import { FiUserMinus } from "react-icons/fi";

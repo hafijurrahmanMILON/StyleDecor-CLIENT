@@ -83,33 +83,33 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6">
-      <div className="bg-white rounded-[2.5rem] shadow-2xl shadow-gray-200/50 w-full max-w-[550px] overflow-hidden border border-gray-100">
-        <div className="p-10 md:p-14">
-          <div className="text-center mb-10">
-            <h1 className="text-4xl font-black tracking-tighter text-primary mb-2">
+    <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="bg-white rounded-[2.5rem] shadow-2xl shadow-gray-200/50 w-full max-w-[500px] overflow-hidden border border-gray-100">
+        <div className="p-8 md:p-10">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-black tracking-tighter text-primary mb-2">
               Style<span className="text-accent">Decor</span>
             </h1>
-            <p className="text-gray-400 font-medium italic">
+            <p className="text-gray-400 font-medium italic text-sm">
               Welcome back to your aesthetic home
             </p>
           </div>
 
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">Sign In</h2>
-          <p className="text-gray-500 mb-8 font-medium">
+          <h2 className="text-xl font-bold text-gray-800 mb-2">Sign In</h2>
+          <p className="text-gray-500 mb-6 font-medium text-sm">
             Manage your decoration appointments effortlessly.
           </p>
 
-          <form onSubmit={handleSubmit(handleLogin)} className="space-y-6">
-            <div className="space-y-1.5">
-              <label className="text-[11px] uppercase tracking-[0.15em] font-bold text-gray-500 ml-1">
+          <form onSubmit={handleSubmit(handleLogin)} className="space-y-4">
+            <div className="space-y-1">
+              <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-gray-500 ml-1">
                 Email Address
               </label>
               <input
                 type="email"
                 {...register("email", { required: true })}
                 placeholder="hello@example.com"
-                className="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all duration-300 text-gray-700 placeholder:text-gray-300 outline-none shadow-sm"
+                className="w-full px-4 py-3 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all duration-300 text-gray-700 placeholder:text-gray-300 outline-none shadow-sm"
               />
               {errors.email && (
                 <p className="text-red-400 text-xs mt-1 ml-1">
@@ -118,10 +118,10 @@ const Login = () => {
               )}
             </div>
 
-            <div className="space-y-1.5">
+            <div className="space-y-1">
               <div className="flex justify-between items-center">
-                <label className="text-[11px] uppercase tracking-[0.15em] font-bold text-gray-500 ml-1">
-                 Password
+                <label className="text-[10px] uppercase tracking-[0.15em] font-bold text-gray-500 ml-1">
+                  Password
                 </label>
               </div>
               <div className="relative">
@@ -129,17 +129,17 @@ const Login = () => {
                   type={show ? "text" : "password"}
                   {...register("password", { required: true })}
                   placeholder="••••••••"
-                  className="w-full px-5 py-4 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all duration-300 text-gray-700 placeholder:text-gray-300 outline-none shadow-sm"
+                  className="w-full px-4 py-3 bg-gray-50 border-none rounded-2xl focus:ring-2 focus:ring-primary/20 focus:bg-white transition-all duration-300 text-gray-700 placeholder:text-gray-300 outline-none shadow-sm"
                 />
                 <button
                   type="button"
                   onClick={() => setShow(!show)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-primary transition-colors"
                 >
                   {show ? (
-                    <IoEyeOutline size={20} />
+                    <IoEyeOutline size={18} />
                   ) : (
-                    <IoEyeOffOutline size={20} />
+                    <IoEyeOffOutline size={18} />
                   )}
                 </button>
               </div>
@@ -151,19 +151,19 @@ const Login = () => {
             </div>
             <button
               type="submit"
-              className="w-full btn btn-primary  hover:bg-[#145a4d] text-white font-bold py-7 text-xl rounded-2xl  mt-2"
+              className="w-full btn btn-primary hover:bg-secondary text-white font-bold px-4 py-6 text-lg rounded-2xl mt-2"
             >
-              <IoLogInOutline size={22} />
+              <IoLogInOutline size={18} />
               Login
             </button>
           </form>
 
-          <div className="relative my-10">
+          <div className="relative my-6">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-100"></div>
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-white px-4 text-gray-400 font-bold tracking-[0.2em]">
+              <span className="bg-white px-3 text-gray-400 font-bold tracking-[0.2em]">
                 OR
               </span>
             </div>
@@ -171,7 +171,7 @@ const Login = () => {
 
           <button
             onClick={handleGoogleLogin}
-            className="w-full flex items-center justify-center gap-3 px-5 py-4 border border-gray-100 rounded-2xl text-gray-600 font-bold hover:bg-gray-50 transition-all hover:cursor-pointer duration-300 active:scale-[0.98]"
+            className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-100 rounded-2xl text-gray-600 font-bold hover:bg-gray-50 transition-all hover:cursor-pointer duration-300 active:scale-[0.98]"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path
@@ -194,7 +194,7 @@ const Login = () => {
             Continue with Google
           </button>
 
-          <p className="text-center mt-10 text-gray-500 font-medium">
+          <p className="text-center mt-8 text-gray-500 font-medium text-sm">
             New here?{" "}
             <Link
               to="/register"

@@ -23,7 +23,6 @@ const MyBookings = () => {
   const [selectedBooking, setSelectedBooking] = useState(null);
   const editModalRef = useRef();
 
-  // Pagination State
   const [itemOffset, setItemOffset] = useState(0);
   const itemsPerPage = 10;
 
@@ -47,7 +46,6 @@ const MyBookings = () => {
     },
   });
 
-  // Pagination Logic
   const endOffset = itemOffset + itemsPerPage;
   const currentItems = bookings.slice(itemOffset, endOffset);
   const pageCount = Math.ceil(bookings.length / itemsPerPage);

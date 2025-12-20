@@ -8,7 +8,6 @@ import {
 } from "react-icons/hi";
 import { HiOutlineMapPin } from "react-icons/hi2";
 
-// Custom Premium Marker Icon - Inline CSS used for guaranteed rendering
 const customIcon = new L.DivIcon({
   className: "custom-marker",
   html: `

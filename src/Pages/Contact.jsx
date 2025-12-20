@@ -29,7 +29,7 @@ const Contact = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-stretch">
-          {/* --- Left Column: Contact Info --- */}
+          {/* --- Left --- */}
           <div className="lg:col-span-5">
             <div className="bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.04)] border border-gray-100 p-10 relative overflow-hidden group h-full">
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-[100px] -mr-16 -mt-16 transition-all group-hover:scale-150 duration-700"></div>
@@ -93,7 +93,7 @@ const Contact = () => {
             </div>
           </div>
 
-          {/* --- Right Column: Contact Form --- */}
+          {/* --- right --- */}
           <div className="lg:col-span-7">
             <div className="bg-white rounded-[2.5rem] shadow-[0_30px_60px_rgba(0,0,0,0.06)] p-10 md:p-14 border border-gray-50 relative h-full">
               <h2 className="text-3xl font-bold text-secondary mb-8">

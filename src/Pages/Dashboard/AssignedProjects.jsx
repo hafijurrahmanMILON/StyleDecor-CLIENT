@@ -88,7 +88,7 @@ const AssignedProjects = () => {
   }
 
   return (
-   <div className="p-4 lg:p-8 min-h-screen">
+   <div className="p-4 lg:p-8">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-4">
           <div className="relative">

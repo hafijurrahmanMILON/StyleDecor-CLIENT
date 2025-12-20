@@ -86,7 +86,6 @@ const BookingManagement = () => {
   return (
     <div className="px-4 py-8">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-800">
             Booking Management
@@ -99,7 +98,6 @@ const BookingManagement = () => {
           </div>
         </div>
 
-        {/* Main Content */}
         {bookings.length === 0 ? (
           <div className="flex flex-col gap-6 justify-center items-center min-h-[60vh]">
             <div className="text-center">

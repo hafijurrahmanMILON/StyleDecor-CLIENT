@@ -40,7 +40,6 @@ const AddService = () => {
   return (
     <div className="min-h-screen py-12 px-4 md:px-8">
       <div className="max-w-4xl mx-auto">
-        {/* Page Header */}
         <div className="mb-12 text-center md:text-left flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
             <h1 className="text-4xl md:text-5xl font-black text-primary tracking-tight">
@@ -79,7 +78,7 @@ const AddService = () => {
 
                 <div>
                   <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 ml-1">
-                    Base Investment (BDT) *
+                    Cost (BDT) *
                   </label>
                   <div className="relative">
                     <span className="absolute left-6 top-1/2 -translate-y-1/2 text-primary font-bold">
@@ -108,7 +107,7 @@ const AddService = () => {
 
                 <div>
                   <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 ml-1">
-                    Billing Cycle *
+                    Unit *
                   </label>
                   <select
                     {...register("unit", {
@@ -137,7 +136,7 @@ const AddService = () => {
 
                 <div>
                   <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 ml-1">
-                    Service Collection *
+                    Service Category *
                   </label>
                   <select
                     {...register("service_category", {
@@ -189,7 +188,7 @@ const AddService = () => {
 
                 <div className="md:col-span-2">
                   <label className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 ml-1">
-                    Service Narrative & Highlights *
+                    Service Description *
                   </label>
                   <textarea
                     rows={5}

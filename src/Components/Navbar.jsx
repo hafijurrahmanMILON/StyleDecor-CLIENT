@@ -32,7 +32,7 @@ const Navbar = () => {
   const getDashboardRoute = () => {
     if (role === "admin") return "/dashboard/admin-analytics";
     if (role === "decorator") return "/dashboard/decorator-dashboard";
-    return "/dashboard/my-bookings"; 
+    return "/dashboard/my-bookings";
   };
   const navLinks = (
     <>
@@ -51,7 +51,7 @@ const Navbar = () => {
       <li>
         <MyLink to="/contact">Contact</MyLink>
       </li>
-      {user && (
+      {user && role === 'user' && (
         <>
           <li>
             <MyLink to="/be-a-decorator">Be a Decorator</MyLink>
@@ -99,73 +99,73 @@ const Navbar = () => {
       <div className="navbar-end">
         {user ? (
           <div className="flex items-center gap-3">
-  <div className="dropdown dropdown-end lg:dropdown-center">
-    <div
-      tabIndex={0}
-      role="button"
-      className="relative group transition-transform active:scale-95"
-    >
-      <div className="w-12 h-12 rounded-full p-0.5 bg-linear-to-tr from-accent to-primary">
-        <img
-          className="w-full h-full rounded-full border-2 border-white object-cover hover:cursor-pointer"
-          referrerPolicy="no-referrer"
-          src={user?.photoURL || userImg}
-          alt="user"
-        />
-      </div>
-      <span className="absolute bottom-1 right-1 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
-    </div>
-    
-    <ul
-      tabIndex={0}
-      className="dropdown-content mt-4 z-60 p-4 shadow-xl bg-white/70 backdrop-blur-md border border-white/20 rounded-3xl w-72 space-y-2"
-    >
-      <div className="flex flex-col items-center pb-4 border-b border-black/5 text-center">
-        <h2 className="text-primary font-bold text-lg leading-tight truncate w-full px-2">
-          {user.displayName}
-        </h2>
-        <p className="text-[10px] font-bold text-accent uppercase tracking-widest mt-1 italic">
-          {role || "Member"}
-        </p>
-        <p className="text-xs text-gray-500 mt-1 truncate w-full px-4 font-medium">
-          {user.email}
-        </p>
-      </div>
+            <div className="dropdown dropdown-end lg:dropdown-center">
+              <div
+                tabIndex={0}
+                role="button"
+                className="relative group transition-transform active:scale-95"
+              >
+                <div className="w-12 h-12 rounded-full p-0.5 bg-linear-to-tr from-accent to-primary">
+                  <img
+                    className="w-full h-full rounded-full border-2 border-white object-cover hover:cursor-pointer"
+                    referrerPolicy="no-referrer"
+                    src={user?.photoURL || userImg}
+                    alt="user"
+                  />
+                </div>
+                <span className="absolute bottom-1 right-1 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+              </div>
 
-      <div className="grid gap-1 pt-2">
-        <Link
-          to="/dashboard/my-profile"
-          className="flex items-center gap-3 p-3 rounded-2xl hover:bg-primary/10 text-gray-700 font-semibold transition-all group"
-        >
-          <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center text-accent group-hover:scale-110 transition-transform">
-            <CgProfile size={18} />
-          </div>
-          My Profile
-        </Link>
+              <ul
+                tabIndex={0}
+                className="dropdown-content mt-4 z-60 p-4 shadow-xl bg-white/70 backdrop-blur-md border border-white/20 rounded-3xl w-72 space-y-2"
+              >
+                <div className="flex flex-col items-center pb-4 border-b border-black/5 text-center">
+                  <h2 className="text-primary font-bold text-lg leading-tight truncate w-full px-2">
+                    {user.displayName}
+                  </h2>
+                  <p className="text-[10px] font-bold text-accent uppercase tracking-widest mt-1 italic">
+                    {role || "Member"}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1 truncate w-full px-4 font-medium">
+                    {user.email}
+                  </p>
+                </div>
 
-        <Link
-          to={getDashboardRoute()}
-          className="flex items-center gap-3 p-3 rounded-2xl hover:bg-primary/10 text-gray-700 font-semibold transition-all group"
-        >
-          <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-            <LuLayoutDashboard size={18} />
-          </div>
-          Dashboard
-        </Link>
+                <div className="grid gap-1 pt-2">
+                  <Link
+                    to="/dashboard/my-profile"
+                    className="flex items-center gap-3 p-3 rounded-2xl hover:bg-primary/10 text-gray-700 font-semibold transition-all group"
+                  >
+                    <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center text-accent group-hover:scale-110 transition-transform">
+                      <CgProfile size={18} />
+                    </div>
+                    My Profile
+                  </Link>
 
-        <button
-          onClick={handleSignOut}
-          className="flex items-center gap-3 p-3 rounded-2xl text-red-500 hover:bg-red-50/50 font-bold transition-all mt-2 w-full"
-        >
-          <div className="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center">
-            <IoLogOutOutline size={20} />
+                  <Link
+                    to={getDashboardRoute()}
+                    className="flex items-center gap-3 p-3 rounded-2xl hover:bg-primary/10 text-gray-700 font-semibold transition-all group"
+                  >
+                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+                      <LuLayoutDashboard size={18} />
+                    </div>
+                    Dashboard
+                  </Link>
+
+                  <button
+                    onClick={handleSignOut}
+                    className="flex items-center gap-3 p-3 rounded-2xl text-red-500 hover:bg-red-50/50 font-bold transition-all mt-2 w-full"
+                  >
+                    <div className="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center">
+                      <IoLogOutOutline size={20} />
+                    </div>
+                    Logout
+                  </button>
+                </div>
+              </ul>
+            </div>
           </div>
-          Logout
-        </button>
-      </div>
-    </ul>
-  </div>
-</div>
         ) : (
           <div className="flex items-center gap-3">
             <Link

@@ -19,7 +19,6 @@ const OurServices = () => {
   return (
     <section className="py-20 bg-[#FDFDFD]">
       <div className="container mx-auto px-4 md:px-12 lg:px-24">
-        {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
           <div className="flex items-center justify-center gap-2 mb-2">
             <span className="w-8 h-0.5 bg-accent"></span>
@@ -42,7 +41,6 @@ const OurServices = () => {
           </p>
         </div>
 
-        {/* Services Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 md:gap-10">
           {featuredServices.length > 0 ? (
             featuredServices.map((service, index) => (

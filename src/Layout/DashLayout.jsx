@@ -15,7 +15,6 @@ import { AiOutlineUsergroupAdd } from "react-icons/ai";
 import { LiaUsersCogSolid } from "react-icons/lia";
 import { TbListDetails } from "react-icons/tb";
 import useRole from "../Hooks/useRole";
-import { VscSettings } from "react-icons/vsc";
 import { RiDashboardHorizontalLine } from "react-icons/ri";
 import { FaArrowRightFromBracket } from "react-icons/fa6";
 import toast from "react-hot-toast";
@@ -191,7 +190,7 @@ const DashLayout = () => {
             </button>
             <div className="hidden md:block">
               <h2 className="text-xl font-bold text-gray-800">
-                Hello, {user?.displayName?.split(" ")[0]} ✨
+                Hello, {user?.displayName} ✨
               </h2>
               <p className="text-xs text-gray-400 font-medium">
                 Welcome back to your dashboard

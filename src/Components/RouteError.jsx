@@ -5,15 +5,12 @@ const RouteError = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center px-4 py-8">
       <div className="max-w-md text-center">
-        {/* 404 with Emoji Graphic */}
         <div className="mb-8 flex justify-center">
           <div className="flex items-center justify-center">
-            {/* First "4" */}
             <div className="text-9xl font-bold text-primary opacity-20 mr-2">
               4
             </div>
 
-            {/* Emoji as the "0" */}
             <div className="text-9xl font-bold text-primary flex items-center justify-center">
               <svg
                 className="w-24 h-24 text-primary"
@@ -30,14 +27,12 @@ const RouteError = () => {
               </svg>
             </div>
 
-            {/* Second "4" */}
             <div className="text-9xl font-bold text-primary opacity-20 ml-2">
               4
             </div>
           </div>
         </div>
 
-        {/* Text Content */}
         <h1 className="text-3xl font-bold text-gray-800 mb-4">
           Page Not Found
         </h1>

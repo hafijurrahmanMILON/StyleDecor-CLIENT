@@ -78,14 +78,12 @@ const BeADecorator = () => {
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl -ml-48 -mb-48"></div>
 
       <div className="w-full max-w-3xl bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-gray-100 p-8 md:p-12 relative z-10">
-        {/* Header Section */}
         <div className="text-center space-y-4 mb-12">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/5 text-primary text-[11px] font-bold uppercase tracking-widest">
             <HiOutlineSparkles className="animate-pulse" /> Join the Elite Team
           </div>
           <h1 className="text-4xl md:text-5xl font-bold text-secondary tracking-tight leading-tight">
-            Become a <span className="text-primary italic">StyleDecor</span>{" "}
-            Partner
+            Become a <span className="text-primary italic">StyleDecorator</span>
           </h1>
           <p className="text-gray-500 max-w-md mx-auto font-light">
             Share your expertise and help us redefine professional decoration
@@ -102,7 +100,7 @@ const BeADecorator = () => {
               <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2 ml-1">
                 Full Name
               </label>
-              <div className="flex items-center gap-3 px-4 py-3 bg-white border border-gray-100 rounded-2xl text-gray-400 font-medium">
+              <div className="flex hover:cursor-not-allowed items-center gap-3 px-4 py-3 bg-white border border-gray-100 rounded-2xl text-gray-400 font-medium">
                 <HiOutlineBadgeCheck className="text-primary" />{" "}
                 {user?.displayName}
               </div>
@@ -111,7 +109,7 @@ const BeADecorator = () => {
               <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2 ml-1">
                 Official Email
               </label>
-              <div className="px-4 py-3 bg-white border border-gray-100 rounded-2xl text-gray-400 font-medium truncate">
+              <div className="px-4 py-3 hover:cursor-not-allowed bg-white border border-gray-100 rounded-2xl text-gray-400 font-medium truncate">
                 {user?.email}
               </div>
             </div>
