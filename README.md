@@ -104,6 +104,27 @@ StyleDecor supports three different user roles with dedicated functionalities:
 
 ---
 
-## 👤 Author
-**Md. Milon**  
-MERN Stack Developer 
+## 💻 Getting Started (Local Setup)
+
+1. **Clone the repository**  
+```bash
+git clone https://github.com/hafijurrahmanMILON/MovieMaster-CLIENT.git
+```
+
+2. **Navigate to the project folder**  
+```bash
+cd MovieMaster-Pro
+```
+
+3. **Install dependencies**  
+```bash
+npm install
+```
+
+4. **Start the development server**  
+```bash
+npm run dev
+```
+
+5. Open your browser at [http://localhost:3000](http://localhost:3000) to view the app
+ 
