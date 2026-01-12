@@ -15,16 +15,16 @@ const DecoratorCard = ({ decorator, index }) => {
       }}
       className="group relative bg-white rounded-[2.5rem] p-8 shadow-[0_10px_40px_rgba(0,0,0,0.04)] border border-gray-100 hover:border-secondary/30 transition-all duration-500"
     >
-      <div className="absolute -top-3 right-8 px-4 py-1 bg-secondary text-white text-[10px] font-bold uppercase tracking-widest rounded-full shadow-lg">
+      {/* <div className="absolute -top-3 right-8 px-4 py-1 bg-accent text-white text-[10px] font-bold uppercase tracking-widest rounded-full shadow-lg">
         Top Talent
-      </div>
+      </div> */}
 
       <div className="relative mb-8 text-center">
         <div className="relative inline-block">
           <motion.div
             animate={{ rotate: 360 }}
             transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-            className="absolute -inset-3 border border-dashed border-primary/30 rounded-full"
+            className="absolute -inset-3 border border-dashed border-accent/70 rounded-full"
           />
           <motion.div
             animate={{ rotate: -360 }}
@@ -41,7 +41,7 @@ const DecoratorCard = ({ decorator, index }) => {
 
           <motion.div
             whileHover={{ scale: 1.2, rotate: 15 }}
-            className="absolute -bottom-1 -right-1 w-10 h-10 bg-primary rounded-full border-4 border-white flex items-center justify-center text-white shadow-lg z-20"
+            className="absolute -bottom-1 -right-1 w-10 h-10 bg-accent rounded-full border-4 border-white flex items-center justify-center text-white shadow-lg z-20"
           >
             <FaAward size={14} />
           </motion.div>
@@ -69,7 +69,7 @@ const DecoratorCard = ({ decorator, index }) => {
               key={starIndex}
               className={`w-3 h-3 ${
                 starIndex < Math.floor(decorator.ratings)
-                  ? "text-secondary"
+                  ? "text-amber-500"
                   : "text-gray-200"
               }`}
             />
@@ -85,7 +85,7 @@ const DecoratorCard = ({ decorator, index }) => {
         {decorator.specialities?.slice(0, 3).map((specialty, specIndex) => (
           <span
             key={specIndex}
-            className="px-4 py-1.5 bg-white border border-gray-100 text-primary text-[10px] font-bold uppercase tracking-wider rounded-lg shadow-sm group-hover:bg-primary group-hover:text-white group-hover:border-primary transition-all duration-300"
+            className="px-4 py-1.5 bg-white border border-gray-100 text-primary text-[10px] font-bold uppercase tracking-wider rounded-lg shadow-sm transition-all duration-300"
           >
             {specialty}
           </span>

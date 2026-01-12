@@ -9,19 +9,19 @@ const MainLayout = () => {
   const { loading } = useAuth();
 
   if (loading) {
-    return <Loading></Loading>;
+    return <Loading />;
   }
 
   return (
     <div className="min-h-screen flex flex-col">
       <header className="sticky top-0 w-full z-50">
-        <Navbar></Navbar>
+        <Navbar />
       </header>
-      <main className="flex-1">
-        <Outlet></Outlet>
+      <main className="flex-1 pt-8 lg:pt-0">
+        <Outlet />
       </main>
       <footer>
-        <Footer></Footer>
+        <Footer />
       </footer>
     </div>
   );

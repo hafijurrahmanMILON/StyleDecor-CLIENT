@@ -28,6 +28,7 @@ import AssignedProjects from "../Pages/Dashboard/AssignedProjects";
 import DecoratorRoute from "../Private/DecoratorRoute";
 import TodaysSchedule from "../Pages/Dashboard/TodaysSchedule";
 import DecoratorDashboard from "../Pages/Dashboard/DecoratorDashboard";
+import UpdateProfile from "../Pages/Dashboard/UpdateProfile";
 
 export const router = createBrowserRouter([
   {
@@ -92,6 +93,10 @@ export const router = createBrowserRouter([
       {
         path: "my-profile",
         Component: MyProfile,
+      },
+      {
+        path: "update-profile",
+        Component: UpdateProfile,
       },
       {
         path: "payment-success",

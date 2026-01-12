@@ -8,6 +8,7 @@ import {
 } from "react-icons/fa";
 import { FaXTwitter } from "react-icons/fa6";
 import logoImg from "../assets/logo96-Photoroom.png";
+import { Link } from "react-router";
 
 const Footer = () => {
   return (
@@ -76,20 +77,37 @@ const Footer = () => {
             Quick Links
           </h3>
           <ul className="flex flex-col space-y-3">
-            {[
-              "Terms of use",
-              "Privacy policy",
-              "Cookie policy",
-              "About Us",
-              "Our Portfolio",
-            ].map((item) => (
-              <li key={item}>
-                <a className=" hover:text-primary text-sm transition-colors duration-300 flex items-center gap-2 group">
+            
+              <li>
+                <Link to="/" className=" hover:text-primary text-sm transition-colors duration-300 flex items-center gap-2 group">
                   <span className=" w-0 bg-primary group-hover:w-3 transition-all duration-300"></span>
-                  {item}
-                </a>
+                  Home
+                </Link>
               </li>
-            ))}
+              <li>
+                <Link to="/services" className=" hover:text-primary text-sm transition-colors duration-300 flex items-center gap-2 group">
+                  <span className=" w-0 bg-primary group-hover:w-3 transition-all duration-300"></span>
+                  Services
+                </Link>
+              </li>
+              <li>
+                <Link to="/coverage" className=" hover:text-primary text-sm transition-colors duration-300 flex items-center gap-2 group">
+                  <span className=" w-0 bg-primary group-hover:w-3 transition-all duration-300"></span>
+                  Coverage
+                </Link>
+              </li>
+              <li>
+                <Link to="/about" className=" hover:text-primary text-sm transition-colors duration-300 flex items-center gap-2 group">
+                  <span className=" w-0 bg-primary group-hover:w-3 transition-all duration-300"></span>
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className=" hover:text-primary text-sm transition-colors duration-300 flex items-center gap-2 group">
+                  <span className=" w-0 bg-primary group-hover:w-3 transition-all duration-300"></span>
+                  Contact
+                </Link>
+              </li>
           </ul>
         </div>
 
@@ -115,7 +133,7 @@ const Footer = () => {
       </div>
       <div className=" text-center  border-t border-white/5 mt-20 pt-8 text-xs  uppercase">
         <p className="text-center">
-          © 2025 StyleDecor. Designed for Excellence.
+          © 2026 StyleDecor. Designed for Excellence.
         </p>
       </div>
     </footer>

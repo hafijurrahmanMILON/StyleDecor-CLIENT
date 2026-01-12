@@ -15,7 +15,7 @@ const BestDecorators = () => {
   });
 
   return (
-    <section className="py-24 relative overflow-hidden">
+    <section className="relative overflow-hidden">
       <div className="absolute top-0 left-0 w-64 h-64  rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl" />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-12 relative z-10">
@@ -27,12 +27,12 @@ const BestDecorators = () => {
             transition={{ duration: 0.8 }}
             className="max-w-2xl"
           >
-            <span className="inline-block px-4 py-1 mb-4 text-xs font-bold tracking-widest text-[#C5A059] uppercase border-l-4 border-[#1B7261] bg-[#1B7261]/5">
+            <span className="inline-block px-4 py-1 mb-4 text-xs font-bold tracking-widest text-accent uppercase border-l-4 border-primary bg-primary/5">
               Expert Artisans
             </span>
             <h2 className="text-4xl md:text-5xl font-serif font-medium text-[#2D2D2D] leading-tight">
               Meet the Masters Behind <br />
-              <span className="text-[#1B7261]">Our Signature Spaces</span>
+              <span className="text-primary">Our Signature Spaces</span>
             </h2>
           </motion.div>
 
@@ -47,7 +47,7 @@ const BestDecorators = () => {
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-12">
           {bestDecorators?.map((decorator, index) => (
             <DecoratorCard
               key={decorator.email}

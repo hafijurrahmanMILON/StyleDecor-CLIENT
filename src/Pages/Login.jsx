@@ -5,6 +5,7 @@ import useAuth from "../Hooks/useAuth";
 import { toast } from "react-hot-toast";
 import { IoEyeOffOutline, IoEyeOutline, IoLogInOutline } from "react-icons/io5";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
+import { FiShield, FiUser } from "react-icons/fi";
 
 const Login = () => {
   const { signInFunc, googleLogin } = useAuth();
@@ -18,8 +19,20 @@ const Login = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm();
+
+ const handleDemoFillAdmin = () => {
+  setValue("email", import.meta.env.VITE_DEMO_ADMIN_EMAIL || "");
+  setValue("password", import.meta.env.VITE_DEMO_ADMIN_PASS || "");
+  toast.success("Demo credentials filled!");
+};
+  const handleDemoFillUser = () => {
+  setValue("email", import.meta.env.VITE_DEMO_USER_EMAIL || "");
+  setValue("password", import.meta.env.VITE_DEMO_USER_PASS || "");
+  toast.success("Demo credentials filled!");
+};
 
   const handleLogin = (data) => {
     console.log(data);
@@ -156,6 +169,25 @@ const Login = () => {
               <IoLogInOutline size={18} />
               Login
             </button>
+           <div className="flex gap-4 mt-6">
+  <button
+    type="button"
+    onClick={handleDemoFillAdmin}
+    className="group flex-1 flex items-center justify-center gap-3 px-4 py-3.5 border-2 border-gray-200 text-gray-600 rounded-2xl font-bold text-[11px] uppercase tracking-widest hover:border-primary hover:text-primary hover:bg-primary/5 transition-all duration-300 active:scale-95"
+  >
+    <FiShield className="text-lg opacity-60 group-hover:opacity-100 transition-opacity" />
+    <span>Admin Access</span>
+  </button>
+
+  <button
+    type="button"
+    onClick={handleDemoFillUser}
+    className="group flex-1 flex items-center justify-center gap-3 px-4 py-3.5 border-2 border-gray-200 text-gray-600 rounded-2xl font-bold text-[11px] uppercase tracking-widest hover:border-primary hover:text-primary hover:bg-primary/5 transition-all duration-300 active:scale-95"
+  >
+    <FiUser className="text-lg opacity-60 group-hover:opacity-100 transition-opacity" />
+    <span>User Access</span>
+  </button>
+</div>
           </form>
 
           <div className="relative my-6">

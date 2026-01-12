@@ -17,7 +17,7 @@ const OurServices = () => {
   });
 
   return (
-    <section className="py-20 bg-[#FDFDFD]">
+    <section>
       <div className="container mx-auto px-4 md:px-12 lg:px-24">
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
           <div className="flex items-center justify-center gap-2 mb-2">
@@ -59,7 +59,7 @@ const OurServices = () => {
         <div className="mt-16 text-center">
           <Link
             to="/services"
-            className="group inline-flex items-center gap-3 px-8 py-3.5 bg-primary text-white text-sm font-bold rounded-xl shadow-lg shadow-primary/20 hover:bg-primary transition-all duration-300 active:scale-95"
+            className="group inline-flex items-center gap-3 px-8 py-3.5   text-sm btn btn-outline btn-primary font-bold rounded-full  transition-all duration-300 active:scale-95"
           >
             View All Services
             <HiOutlineArrowRight className="text-lg transition-transform duration-300 group-hover:translate-x-1.5" />

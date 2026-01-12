@@ -62,7 +62,7 @@ const Navbar = () => {
   );
 
   return (
-    <div className="navbar bg-white py-3 px-2 md:px-12 lg:px-28">
+    <div className="navbar bg-white shadow-sm py-3 px-2 md:px-12 lg:px-28">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -155,7 +155,7 @@ const Navbar = () => {
 
                   <button
                     onClick={handleSignOut}
-                    className="flex items-center gap-3 p-3 rounded-2xl text-red-500 hover:bg-red-50/50 font-bold transition-all mt-2 w-full"
+                    className="flex items-center gap-3 p-3 rounded-2xl text-red-500 hover:bg-red-50/50 font-bold transition-all mt-2 w-full hover:cursor-pointer"
                   >
                     <div className="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center">
                       <IoLogOutOutline size={20} />

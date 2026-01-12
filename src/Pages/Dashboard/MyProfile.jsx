@@ -1,9 +1,13 @@
 import React from "react";
 import useAuth from "../../Hooks/useAuth";
-import { FaUser, FaEnvelope, FaCalendarAlt, FaShieldAlt, FaFingerprint, FaLink, FaCrown, FaPaintBrush, FaUserCircle } from "react-icons/fa";
+import { 
+  FaUser, FaEnvelope, FaCalendarAlt, FaShieldAlt, 
+  FaFingerprint, FaLink, FaCrown, FaPaintBrush, FaUserCircle 
+} from "react-icons/fa";
 import userIMG from "../../assets/user.png";
 import Loading from "../../Components/Loading";
 import useRole from "../../Hooks/useRole";
+import { Link } from "react-router";
 
 const MyProfile = () => {
   const { user, loading } = useAuth();
@@ -61,11 +65,20 @@ const MyProfile = () => {
   return (
     <div className="min-h-screen py-16 px-4">
       <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-4xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="bg-white rounded-[2.5rem] shadow-sm border border-gray-100 overflow-hidden relative">
           
-          <div className="p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 border-b border-gray-50">
+          <Link 
+            to="/dashboard/update-profile" 
+            className="absolute top-6 right-6 md:top-8 md:right-10 z-10 flex items-center gap-2 px-4 py-2 border border-gray-200 text-gray-400 rounded-xl text-[10px] font-black uppercase tracking-widest hover:border-primary hover:text-primary hover:bg-primary/5 transition-all duration-300 active:scale-95 shadow-sm"
+          >
+            <FaPaintBrush size={10} />
+            <span>Edit Profile</span>
+          </Link>
+
+          {/* Header Section */}
+          <div className="p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 border-b border-gray-50 bg-linear-to-b from-gray-50/50 to-transparent">
             <div className="relative">
-              <div className="w-32 h-32 md:w-40 md:h-40 rounded-full p-1 bg-linear-to-tr from-accent to-primary">
+              <div className="w-32 h-32 md:w-40 md:h-40 rounded-full p-1 bg-gradient-to-tr from-accent to-primary">
                 <img
                   src={user?.photoURL || userIMG}
                   alt={user?.displayName || "User"}
@@ -75,15 +88,15 @@ const MyProfile = () => {
               <div className="absolute bottom-3 right-3 w-5 h-5 bg-green-500 rounded-full border-4 border-white shadow-sm"></div>
             </div>
 
-            <div className="text-center md:text-left space-y-2">
+            <div className="text-center md:text-left space-y-2 pt-4 md:pt-0">
               <div className="flex flex-col md:flex-row md:items-center gap-3 md:gap-6">
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 tracking-tight">
+                <h1 className="text-3xl md:text-4xl font-black text-primary tracking-tight">
                   {user?.displayName || "User Name"}
                 </h1>
                 
                 {role && (
                   <div className="flex justify-center md:justify-start">
-                    <span className={`inline-flex items-center ${roleBadge.bg} ${roleBadge.text} px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider shadow-sm`}>
+                    <span className={`inline-flex items-center ${roleBadge.bg} ${roleBadge.text} px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-sm`}>
                       {roleBadge.icon}
                       {roleBadge.label}
                     </span>
@@ -91,12 +104,12 @@ const MyProfile = () => {
                 )}
               </div>
               
-              <div className="flex flex-wrap justify-center md:justify-start gap-4 text-gray-500 font-medium">
-                <span className="flex items-center gap-2 bg-gray-50 px-3 py-1 rounded-full text-sm">
-                  <FaEnvelope className="text-primary" />
+              <div className="flex flex-wrap justify-center md:justify-start gap-4 text-gray-500 font-medium pt-2">
+                <span className="flex items-center gap-2 bg-gray-50 px-3 py-1.5 rounded-xl text-xs font-bold">
+                  <FaEnvelope className="text-primary opacity-60" />
                   {user?.email}
                 </span>
-                <span className={`flex items-center gap-2 px-3 py-1 rounded-full text-sm font-bold ${
+                <span className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-bold ${
                     user?.emailVerified ? "bg-green-50 text-green-600" : "bg-amber-50 text-amber-600"
                   }`}>
                   <FaShieldAlt />
@@ -106,55 +119,58 @@ const MyProfile = () => {
             </div>
           </div>
 
+          {/* Details Section */}
           <div className="grid md:grid-cols-2">
             
+            {/* Identity Details */}
             <div className="p-8 md:p-10 border-b md:border-b-0 md:border-r border-gray-50 hover:bg-gray-50/30 transition-colors">
-              <div className="flex items-center gap-4 mb-6">
+              <div className="flex items-center gap-4 mb-8">
                 <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
-                  <FaUser size={20} />
+                  <FaUser size={18} />
                 </div>
-                <h3 className="text-lg font-bold text-gray-800">Identity Details</h3>
+                <h3 className="text-lg font-black text-primary tracking-tight">Identity Details</h3>
               </div>
               
-              <div className="space-y-5">
+              <div className="space-y-6">
                 <div>
-                  <label className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">Display Name</label>
-                  <p className="text-gray-700 font-semibold mt-1">{user?.displayName || "Not Provided"}</p>
+                  <label className="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-black">Full Name</label>
+                  <p className="text-gray-700 font-bold mt-1 text-lg italic">{user?.displayName || "Not Provided"}</p>
                 </div>
                 <div>
-                  <label className="text-[10px] uppercase tracking-widest text-gray-400 font-bold flex items-center gap-1">
+                  <label className="text-[10px] uppercase tracking-[0.2em] text-gray-400 font-black flex items-center gap-1">
                     <FaFingerprint size={10} /> User ID
                   </label>
-                  <p className="text-xs font-mono text-gray-500 mt-1 break-all bg-gray-50 p-2 rounded-lg">
+                  <p className="text-[10px] font-mono text-gray-400 mt-2 break-all bg-gray-50 p-3 rounded-xl border border-gray-100">
                     {user?.uid}
                   </p>
                 </div>
               </div>
             </div>
 
+            {/* Timeline Details */}
             <div className="p-8 md:p-10 hover:bg-gray-50/30 transition-colors">
-              <div className="flex items-center gap-4 mb-6">
+              <div className="flex items-center gap-4 mb-8">
                 <div className="w-12 h-12 bg-accent/10 rounded-2xl flex items-center justify-center text-accent">
-                  <FaCalendarAlt size={20} />
+                  <FaCalendarAlt size={18} />
                 </div>
-                <h3 className="text-lg font-bold text-gray-800">Timeline & Access</h3>
+                <h3 className="text-lg font-black text-primary tracking-tight">Timeline & Access</h3>
               </div>
 
               <div className="space-y-5">
-                <div className="flex justify-between items-center border-b border-gray-50 pb-3">
-                  <span className="text-sm text-gray-500">Member Since</span>
-                  <span className="text-sm font-bold text-gray-700">{joinDate}</span>
+                <div className="flex justify-between items-center border-b border-gray-100 pb-4">
+                  <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Member Since</span>
+                  <span className="text-sm font-black text-gray-600">{joinDate}</span>
                 </div>
-                <div className="flex justify-between items-center border-b border-gray-50 pb-3">
-                  <span className="text-sm text-gray-500">Last Sign In</span>
-                  <span className="text-sm font-bold text-gray-700">{lastSignIn}</span>
+                <div className="flex justify-between items-center border-b border-gray-100 pb-4">
+                  <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider">Last Activity</span>
+                  <span className="text-sm font-black text-gray-600">{lastSignIn}</span>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-500 flex items-center gap-2">
-                    <FaLink size={12} /> Provider
+                <div className="flex justify-between items-center pt-2">
+                  <span className="text-[11px] font-bold text-gray-400 uppercase tracking-wider flex items-center gap-2">
+                    <FaLink size={12} /> Authentication
                   </span>
-                  <span className="text-xs font-bold uppercase tracking-widest text-primary bg-primary/5 px-3 py-1 rounded-md">
-                    {user?.providerData?.[0]?.providerId || "Firebase"}
+                  <span className="text-[10px] font-black uppercase tracking-widest text-primary bg-primary/5 px-4 py-1.5 rounded-full border border-primary/10">
+                    {user?.providerData?.[0]?.providerId === "google.com" ? "Google Account" : "Email / Pass"}
                   </span>
                 </div>
               </div>

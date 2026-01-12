@@ -37,7 +37,7 @@ const ServiceCoverage = () => {
   }, []);
 
   return (
-    <div className="py-24  px-4 overflow-hidden">
+    <div className="px-4 overflow-hidden">
       <div className="max-w-7xl mx-auto">
         
         <div className="text-center mb-16">

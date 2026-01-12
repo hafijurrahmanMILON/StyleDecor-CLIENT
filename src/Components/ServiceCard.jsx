@@ -40,7 +40,7 @@ const ServiceCard = ({ service }) => {
         </div>
       </div>
 
-      <div className="p-7">
+      <div className="px-4 py-2">
         <div className="flex justify-between items-start mb-3">
           <h3 className="text-xl font-serif font-semibold text-[#2D2D2D] group-hover:text-primary transition-colors duration-300 line-clamp-1">
             {service_name}

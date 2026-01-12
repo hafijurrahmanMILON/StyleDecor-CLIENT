@@ -6,7 +6,7 @@
 }
 
 @plugin "daisyui/theme" {
-  name: "styledecorLight";
+  name: "styleDecorLight";
   default: true;
 
   --color-primary: #1B7261;
